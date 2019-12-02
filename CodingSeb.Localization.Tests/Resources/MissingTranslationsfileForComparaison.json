@@ -1,0 +1,11 @@
+{
+  "LanguageName": {
+    "it": "default text : Test"
+  },
+  "NotExistingTextId": {
+    "en": "default text : Test2",
+    "es": "default text : Test2",
+    "fr": "default text : Test2",
+    "it": "default text : Test2"
+  }
+}

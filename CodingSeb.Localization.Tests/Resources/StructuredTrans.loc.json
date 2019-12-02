@@ -1,0 +1,48 @@
+{
+    "JsonTranslations": {
+        "MainMenu": {
+            "FileMenuItem": {
+                "Header": {
+                    "en": "File",
+                    "fr": "Fichier"
+                },
+                "NewMenuItem": {
+                    "Header": {
+                        "en": "New",
+                        "fr": "Nouveau"
+                    }
+                },
+                "OpenMenuItem": {
+                    "Header": {
+                        "en": "Open",
+                        "fr": "Ouvrir"
+                    }
+                }
+            },
+            "EditMenuItem": {
+                "Header": {
+                    "en": "Edit",
+                    "fr": "Edition"
+                },
+                "CopyMenuItem": {
+                    "Header": {
+                        "en": "Copy",
+                        "fr": "Copier"
+                    }
+                },
+                "CutMenuItem": {
+                    "Header": {
+                        "en": "Cut",
+                        "fr": "Couper"
+                    }
+                },
+                "PasteMenuItem": {
+                    "Header": {
+                        "en": "Paste",
+                        "fr": "Coller"
+                    }
+                }
+            }
+        }
+    }
+}
