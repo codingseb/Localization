@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodingSeb.Localization.WPF.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodingSeb.Localization.Tests", "CodingSeb.Localization.Tests\CodingSeb.Localization.Tests.csproj", "{600D7AD1-B04A-493C-AE2D-2C87D2A1F2E4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodingSeb.Localization.Examples", "CodingSeb.Localization.Examples\CodingSeb.Localization.Examples.csproj", "{96A2AE9B-8551-40A1-A232-D3AB89AD7FCB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{600D7AD1-B04A-493C-AE2D-2C87D2A1F2E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{600D7AD1-B04A-493C-AE2D-2C87D2A1F2E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{600D7AD1-B04A-493C-AE2D-2C87D2A1F2E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96A2AE9B-8551-40A1-A232-D3AB89AD7FCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96A2AE9B-8551-40A1-A232-D3AB89AD7FCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96A2AE9B-8551-40A1-A232-D3AB89AD7FCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96A2AE9B-8551-40A1-A232-D3AB89AD7FCB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

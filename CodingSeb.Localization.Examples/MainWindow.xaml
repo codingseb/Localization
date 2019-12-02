@@ -1,0 +1,54 @@
+﻿<Window x:Class="CodingSeb.Localization.Examples.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CodingSeb.Localization.Examples"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignData Type=local:MainViewModel, IsDesignTimeCreatable=False}"
+        DataContext="{x:Static local:MainViewModel.Instance}"
+        Title="Localization Examples" Height="350" Width="525">
+    <DockPanel Margin="10">
+        <DockPanel DockPanel.Dock="Top" VerticalAlignment="Top">
+            <Label x:Name="lblCurrentLanguage" 
+                   DockPanel.Dock="Left"
+                   Margin="0,0,10,0"
+                   Content="{Tr 'Current Language'}" />
+            <ComboBox x:Name="cbLanguageSelection"
+                      ItemsSource="{Binding LanguagesManager.AvailableLanguages}" 
+                      SelectedItem="{Binding LanguagesManager.CurrentLanguage}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate DataType="ComboBoxItem">
+                        <StackPanel>
+                            <TextBlock Text="{Binding Converter={TrLanguageIdConverter TextId='LanguageName' }}" FontWeight="Bold" />
+                            <TextBlock Text="{Binding}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </DockPanel>
+        <StackPanel>
+            <StackPanel Orientation="Horizontal" >
+                <StackPanel>
+                    <Label x:Name="lblHelloInCurrentLanguageEn" 
+                               Content="{Tr IsDynamic=False, LanguageId='en', TextId='HelloInCurrentLanguage'}" />
+                    <Label x:Name="lblHelloInCurrentLanguageFr" 
+                               Content="{Tr IsDynamic=False, LanguageId='fr', TextId='HelloInCurrentLanguage'}" />
+                    <Label x:Name="lblHelloInCurrentLanguageEs" 
+                               Content="{Tr IsDynamic=False, LanguageId='es', TextId='HelloInCurrentLanguage'}" />
+                </StackPanel>
+                <Label BorderBrush="Black" 
+                       BorderThickness="1" 
+                       x:Name="lblHelloInCurrentLanguage" 
+                       Content="{Tr 'HelloInCurrentLanguage'}"
+                       ToolTip="{Tr}"
+                       VerticalAlignment="Center" Margin="5,0"/>
+            </StackPanel>
+            <ComboBox ItemsSource="{Binding Labels}"
+                      SelectedIndex="0"
+                      SelectedItem="{Binding Label}" />
+            <Label BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Stretch"
+                   Content="{Binding Label, Converter={TrTextIdConverter DefaultText='DefaultText'}}"/>
+        </StackPanel>
+    </DockPanel>
+</Window>

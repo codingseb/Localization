@@ -1,0 +1,47 @@
+﻿{
+  "LanguageName": {
+    "en": "English",
+    "es": "Español",
+    "fr": "Français"
+  },
+  "[CodingSeb.Localization.Examples.MainWindow].lblCurrentLanguage[Label].Content": {
+    "en": "Current language",
+    "es": "Lenguaje actual",
+    "fr": "Langue courrante"
+  },
+  "[CodingSeb.Localization.Examples.MainWindow].lblHelloInCurrentLanguage[Label].Content": {
+    "en": "Hello",
+    "es": "Hola",
+    "fr": "Bonjour"
+  },
+  "HelloInCurrentLanguage": {
+    "en": "Hello in the current language",
+    "es": "Hola en la lengua actual",
+    "fr": "Bonjour dans la langue actuelle"
+  },
+  "[CodingSeb.Localization.Examples.MainWindow].lblHelloInCurrentLanguage[Label].ToolTip": {
+    "en": "In english",
+    "es": "En español",
+    "fr": "En français"
+  },
+  "Text:Hello": {
+    "en": "Hello",
+    "es": "Hola",
+    "fr": "Bonjour"
+  },
+  "Text:HowAreYou": {
+    "en": "How are you ?",
+    "es": "¿Cómo estás?",
+    "fr": "Comment allez-vous?"
+  },
+  "Text:Yes": {
+    "en": "Yes",
+    "es": "Si",
+    "fr": "Oui"
+  },
+  "Text:No": {
+    "en": "No",
+    "es": "No",
+    "fr": "Non"
+  }
+}
