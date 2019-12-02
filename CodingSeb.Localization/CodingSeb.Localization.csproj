@@ -1,17 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
     <Authors>CodingSeb</Authors>
     <Company />
     <Copyright>Copyright © Coding Seb 2019</Copyright>
-    <PackageLicenseExpression>..\LICENSE.md</PackageLicenseExpression>
+    <PackageLicenseExpression></PackageLicenseExpression>
     <Description>A suite to localize C# and WPF project easily base on file format you choose.</Description>
     <RepositoryUrl>https://github.com/codingseb/Localization</RepositoryUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="..\LICENSE.md">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
     <None Include="FodyWeavers.xsd" />
   </ItemGroup>
 

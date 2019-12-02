@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.29519.87
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodingSeb.Localization", "CodingSeb.Localization\CodingSeb.Localization.csproj", "{8DA47C0D-4FB7-42D6-993D-E3D108AB62AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodingSeb.Localization.JsonFileLoader", "CodingSeb.Localization.JsonFileLoader\CodingSeb.Localization.JsonFileLoader.csproj", "{C537AC6D-7B65-4597-B20C-203E9098B584}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodingSeb.Localization.JsonFileLoader", "CodingSeb.Localization.JsonFileLoader\CodingSeb.Localization.JsonFileLoader.csproj", "{C537AC6D-7B65-4597-B20C-203E9098B584}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodingSeb.Localization.WPF", "CodingSeb.Localization.WPF\CodingSeb.Localization.WPF.csproj", "{D42EAC6C-46F6-4FEE-89AE-D0463366A2B8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{C537AC6D-7B65-4597-B20C-203E9098B584}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C537AC6D-7B65-4597-B20C-203E9098B584}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C537AC6D-7B65-4597-B20C-203E9098B584}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D42EAC6C-46F6-4FEE-89AE-D0463366A2B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D42EAC6C-46F6-4FEE-89AE-D0463366A2B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D42EAC6C-46F6-4FEE-89AE-D0463366A2B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D42EAC6C-46F6-4FEE-89AE-D0463366A2B8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

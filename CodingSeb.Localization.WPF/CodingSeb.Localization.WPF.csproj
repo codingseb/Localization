@@ -1,19 +1,18 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.0;net45</TargetFrameworks>
+    <UseWPF>true</UseWPF>
     <Authors>CodingSeb</Authors>
     <Company />
     <Description>A suite to localize C# and WPF project easily base on file format you choose.</Description>
     <Copyright>Copyright © Coding Seb 2019</Copyright>
-    <PackageLicenseExpression></PackageLicenseExpression>
-    <RepositoryUrl>https://github.com/codingseb/Localization</RepositoryUrl>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <RepositoryUrl>https://github.com/codingseb/Localization</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="*" />
+    <PackageReference Include="PropertyChanged.Fody" Version="3.1.3" />
   </ItemGroup>
 
   <ItemGroup>
