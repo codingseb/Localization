@@ -1,12 +1,12 @@
 ﻿using CodingSeb.Localization.Loaders;
 using NUnit.Framework;
 using Shouldly;
+using System.Threading;
 using System.Windows.Controls;
 
 namespace CodingSeb.Localization.WPF.Tests
 {
-    [NonParallelizable]
-    [SingleThreaded]
+    [NonParallelizable, Apartment(ApartmentState.STA)]
     public class LocalizationWPFTests
     {
         private LocalizationLoader loader;
