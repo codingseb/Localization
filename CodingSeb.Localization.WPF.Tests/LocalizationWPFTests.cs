@@ -6,6 +6,7 @@ using System.Windows.Controls;
 namespace CodingSeb.Localization.WPF.Tests
 {
     [NonParallelizable]
+    [SingleThreaded]
     public class LocalizationWPFTests
     {
         private LocalizationLoader loader;
