@@ -223,7 +223,7 @@ LocalizationLoader.Instance.FileLanguageLoaders.Add(new JsonFileLoader());
 
 // ...
 
-And then you can add your localization file
+// And then you can add your localization file
 LocalizationLoader.Instance.AddFile(@"PathToTheFile\Example1.loc.json");
 // or load directly a directory with multiple "*.loc.json" files.
 LocalizationLoader.Instance.AddDirectory(@"PathToTheDirectory");
