@@ -12,11 +12,11 @@ __Replace the archived [TranslateMe](https://github.com/codingseb/TranslateMe) l
 ## The differents parts of the project
 The library is composed of 3 parts :  
 
-	1. The part "Core" : Nuget "CodingSeb.Localization" Contains the dictionnary of all translations for a "TextId" in C#.  
+  1. The part "Core" : Nuget "CodingSeb.Localization" Contains the dictionnary of all translations for a "TextId" in C#.  
 	
-	2. A part "FileLoader" : Allow to open a type ofile that contains translations to load in the dictionnary of the "Core" part. By default a loader to load localization files in JSON is provided "CodingSeb.Localization.JsonFileLoader".  
+  2. A part "FileLoader" : Allow to open a type ofile that contains translations to load in the dictionnary of the "Core" part. By default a loader to load localization files in JSON is provided "CodingSeb.Localization.JsonFileLoader".  
 	
-	3. The part to translate (localize) XAML (WPF) "CodingSeb.Localization.WPF". Provide a `Tr` markup and some converters to use in Bindings. It use the "Core" in backend.  
+  3. The part to translate (localize) XAML (WPF) "CodingSeb.Localization.WPF". Provide a `Tr` markup and some converters to use in Bindings. It use the "Core" in backend.  
 
 ## Installation
 
