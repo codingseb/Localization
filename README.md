@@ -135,7 +135,7 @@ xmlns:loc="clr-namespace:Localization;assembly=Localization" -->
 ```
 
 ## OK But... ...How I define my translations ?
-
+### JsonFileLoader
 With the default JsonFileLoader, Translations are defined in JSON files with the extension "*.loc.json".
 
 Here an example :
@@ -242,6 +242,9 @@ LocalizationLoader.Instance.AddTranslation("SayHello", "en", "Hello" );
 LocalizationLoader.Instance.AddTranslation("SayHello", "es", "Hola" );
 LocalizationLoader.Instance.AddTranslation("SayHello", "fr", "Bonjour" );
 ```
+
+### YamlFileLoader
+For Yaml format of localization files "*.loc.yaml" it's working the same way as the Json
 
 ### Implement your own file format
 If you want to support an other format than json or yaml, you can create your custom FileLanguageLoader.
