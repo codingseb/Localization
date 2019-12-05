@@ -1,16 +1,15 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using YamlDotNet.RepresentationModel;
 
 namespace CodingSeb.Localization.Loaders
 {
     /// <summary>
-    /// This class allow to load localizations from "*.loc.json" files
+    /// This class allow to load localizations from "*.loc.yaml" files
     /// </summary>
-    public class JsonFileLoader : ILocalizationFileLoader
+    public class YamlFileLoader : ILocalizationFileLoader
     {
         /// <summary>
         /// The separator used to concat the path of the label when structured translations are used
@@ -37,7 +36,7 @@ namespace CodingSeb.Localization.Loaders
         /// <returns><c>true</c> if it can load the file, <c>false</c> otherwise</returns>
         public bool CanLoadFile(string fileName)
         {
-            return fileName.TrimEnd().EndsWith(".loc.json", StringComparison.OrdinalIgnoreCase);
+            return fileName.TrimEnd().EndsWith(".loc.yaml", StringComparison.OrdinalIgnoreCase);
         }
 
         /// <summary>
@@ -47,30 +46,29 @@ namespace CodingSeb.Localization.Loaders
         /// <param name="loader">The loader to load each translation</param>
         public void LoadFile(string fileName, LocalizationLoader loader)
         {
-            using(StreamReader reader = File.OpenText(fileName))
-            {
-                JObject root = (JObject)JToken.ReadFrom(new JsonTextReader(reader));
+            var input = new StringReader(File.ReadAllText(fileName));
+            var yaml = new YamlStream();
 
-                root.Properties().ToList()
-                    .ForEach(property => ParseSubElement(property, new Stack<string>(), loader, fileName));
-            }
+            yaml.Load(input);
+
+            var mapping = (YamlMappingNode)yaml.Documents[0].RootNode;
+
+            mapping.ToList()
+                .ForEach(pair => ParseSubElement(pair, new Stack<string>(), loader, fileName));
         }
 
-        private void ParseSubElement(JProperty property, Stack<string> textId, LocalizationLoader loader, string fileName)
+        private void ParseSubElement(KeyValuePair<YamlNode, YamlNode> nodePair, Stack<string> textId, LocalizationLoader loader, string fileName)
         {
-            switch(property.Value.Type)
+            if(nodePair.Value is YamlMappingNode mappingNode)
             {
-                case JTokenType.Object:
-                    textId.Push(property.Name);
-                    ((JObject)property.Value).Properties().ToList()
-                        .ForEach(subProperty => ParseSubElement(subProperty, textId, loader, fileName));
-                    textId.Pop();
-                    break;
-                case JTokenType.String:
-                    loader.AddTranslation(LabelPathRootPrefix + string.Join(LabelPathSeparator, textId.Reverse()) + LabelPathSuffix, property.Name, property.Value.ToString(), fileName);
-                    break;
-                default:
-                    throw new FormatException($"Invalid format in Json language file for property [{property.Name}]");
+                textId.Push(nodePair.Key.ToString());
+                mappingNode.ToList()
+                    .ForEach(pair => ParseSubElement(pair, textId, loader, fileName));
+                textId.Pop();
+            }
+            else
+            {
+                loader.AddTranslation(LabelPathRootPrefix + string.Join(LabelPathSeparator, textId.Reverse()) + LabelPathSuffix, nodePair.Key.ToString(), nodePair.Value.ToString(), fileName);
             }
         }
     }

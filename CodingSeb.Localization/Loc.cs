@@ -143,7 +143,7 @@ namespace CodingSeb.Localization
 
             if (string.IsNullOrEmpty(languageId))
             {
-                languageId = Instance.CurrentLanguage;
+                languageId = CurrentLanguage;
             }
 
             CheckMissingTranslation(textId, defaultText);
@@ -162,7 +162,7 @@ namespace CodingSeb.Localization
         /// If set to <c>True</c> Log Out textId asked to be translate but missing in the specified languageId.
         /// Fill the MissingTranslations Dictionary
         /// </summary>
-        public bool LogOutMissingTranslations { get; set; } = false;
+        public bool LogOutMissingTranslations { get; set; }
 
         public SortedDictionary<string, SortedDictionary<string, string>> MissingTranslations { get; } = new SortedDictionary<string, SortedDictionary<string, string>>();
 

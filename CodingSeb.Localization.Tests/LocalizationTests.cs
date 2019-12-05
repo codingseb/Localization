@@ -20,10 +20,8 @@ namespace CodingSeb.Localization.Tests
 
         public string GetEmbeddedResource(string res)
         {
-            using (var reader = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream(string.Format("CodingSeb.Localization.Tests.Resources.{0}", res))))
-            {
-                return reader.ReadToEnd();
-            }
+            using var reader = new StreamReader(Assembly.GetExecutingAssembly().GetManifestResourceStream($"{GetType().Namespace}.Resources.{res}"));
+            return reader.ReadToEnd();
         }
 
         [OneTimeSetUp]

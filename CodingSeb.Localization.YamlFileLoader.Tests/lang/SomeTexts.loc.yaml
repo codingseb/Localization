@@ -1,0 +1,9 @@
+﻿LanguageName: 
+    en: English
+    es: Español
+    fr: Français
+
+HelloInCurrentLanguage:
+    en: Hello in the current language
+    es: Hola en la lengua actual
+    fr: Bonjour dans la langue actuelle

@@ -12,12 +12,12 @@ namespace CodingSeb.Localization
             TextId = textId;
         }
 
-        public Loc Loc { get; private set; }
+        public Loc Loc { get; }
 
-        public SortedDictionary<string, SortedDictionary<string, string>> MissingTranslations { get; private set; }
+        public SortedDictionary<string, SortedDictionary<string, string>> MissingTranslations { get; }
 
-        public string TextId { get; private set; }
+        public string TextId { get; }
 
-        public string LanguageId { get; private set; }
+        public string LanguageId { get; }
     }
 }

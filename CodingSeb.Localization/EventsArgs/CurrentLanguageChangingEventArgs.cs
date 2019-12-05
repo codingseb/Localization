@@ -18,12 +18,11 @@ namespace CodingSeb.Localization
         /// <summary>
         /// The Language Id before the change
         /// </summary>
-        public string OldLanguageId { get; private set; }
+        public string OldLanguageId { get; }
 
         /// <summary>
         /// The Language Id after the change
         /// </summary>
-        public string NewLanguageId { get; private set; }
+        public string NewLanguageId { get; }
     }
-
 }

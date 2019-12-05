@@ -7,6 +7,7 @@ __Replace the archived [TranslateMe](https://github.com/codingseb/TranslateMe) l
 |---|---|
 |CodingSeb.Localization|[![NuGet Status](http://img.shields.io/nuget/v/CodingSeb.Localization.svg?style=flat&max-age=86400)](https://www.nuget.org/packages/CodingSeb.Localization/)|
 |CodingSeb.Localization.JsonFileLoader|[![NuGet Status](http://img.shields.io/nuget/v/CodingSeb.Localization.JsonFileLoader.svg?style=flat&max-age=86400)](https://www.nuget.org/packages/CodingSeb.Localization.JsonFileLoader/)|
+|CodingSeb.Localization.YamlFileLoader|[![NuGet Status](http://img.shields.io/nuget/v/CodingSeb.Localization.YamlFileLoader.svg?style=flat&max-age=86400)](https://www.nuget.org/packages/CodingSeb.Localization.YamlFileLoader/)|
 |CodingSeb.Localization.WPF|[![NuGet Status](http://img.shields.io/nuget/v/CodingSeb.Localization.WPF.svg?style=flat&max-age=86400)](https://www.nuget.org/packages/CodingSeb.Localization.WPF/)|
 
 ## The differents parts of the project
@@ -14,7 +15,7 @@ The library is composed of 3 parts :
 
 	1. The part "Core" : Nuget "CodingSeb.Localization" Contains the dictionnary of all translations for a "TextId" in C#.  
 	
-	2. A part "FileLoader" : Allow to open a type ofile that contains translations to load in the dictionnary of the "Core" part. By default a loader to load localization files in JSON is provided "CodingSeb.Localization.JsonFileLoader".  
+	2. A part "FileLoader" : Allow to open a type of file that contains translations to load in the dictionnary of the "Core" part. By default a loader to load localization files in JSON is provided "CodingSeb.Localization.JsonFileLoader".  
 	
 	3. The part to translate (localize) XAML (WPF) "CodingSeb.Localization.WPF". Provide a `Tr` markup and some converters to use in Bindings. It use the "Core" in backend.  
 
@@ -25,6 +26,10 @@ The library is composed of 3 parts :
 __For Simple C# projects__
 ```
 PM> Install-Package CodingSeb.Localization.JsonFileLoader
+```  
+or
+```
+PM> Install-Package CodingSeb.Localization.YamlFileLoader
 ```  
 or
 ```
@@ -239,7 +244,7 @@ LocalizationLoader.Instance.AddTranslation("SayHello", "fr", "Bonjour" );
 ```
 
 ### Implement your own file format
-If you want to support an other format than json, you can create your custom FileLanguageLoader.
+If you want to support an other format than json or yaml, you can create your custom FileLanguageLoader.
 Simply create a class that implement the ILocalizationFileLoader interface and add an instance of your class in the LocalizationLoader :
 
 ```csharp
