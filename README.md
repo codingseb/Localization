@@ -43,7 +43,7 @@ Add this :
 PM> Install-Package CodingSeb.Localization.WPF
 ```
 
-## use it in C# :
+## Use it in C# :
 
 __To localize a text__
 
@@ -73,7 +73,7 @@ Loc.Instance.CurrentLanguage = "es";
 Collection<string> languages = Loc.Instance.AvailableLanguages;
 ```
 
-### use it In XAML (WPF) :
+### Use it In XAML (WPF) :
 (no xmlns needed Tr Markup is available as soon as CodingSeb.Localization.WPF is in project's references)
 
 __Simple localization with the Markup `Tr`__
