@@ -1,12 +1,21 @@
 using CodingSeb.Localization.Loaders;
+using CodingSeb.Localization;
 using NUnit.Framework;
 using System.IO;
 using System.Reflection;
+using Shouldly;
 
 namespace CodingSeb.Localization.Tests
 {
+    [NonParallelizable]
     public class YamlFileLoaderTests
     {
+        private static readonly string directory = Path.Combine(
+            Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
+            "lang");
+
+        private readonly string missingForComparaisonFileName = Path.Combine(directory, "MissingTranslationsFileForComparaison.yaml");
+        private readonly string missingFilesFileName = Path.Combine(Path.GetTempPath(), "MissingTranslations.yaml");
         private LocalizationLoader loader;
         private Loc loc;
 
@@ -18,10 +27,6 @@ namespace CodingSeb.Localization.Tests
             loader = new LocalizationLoader(loc);
 
             loader.FileLanguageLoaders.Add(new YamlFileLoader());
-
-            string directory = Path.Combine(
-                Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
-                "lang");
 
             loader.AddDirectory(directory);
         }
@@ -47,6 +52,39 @@ namespace CodingSeb.Localization.Tests
             else
             {
                 return loc.Translate(textId, defaultText);
+            }
+        }
+
+        [Test]
+        public void MissingTranslationsInJson()
+        {
+            YamlMissingTranslationsLogger.MissingTranslationsFileName = missingFilesFileName;
+
+            YamlMissingTranslationsLogger.EnableLogFor(loc);
+
+            try
+            {
+                loc.CurrentLanguage = "it";
+
+                loc.Translate("LanguageName", "Test").ShouldBe("Test");
+
+                loc.MissingTranslations.ShouldContainKey("LanguageName");
+                loc.MissingTranslations["LanguageName"].ShouldContainKey("it");
+                loc.MissingTranslations["LanguageName"]["it"].ShouldBe("default text : Test");
+
+                loc.CurrentLanguage = "en";
+
+                loc.Translate("NotExistingTextId", "Test2").ShouldBe("Test2");
+
+                loc.MissingTranslations.ShouldContainKey("NotExistingTextId");
+                loc.MissingTranslations["NotExistingTextId"].ShouldContainKey("en");
+                loc.MissingTranslations["NotExistingTextId"]["en"].ShouldBe("default text : Test2");
+
+                File.ReadAllText(missingFilesFileName).ShouldBe(File.ReadAllText(missingForComparaisonFileName));
+            }
+            finally
+            {
+                YamlMissingTranslationsLogger.DisableLogFor(loc);
             }
         }
     }
