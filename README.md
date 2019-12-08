@@ -83,7 +83,7 @@ __Simple localization with the Markup `Tr`__
 <TextBlock Text="{Tr 'SayHello', LanguageId='fr'}"/>
 ```
 
-_In general use XML escape to escape special characters. For single quote use ```[apos]``` to escape. XML escape does'nt work in this case for inline Tr markup. Or use the following format : _
+_In general use XML escape to escape special characters. For single quote use ```[apos]``` to escape. XML escape does'nt work in this case for inline Tr markup. Or use the following format :_
 
 ```xml
 <!-- textId can be automatically calculate (with x:Name and the context of the element) -->
