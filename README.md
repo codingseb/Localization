@@ -56,7 +56,7 @@ using CodingSeb.Localization
 Loc.Tr("SayHello");
 // To show a default text if the text is not localized in the current language
 // Loc.Tr("TextId", "DefaultText")
-Loc.Tr("SayHello", "Non traduit");
+Loc.Tr("SayHello", "Not localized");
 // To Translate a text in fixed language
 // Loc.Tr("TextId","DefaultText" "LanguageId");
 Loc.Tr("SayHello", null, "fr");
