@@ -1,5 +1,5 @@
 # Localization 
-A suit of libs to localize C# and WPF project easily base on file format you choose.
+A suit of libs to localize C# and WPF projects easily base on file format you choose.
 
 __Replace the archived [TranslateMe](https://github.com/codingseb/TranslateMe) lib__
 
