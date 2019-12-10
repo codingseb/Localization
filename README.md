@@ -1,5 +1,5 @@
 # Localization 
-A suit of libs to localize C# and WPF project easily base on file format you choose.
+A suit of libs to localize C# and WPF projects easily base on file format you choose.
 
 __Replace the archived [TranslateMe](https://github.com/codingseb/TranslateMe) lib__
 
@@ -43,7 +43,7 @@ Add this :
 PM> Install-Package CodingSeb.Localization.WPF
 ```
 
-## use it in C# :
+## Use it in C# :
 
 __To localize a text__
 
@@ -56,7 +56,7 @@ using CodingSeb.Localization
 Loc.Tr("SayHello");
 // To show a default text if the text is not localized in the current language
 // Loc.Tr("TextId", "DefaultText")
-Loc.Tr("SayHello", "Non traduit");
+Loc.Tr("SayHello", "Not localized");
 // To Translate a text in fixed language
 // Loc.Tr("TextId","DefaultText" "LanguageId");
 Loc.Tr("SayHello", null, "fr");
@@ -73,7 +73,7 @@ Loc.Instance.CurrentLanguage = "es";
 Collection<string> languages = Loc.Instance.AvailableLanguages;
 ```
 
-### use it In XAML (WPF) :
+### Use it In XAML (WPF) :
 (no xmlns needed Tr Markup is available as soon as CodingSeb.Localization.WPF is in project's references)
 
 __Simple localization with the Markup `Tr`__
@@ -83,7 +83,7 @@ __Simple localization with the Markup `Tr`__
 <TextBlock Text="{Tr 'SayHello', LanguageId='fr'}"/>
 ```
 
-_In general use XML escape to escape special characters. For single quote use ```[apos]``` to escape. XML escape does'nt work in this case for inline Tr markup. Or use the following format : _
+_In general use XML escape to escape special characters. For single quote use ```[apos]``` to escape. XML escape does'nt work in this case for inline Tr markup. Or use the following format :_
 
 ```xml
 <!-- textId can be automatically calculate (with x:Name and the context of the element) -->
@@ -135,7 +135,7 @@ xmlns:loc="clr-namespace:Localization;assembly=Localization" -->
 ```
 
 ## OK But... ...How I define my translations ?
-
+### JsonFileLoader
 With the default JsonFileLoader, Translations are defined in JSON files with the extension "*.loc.json".
 
 Here an example :
@@ -242,6 +242,9 @@ LocalizationLoader.Instance.AddTranslation("SayHello", "en", "Hello" );
 LocalizationLoader.Instance.AddTranslation("SayHello", "es", "Hola" );
 LocalizationLoader.Instance.AddTranslation("SayHello", "fr", "Bonjour" );
 ```
+
+### YamlFileLoader
+For Yaml format of localization files "*.loc.yaml" it's working the same way as the Json
 
 ### Implement your own file format
 If you want to support an other format than json or yaml, you can create your custom FileLanguageLoader.
