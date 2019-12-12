@@ -1,4 +1,5 @@
-﻿using PropertyChanged;
+﻿using CodingSeb.Localization.Translators;
+using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -67,6 +68,12 @@ namespace CodingSeb.Localization
         public ObservableCollection<string> AvailableLanguages { get; } = new ObservableCollection<string>();
 
         /// <summary>
+        /// The list of translators that try to translate each text.
+        /// first translators have higher priorities than last
+        /// </summary>
+        public List<ITranslator> Translators { get; }
+
+        /// <summary>
         /// The dictionary that contains all available translations
         /// (TranslationsDictionary[TextId][LanguageId])
         /// </summary>
@@ -98,7 +105,15 @@ namespace CodingSeb.Localization
         /// Just For Testing purposes. Prefer the static property Instance
         /// </summary>
         public Loc()
-        { }
+        {
+            Translators = new List<ITranslator>()
+            {
+                new FilesDictionaryTranslator()
+                {
+                    Loc = this
+                }
+            };
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -139,8 +154,6 @@ namespace CodingSeb.Localization
                 defaultText = textId;
             }
 
-            string result = defaultText;
-
             if (string.IsNullOrEmpty(languageId))
             {
                 languageId = CurrentLanguage;
@@ -148,13 +161,10 @@ namespace CodingSeb.Localization
 
             CheckMissingTranslation(textId, defaultText);
 
-            if (TranslationsDictionary.ContainsKey(textId)
-                && TranslationsDictionary[textId].ContainsKey(languageId))
-            {
-                result = TranslationsDictionary[textId][languageId].TranslatedText;
-            }
-
-            return result;
+            return Translators
+                .Find(tr => tr.CanTranslate(textId, languageId))?
+                .Translate(textId, languageId)
+                ?? defaultText;
         }
 
         /// <summary>
@@ -174,8 +184,7 @@ namespace CodingSeb.Localization
 
                 AvailableLanguages.ToList().ForEach(languageId =>
                 {
-                    if (!TranslationsDictionary.ContainsKey(textId)
-                        || !TranslationsDictionary[textId].ContainsKey(languageId))
+                    if (!Translators.Any(tr => tr.CanTranslate(textId, languageId)))
                     {
                         if (!MissingTranslations.ContainsKey(textId))
                         {

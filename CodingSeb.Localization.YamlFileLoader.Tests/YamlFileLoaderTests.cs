@@ -56,7 +56,7 @@ namespace CodingSeb.Localization.Tests
         }
 
         [Test]
-        public void MissingTranslationsInJson()
+        public void MissingTranslationsInYaml()
         {
             YamlMissingTranslationsLogger.MissingTranslationsFileName = missingFilesFileName;
 

@@ -81,13 +81,13 @@ namespace CodingSeb.Localization.Loaders
             {
                 localization.TranslationsDictionary[textId].Values.ToList().ForEach(translation =>
                 {
-                    if(translation.Source.Equals(source))
+                    if (translation.Source.Equals(source))
                     {
                         localization.TranslationsDictionary[textId].Remove(translation.LanguageId);
                     }
                 });
 
-                if(localization.TranslationsDictionary[textId].Count == 0)
+                if (localization.TranslationsDictionary[textId].Count == 0)
                 {
                     localization.TranslationsDictionary.Remove(textId);
                 }

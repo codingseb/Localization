@@ -47,6 +47,8 @@ namespace CodingSeb.Localization.Tests
             jsonFileLoader.LabelPathSeparator = "/";
             jsonFileLoader.LabelPathSuffix = ":";
             loader.AddFile(structuredTransFileName);
+
+            Loc.Instance.Translators.Add(new InMemoryTranslator());
         }
 
         [OneTimeTearDown]
@@ -98,6 +100,7 @@ namespace CodingSeb.Localization.Tests
         [TestCase("/JsonTranslations/MainMenu/EditMenuItem/CutMenuItem/Header:", "Notknown", "fr", null, ExpectedResult = "Couper")]
         [TestCase("/JsonTranslations/MainMenu/EditMenuItem/PasteMenuItem/Header:", "Notknown", "en", null, ExpectedResult = "Paste")]
         [TestCase("/JsonTranslations/MainMenu/EditMenuItem/PasteMenuItem/Header:", "Notknown", "fr", null, ExpectedResult = "Coller")]
+        [TestCase("->Hello", "Notknown", "en", null, ExpectedResult = "en : Hello")]
         public string StaticBasicTranslations(string textId, string defaultText, string currentLanguage, string forceCurrentLanguage)
         {
             if (currentLanguage != null)
