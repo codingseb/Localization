@@ -35,7 +35,7 @@ or
 ```
 PM> Install-Package CodingSeb.Localization
 ``` 
-and implement your own FileLoader.
+and implement your own [FileLoader](#implement-your-own-file-format).
 
 __For WPF projects__  
 Add this :
