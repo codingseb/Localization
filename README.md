@@ -1,5 +1,5 @@
 # Localization 
-A suit of libs to localize C# and WPF projects easily base on file format you choose.
+A suit of libs to localize C# and WPF projects easily based on file format you choose.
 
 __Replace the archived [TranslateMe](https://github.com/codingseb/TranslateMe) lib__
 
@@ -35,7 +35,7 @@ or
 ```
 PM> Install-Package CodingSeb.Localization
 ``` 
-and implement your own FileLoader.
+and implement your own [FileLoader](#implement-your-own-file-format).
 
 __For WPF projects__  
 Add this :
@@ -270,6 +270,6 @@ JsonMissingTranslationsLogger.EnableLogFor(Loc.Instance);
 ```
 
 ## Tr and WPF Styles
-The `Tr`markup is usable in Styles. but if a Trigger us used the `Tr` markup only works if used in static `<Tr IsDynamic=False ...`.
+The `Tr`markup is usable in Styles. but if a Trigger is used the `Tr` markup only works if used in static mode : `<Tr IsDynamic=False ...`.
 In dynamic mode the `Tr`markup create in backend a Binding and do not allow to be modified by a Datatrigger.
 To do a localization in a same manner way, prefer to use a binding with a `TrTextIdConverter` in place of a trigger.
