@@ -44,11 +44,29 @@
                        ToolTip="{Tr}"
                        VerticalAlignment="Center" Margin="5,0"/>
             </StackPanel>
-            <ComboBox ItemsSource="{Binding Labels}"
+            <ComboBox x:Name="TextComboBox"
+                      ItemsSource="{Binding Labels}"
                       SelectedIndex="0"
                       SelectedItem="{Binding Label}" />
             <Label BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Stretch"
                    Content="{Binding Label, Converter={TrTextIdConverter DefaultText='DefaultText'}}"/>
+            <Label Content="{Tr TextId='TypeSomething'}" />
+            <TextBox x:Name="InputTextBox" />
+            <Label BorderBrush="Black" 
+                       BorderThickness="1" 
+                       Content="{Tr TextId='YouTypedInTheTextBox', StringFormatBinding={Binding Text, ElementName=InputTextBox}}"
+                       VerticalAlignment="Center" Margin="5,0"/>
+            <TextBlock TextWrapping="Wrap">
+                <TextBlock.Text>
+                    <Tr TextId="YouTypedInTheTextBoxAndSelectedInComboBox">
+                        <Tr.StringFormatBindings>
+                            <Binding Path="Text" ElementName="InputTextBox" />
+                            <Binding Path="SelectedItem" ElementName="TextComboBox" />
+                            <Binding Path="Label" Converter="{TrTextIdConverter DefaultText='DefaultText'}" />
+                        </Tr.StringFormatBindings>
+                    </Tr>
+                </TextBlock.Text>
+            </TextBlock>
         </StackPanel>
     </DockPanel>
 </Window>

@@ -1,5 +1,9 @@
-﻿using System;
+﻿using CodingSeb.Localization.WPF.Converters;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
+using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
@@ -99,6 +103,16 @@ namespace CodingSeb.Localization.WPF
         public CultureInfo ConverterCulture { get; set; }
 
         /// <summary>
+        /// A Simple binding to inject in the translated text with a string.Format
+        /// </summary>
+        public BindingBase StringFormatBinding { get; set; }
+
+        /// <summary>
+        /// A collection of bindings to inject in the translated text with a string.Format
+        /// </summary>
+        public Collection<BindingBase> StringFormatBindings { get; } = new Collection<BindingBase>();
+
+        /// <summary>
         /// Translation In Xaml
         /// </summary>
         /// <param name="serviceProvider"></param>
@@ -160,9 +174,38 @@ namespace CodingSeb.Localization.WPF
                     binding.ConverterCulture = ConverterCulture;
                 }
 
-                BindingOperations.SetBinding(targetObject, targetProperty, binding);
+                if(StringFormatBinding != null)
+                {
+                    MultiBinding multiBinding = new MultiBinding();
 
-                return binding.ProvideValue(serviceProvider);
+                    multiBinding.Bindings.Add(binding);
+                    multiBinding.Bindings.Add(StringFormatBinding);
+
+                    multiBinding.Converter = new ForTrMarkupInternalStringFormatMultiValuesConverter();
+
+                    BindingOperations.SetBinding(targetObject, targetProperty, multiBinding);
+
+                    return multiBinding.ProvideValue(serviceProvider);
+                }
+                else if(StringFormatBindings != null)
+                {
+                    MultiBinding multiBinding = new MultiBinding();
+
+                    multiBinding.Bindings.Add(binding);
+                    StringFormatBindings.ToList().ForEach(multiBinding.Bindings.Add);
+
+                    multiBinding.Converter = new ForTrMarkupInternalStringFormatMultiValuesConverter();
+
+                    BindingOperations.SetBinding(targetObject, targetProperty, multiBinding);
+
+                    return multiBinding.ProvideValue(serviceProvider);
+                }
+                else
+                {
+                    BindingOperations.SetBinding(targetObject, targetProperty, binding);
+
+                    return binding.ProvideValue(serviceProvider);
+                }
             }
             else
             {

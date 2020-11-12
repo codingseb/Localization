@@ -43,5 +43,20 @@
     "en": "No",
     "es": "No",
     "fr": "Non"
+  },
+  "TypeSomething": {
+    "en": "Type Something :",
+    "es": "Escribe algo :",
+    "fr": "Tapez quelque chose :"
+  },
+  "YouTypedInTheTextBox": {
+    "en": "You Typed \"{0}\" in the textbox",
+    "es": "Escribiste \"{0}\" en el cuadro de texto",
+    "fr": "Vous avez tapé \"{0}\" dans la zone de texte"
+  },
+  "YouTypedInTheTextBoxAndSelectedInComboBox": {
+    "en": "You Typed \"{0}\" in the textbox and selected \"{1}\" : \"{2}\" in the combobox",
+    "es": "Escribiste \"{0}\" en el cuadro de texto y seleccionaste \"{1}\" : \"{2}\" de la lista desplegable",
+    "fr": "Vous avez tapé \"{0}\" dans la zone de texte et sélectionné \"{1}\" : \"{2}\" dans la liste déroulante"
   }
 }
