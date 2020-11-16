@@ -1,6 +1,8 @@
-﻿using System.ComponentModel;
+﻿using PropertyChanged;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Data;
 
 namespace CodingSeb.Localization.WPF
 {
@@ -8,7 +10,7 @@ namespace CodingSeb.Localization.WPF
     /// This class is used as viewModel to bind  to DependencyProperties
     /// Is use by Tr MarkupExtension to dynamically update the translation when current language changed
     /// </summary>
-    public class TrData : INotifyPropertyChanged
+    internal class TrData : INotifyPropertyChanged
     {
         public TrData()
         {
@@ -23,6 +25,7 @@ namespace CodingSeb.Localization.WPF
         /// <summary>
         /// To force the use of a specific identifier
         /// </summary>
+        [DoNotNotify]
         public string TextId { get; set; }
 
         /// <summary>
@@ -52,6 +55,11 @@ namespace CodingSeb.Localization.WPF
         public object Data { get; set; }
 
         /// <summary>
+        /// For Tr internal converter
+        /// </summary>
+        public MultiBinding MultiBinding { get; set; }
+
+        /// <summary>
         /// When the current Language changed update the binding (Call OnPropertyChanged)
         /// </summary>
         /// <param name="sender"></param>
@@ -61,13 +69,7 @@ namespace CodingSeb.Localization.WPF
             OnPropertyChanged(nameof(TranslatedText));
         }
 
-        public string TranslatedText
-        {
-            get
-            {
-                return Prefix + Loc.Tr(TextId, DefaultText, LanguageId) + Suffix;
-            }
-        }
+        public string TranslatedText => Prefix + Loc.Tr(TextId, DefaultText, LanguageId) + Suffix;
 
         public event PropertyChangedEventHandler PropertyChanged;
 

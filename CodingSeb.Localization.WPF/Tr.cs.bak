@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CodingSeb.Localization.WPF.Converters;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
@@ -13,6 +15,8 @@ namespace CodingSeb.Localization.WPF
     /// </summary>
     public class Tr : MarkupExtension
     {
+        private DependencyObject targetObject;
+        private DependencyProperty targetProperty;
         private string defaultText;
 
         /// <summary>
@@ -36,14 +40,21 @@ namespace CodingSeb.Localization.WPF
         }
 
         /// <summary>
-        /// To force the use of a specific identifier
+        /// Translate in the current language the given textId
         /// </summary>
-        public virtual string TextId { get; set; }
+        /// <param name="textId">To force the use of a specific identifier</param>
+        /// <param name="defaultText">The text to return if no text correspond to textId in the current language</param>
+        public Tr(string textId, string defaultText)
+        {
+            TextId = textId;
+            DefaultText = defaultText;
+        }
 
         /// <summary>
-		/// To Provide a TextId by binding
+        /// To force the use of a specific identifier
         /// </summary>
-        public BindingBase TextIdBinding { get; set; }
+        [ConstructorArgument("textId")]
+        public virtual string TextId { get; set; }
 
         /// <summary>
         /// The text to return if no text correspond to textId in the current language
@@ -80,6 +91,11 @@ namespace CodingSeb.Localization.WPF
         public string Suffix { get; set; } = string.Empty;
 
         /// <summary>
+        /// To Bind a flexible Label
+        /// </summary>
+        public BindingBase LabelBinding { get; set; }
+
+        /// <summary>
         /// Converter to apply on the translated text
         /// </summary>
         public IValueConverter Converter { get; set; }
@@ -108,25 +124,14 @@ namespace CodingSeb.Localization.WPF
         /// Translation In Xaml
         /// </summary>
         /// <param name="serviceProvider"></param>
-        public override object ProvideValue(IServiceProvider serviceProvider)
-        {
-            return ProvideValue(serviceProvider, false);
-        }
-
-        /// <summary>
-        /// Translation In Xaml
-        /// </summary>
-        /// <param name="serviceProvider"></param>
-        /// <param name="InMultiTr"></param>
         /// <returns></returns>
-        public object ProvideValue(IServiceProvider serviceProvider, bool InMultiTr)
+        public override object ProvideValue(IServiceProvider serviceProvider)
         {
             if (!(serviceProvider.GetService(typeof(IProvideValueTarget)) is IProvideValueTarget service))
                 return this;
 
-            DependencyProperty targetProperty = service.TargetProperty as DependencyProperty;
-            DependencyObject targetObject = service.TargetObject as DependencyObject;
-
+            targetProperty = service.TargetProperty as DependencyProperty;
+            targetObject = service.TargetObject as DependencyObject;
             if ((targetObject == null || targetProperty == null) && IsDynamic)
             {
                 return this;
@@ -138,7 +143,7 @@ namespace CodingSeb.Localization.WPF
 
             try
             {
-                if (string.IsNullOrEmpty(TextId) && TextIdBinding == null)
+                if (string.IsNullOrEmpty(TextId))
                 {
                     if (targetObject != null && targetProperty != null)
                     {
@@ -183,18 +188,11 @@ namespace CodingSeb.Localization.WPF
                     binding.ConverterCulture = ConverterCulture;
                 }
 
-                if (StringFormatBinding == null && StringFormatBindings == null && TextIdBinding == null)
+                if (StringFormatBinding == null && StringFormatBindings == null && LabelBinding == null)
                 {
-                    if (InMultiTr)
-                    {
-                        return binding;
-                    }
-                    else
-                    {
-                        BindingOperations.SetBinding(targetObject, targetProperty, binding);
+                    BindingOperations.SetBinding(targetObject, targetProperty, binding);
 
-                        return binding.ProvideValue(serviceProvider);
-                    }
+                    return binding.ProvideValue(serviceProvider);
                 }
                 else
                 {
@@ -203,18 +201,9 @@ namespace CodingSeb.Localization.WPF
                         Converter = new ForTrMarkupInternalStringFormatMultiValuesConverter()
                     };
 
-                    if (TextIdBinding != null)
+                    if (LabelBinding != null)
                     {
-                        if (TextIdBinding is MultiBinding textIdMultiBinding)
-                        {
-                            textIdMultiBinding.Bindings.ToList().ForEach(multiBinding.Bindings.Add);
-                            trData.MultiBinding = textIdMultiBinding;
-                        }
-                        else
-                        {
-                            multiBinding.Bindings.Add(TextIdBinding);
-                        }
-
+                        multiBinding.Bindings.Add(LabelBinding);
                         multiBinding.ConverterParameter = trData;
                     }
 
@@ -225,16 +214,9 @@ namespace CodingSeb.Localization.WPF
                     if (StringFormatBindings != null)
                         StringFormatBindings.ToList().ForEach(multiBinding.Bindings.Add);
 
-                    if (InMultiTr)
-                    {
-                        return multiBinding;
-                    }
-                    else
-                    {
-                        BindingOperations.SetBinding(targetObject, targetProperty, multiBinding);
+                    BindingOperations.SetBinding(targetObject, targetProperty, multiBinding);
 
-                        return multiBinding.ProvideValue(serviceProvider);
-                    }
+                    return multiBinding.ProvideValue(serviceProvider);
                 }
             }
             else
@@ -256,19 +238,8 @@ namespace CodingSeb.Localization.WPF
             {
                 if (parameter is TrData trData)
                 {
-                    int offset = 1;
-
-                    if (trData.MultiBinding != null)
-                    {
-                        trData.TextId = trData.MultiBinding.Converter.Convert(values.Take(trData.MultiBinding.Bindings.Count).ToArray(), null, trData.MultiBinding.ConverterParameter, trData.MultiBinding.ConverterCulture).ToString();
-                        offset = trData.MultiBinding.Bindings.Count;
-                    }
-                    else
-                    {
-                        trData.TextId = values[0] as string ?? string.Empty;
-                    }
-
-                    return string.Format(trData.TranslatedText, values.Skip(1 + offset).ToArray());
+                    trData.TextId = values[0] as string ?? string.Empty;
+                    return string.Format(trData.TranslatedText, values.Skip(2).ToArray());
                 }
                 else
                 {

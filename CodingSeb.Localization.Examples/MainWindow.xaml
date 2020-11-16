@@ -50,7 +50,7 @@
                       SelectedItem="{Binding Label}" />
             <Label BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Stretch"
                    Content="{Binding Label, Converter={TrTextIdConverter DefaultText='DefaultText'}}"/>
-            <Label Content="{Tr TextId='TypeSomething'}" />
+            <Label Content="{Tr TypeSomething}" />
             <TextBox x:Name="InputTextBox" />
             <Label BorderBrush="Black" 
                        BorderThickness="1" 
@@ -67,6 +67,7 @@
                     </Tr>
                 </TextBlock.Text>
             </TextBlock>
+            <CheckBox Content="{Tr {Binding IsChecked, RelativeSource={RelativeSource Mode=Self}, Converter={local:BoolToStringConverter FalseValue=Activate, TrueValue=Deactivate}}}" />
         </StackPanel>
     </DockPanel>
 </Window>

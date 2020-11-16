@@ -58,5 +58,15 @@
     "en": "You Typed \"{0}\" in the textbox and selected \"{1}\" : \"{2}\" in the combobox",
     "es": "Escribiste \"{0}\" en el cuadro de texto y seleccionaste \"{1}\" : \"{2}\" de la lista desplegable",
     "fr": "Vous avez tapé \"{0}\" dans la zone de texte et sélectionné \"{1}\" : \"{2}\" dans la liste déroulante"
+  },
+  "Activate": {
+    "en": "Activate",
+    "es": "Activar",
+    "fr": "Activer"
+  },
+  "Deactivate": {
+    "en": "Deactivate",
+    "es": "Desactivar",
+    "fr": "Désactiver"
   }
 }
