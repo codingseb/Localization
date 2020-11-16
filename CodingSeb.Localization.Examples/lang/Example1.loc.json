@@ -68,5 +68,20 @@
     "en": "Deactivate",
     "es": "Desactivar",
     "fr": "Désactiver"
+  },
+  "Activated": {
+    "en": "Activated",
+    "es": "Habilitado",
+    "fr": "Activéé"
+  },
+  "Deactivated": {
+    "en": "Deactivated",
+    "es": "Discapacitado",
+    "fr": "Désactivée"
+  },
+  "TheCheckBoxIs": {
+    "en": "The checkbox is",
+    "es": "La casilla de verificación es",
+    "fr": "La case à cochée est"
   }
 }

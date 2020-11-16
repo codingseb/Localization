@@ -67,7 +67,18 @@
                     </Tr>
                 </TextBlock.Text>
             </TextBlock>
-            <CheckBox Content="{Tr {Binding IsChecked, RelativeSource={RelativeSource Mode=Self}, Converter={local:BoolToStringConverter FalseValue=Activate, TrueValue=Deactivate}}}" />
+            <WrapPanel>
+                <CheckBox x:Name="DemoCheckBox" Content="{Tr {Binding IsChecked, RelativeSource={RelativeSource Mode=Self}, Converter={local:BoolToStringConverter FalseValue=Activate, TrueValue=Deactivate}}}" />
+                <Border Margin="5,0" BorderThickness="0.5" BorderBrush="Gray" />
+                <Label >
+                    <Label.Content>
+                        <MultiTr Separator=": ">
+                            <Tr TextId="TheCheckBoxIs" />
+                            <Tr TextIdBinding="{Binding IsChecked, ElementName=DemoCheckBox, Converter={local:BoolToStringConverter FalseValue=Activated, TrueValue=Deactivated}}" />
+                        </MultiTr>
+                    </Label.Content>
+                </Label>
+            </WrapPanel>
         </StackPanel>
     </DockPanel>
 </Window>
