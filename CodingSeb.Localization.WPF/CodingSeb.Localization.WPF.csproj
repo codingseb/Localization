@@ -10,10 +10,10 @@
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <RepositoryUrl>https://github.com/codingseb/Localization</RepositoryUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <AssemblyVersion>1.1.1.0</AssemblyVersion>
-    <FileVersion>1.1.1.0</FileVersion>
-    <Version>1.1.1</Version>
-    <PackageReleaseNotes>Add Binding or bindings collection directly on Tr Markup to be used as string.Format arguments</PackageReleaseNotes>
+    <AssemblyVersion>1.1.2.0</AssemblyVersion>
+    <FileVersion>1.1.2.0</FileVersion>
+    <Version>1.1.2</Version>
+    <PackageReleaseNotes>Add MultiTr Markup</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
