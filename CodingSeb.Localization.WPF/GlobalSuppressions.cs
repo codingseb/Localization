@@ -5,5 +5,5 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-[assembly: SuppressMessage("General", "RCS1079:Throwing of new NotImplementedException.", Justification = "<Pending>", Scope = "member", Target = "~M:CodingSeb.Localization.WPF.Tr.ForTrMarkupInternalStringFormatMultiValuesConverter.ConvertBack(System.Object,System.Type[],System.Object,System.Globalization.CultureInfo)~System.Object[]")]
-[assembly: SuppressMessage("General", "RCS1079:Throwing of new NotImplementedException.", Justification = "<Pending>", Scope = "member", Target = "~M:CodingSeb.Localization.WPF.MultiTr.ForMultiTrMarkupInternalStringFormatMultiValuesConverter.ConvertBack(System.Object,System.Type[],System.Object,System.Globalization.CultureInfo)~System.Object[]")]
+[assembly: SuppressMessage("General", "RCS1079:Throwing of new NotImplementedException.", Justification = "<Pending>", Scope = "namespaceanddescendants", Target = "~N:CodingSeb.Localization.WPF")]
+[assembly: SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "<Pending>", Scope = "namespaceanddescendants", Target = "~N:CodingSeb.Localization.WPF")]
