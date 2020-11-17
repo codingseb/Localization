@@ -221,16 +221,17 @@ namespace CodingSeb.Localization.WPF
                     Source = trData
                 };
 
-                if (Converter != null)
-                {
-                    SetDependanciesInTrConverterBase(Converter, targetObject, targetProperty);
-                    binding.Converter = Converter;
-                    binding.ConverterParameter = ConverterParameter;
-                    binding.ConverterCulture = ConverterCulture;
-                }
+                SetDependanciesInTrConverterBase(Converter, targetObject, targetProperty);
 
                 if (StringFormatBinding == null && StringFormatBindings == null && TextIdBinding == null)
                 {
+                    if (Converter != null)
+                    {
+                        binding.Converter = Converter;
+                        binding.ConverterParameter = ConverterParameter;
+                        binding.ConverterCulture = ConverterCulture;
+                    }
+
                     if (InMultiTr)
                     {
                         return binding;
@@ -247,6 +248,13 @@ namespace CodingSeb.Localization.WPF
                     MultiBinding multiBinding = new MultiBinding
                     {
                         Converter = new ForTrMarkupInternalStringFormatMultiValuesConverter()
+                        {
+                            Data = trData,
+                            TextIdBindingBase = TextIdBinding,
+                            TrConverter = Converter,
+                            TrConverterParameter = ConverterParameter,
+                            TrConverterCulture = ConverterCulture,
+                        },
                     };
 
                     if (TextIdBinding != null)
@@ -256,14 +264,11 @@ namespace CodingSeb.Localization.WPF
                         if (TextIdBinding is MultiBinding textIdMultiBinding)
                         {
                             textIdMultiBinding.Bindings.ToList().ForEach(multiBinding.Bindings.Add);
-                            trData.MultiBinding = textIdMultiBinding;
                         }
                         else
                         {
                             multiBinding.Bindings.Add(TextIdBinding);
                         }
-
-                        multiBinding.ConverterParameter = trData;
                     }
 
                     multiBinding.Bindings.Add(binding);
@@ -328,28 +333,31 @@ namespace CodingSeb.Localization.WPF
 
         protected class ForTrMarkupInternalStringFormatMultiValuesConverter : IMultiValueConverter
         {
+            internal TrData Data { get; set; }
+            internal BindingBase TextIdBindingBase { get; set; }
+            internal IValueConverter TrConverter { get; set; }
+            internal object TrConverterParameter { get; set; }
+            internal CultureInfo TrConverterCulture { get; set; }
+            internal Collection<BindingBase> StringFormatBindings { get; set; }
+
             public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
             {
-                if (parameter is TrData trData)
-                {
-                    int offset = 1;
+                int offset = 1;
 
-                    if (trData.MultiBinding != null)
-                    {
-                        trData.TextId = trData.MultiBinding.Converter.Convert(values.Take(trData.MultiBinding.Bindings.Count).ToArray(), null, trData.MultiBinding.ConverterParameter, trData.MultiBinding.ConverterCulture).ToString();
-                        offset = trData.MultiBinding.Bindings.Count;
-                    }
-                    else
-                    {
-                        trData.TextId = values[0] as string ?? string.Empty;
-                    }
-
-                    return string.Format(trData.TranslatedText, values.Skip(1 + offset).ToArray());
-                }
-                else
+                if (TextIdBindingBase is MultiBinding textIdMultiBinding)
                 {
-                    return string.Format((string)values[0], values.Skip(1).ToArray());
+                    Data.TextId = textIdMultiBinding.Converter.Convert(values.Take(textIdMultiBinding.Bindings.Count).ToArray(), null, textIdMultiBinding.ConverterParameter, textIdMultiBinding.ConverterCulture).ToString();
+                    offset = textIdMultiBinding.Bindings.Count;
                 }
+                else if(TextIdBindingBase is Binding)
+                {
+                    Data.TextId = values[0] as string ?? string.Empty;
+                    offset++;
+                }
+
+                var translated = string.Format(Data.TranslatedText, values.Skip(offset).ToArray());
+
+                return TrConverter == null ? translated : TrConverter.Convert(translated, null, TrConverterParameter, TrConverterCulture);
             }
 
             public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture) => throw new NotImplementedException();

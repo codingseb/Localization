@@ -55,11 +55,6 @@ namespace CodingSeb.Localization.WPF
         public object Data { get; set; }
 
         /// <summary>
-        /// For Tr internal converter
-        /// </summary>
-        public MultiBinding MultiBinding { get; set; }
-
-        /// <summary>
         /// When the current Language changed update the binding (Call OnPropertyChanged)
         /// </summary>
         /// <param name="sender"></param>
