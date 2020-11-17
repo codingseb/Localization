@@ -14,7 +14,7 @@ namespace CodingSeb.Localization.WPF
     /// </summary>
     public class Tr : MarkupExtension
     {
-        private string defaultText;
+        #region #region Constructors and args Management
 
         /// <summary>
         /// Translate the current Property in the current language
@@ -36,16 +36,64 @@ namespace CodingSeb.Localization.WPF
                 TextId = textId.ToString();
         }
 
+        public Tr(object textId, BindingBase arg1) : this(textId)
+        {
+            ManageArg(new List<BindingBase> { arg1 });
+        }
+
+        public Tr(object textId, BindingBase arg1, BindingBase arg2) : this(textId)
+        {
+            ManageArg(new List<BindingBase> { arg1, arg2 });
+        }
+
+        public Tr(object textId, BindingBase arg1, BindingBase arg2, BindingBase arg3) : this(textId)
+        {
+            ManageArg(new List<BindingBase> { arg1, arg2, arg3 });
+        }
+
+        public Tr(object textId, BindingBase arg1, BindingBase arg2, BindingBase arg3, BindingBase arg4) : this(textId)
+        {
+            ManageArg(new List<BindingBase> { arg1, arg2, arg3, arg4 });
+        }
+
+        public Tr(object textId, BindingBase arg1, BindingBase arg2, BindingBase arg3, BindingBase arg4, BindingBase arg5) : this(textId)
+        {
+            ManageArg(new List<BindingBase> { arg1, arg2, arg3, arg4, arg5 });
+        }
+
+        public Tr(object textId, BindingBase arg1, BindingBase arg2, BindingBase arg3, BindingBase arg4, BindingBase arg5, BindingBase arg6) : this(textId)
+        {
+            ManageArg(new List<BindingBase> { arg1, arg2, arg3, arg4, arg5, arg6 });
+        }
+
+        public Tr(object textId, BindingBase arg1, BindingBase arg2, BindingBase arg3, BindingBase arg4, BindingBase arg5, BindingBase arg6, BindingBase arg7) : this(textId)
+        {
+            ManageArg(new List<BindingBase> { arg1, arg2, arg3, arg4, arg5, arg6, arg7 });
+        }
+
+        public Tr(object textId, BindingBase arg1, BindingBase arg2, BindingBase arg3, BindingBase arg4, BindingBase arg5, BindingBase arg6, BindingBase arg7, BindingBase arg8) : this(textId)
+        {
+            ManageArg(new List<BindingBase> { arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8 });
+        }
+
+        private void ManageArg(List<BindingBase> args)
+        {
+            args.ForEach(StringFormatBindings.Add);
+        }
+
+        #endregion
+
         /// <summary>
         /// To force the use of a specific identifier
         /// </summary>
-        public virtual string TextId { get; set; }
+        public string TextId { get; set; }
 
         /// <summary>
 		/// To Provide a TextId by binding
         /// </summary>
         public BindingBase TextIdBinding { get; set; }
 
+        private string defaultText;
         /// <summary>
         /// The text to return if no text correspond to textId in the current language
         /// </summary>

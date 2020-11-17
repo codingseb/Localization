@@ -68,6 +68,7 @@
                     </Tr>
                 </TextBlock.Text>
             </TextBlock>
+            <TextBlock Text="{Tr YouTypedInTheTextBoxAndSelectedInComboBox, {Binding Text, ElementName=InputTextBox}, {Binding SelectedItem, ElementName=TextComboBox}, {Binding Label, Converter={TrTextIdConverter}}}" />
             <WrapPanel>
                 <CheckBox x:Name="DemoCheckBox" Content="{Tr {Binding IsChecked, RelativeSource={RelativeSource Mode=Self}, Converter={local:BoolToStringConverter FalseValue=Activate, TrueValue=Deactivate}}}" />
                 <Border Margin="5,0" BorderThickness="0.5" BorderBrush="Gray" />
