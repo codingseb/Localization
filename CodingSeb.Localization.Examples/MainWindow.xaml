@@ -48,8 +48,8 @@
                       ItemsSource="{Binding Labels}"
                       SelectedIndex="0"
                       SelectedItem="{Binding Label}" />
-            <Label BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Stretch"
-                   Content="{Binding Label, Converter={TrTextIdConverter DefaultText='DefaultText'}}"/>
+            <!--<Label BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Stretch"
+                   Content="{Binding Label, Converter={TrTextIdConverter DefaultText='DefaultText'}}"/>-->
             <Label Content="{Tr TypeSomething}" />
             <TextBox x:Name="InputTextBox" />
             <TextBlock Text="{Tr Activate}" />
@@ -57,8 +57,8 @@
                        BorderThickness="1" 
                        Content="{Tr TextId='YouTypedInTheTextBox', StringFormatBinding={Binding Text, ElementName=InputTextBox}}"
                        VerticalAlignment="Center" Margin="5,0"/>
-            <TextBlock TextWrapping="Wrap">
-                <TextBlock.Text>
+            <Label>
+                <Label.Content>
                     <Tr TextId="YouTypedInTheTextBoxAndSelectedInComboBox">
                         <Tr.StringFormatBindings>
                             <Binding Path="Text" ElementName="InputTextBox" />
@@ -66,9 +66,20 @@
                             <Binding Path="Label" Converter="{TrTextIdConverter DefaultText='DefaultText'}" />
                         </Tr.StringFormatBindings>
                     </Tr>
-                </TextBlock.Text>
-            </TextBlock>
-            <CheckBox Content="{Tr {Binding IsChecked, RelativeSource={RelativeSource Mode=Self}, Converter={local:BoolToStringConverter FalseValue=Activate, TrueValue=Deactivate}}}" />
+                </Label.Content>
+            </Label>
+            <WrapPanel>
+                <CheckBox x:Name="DemoCheckBox" Content="{Tr {Binding IsChecked, RelativeSource={RelativeSource Mode=Self}, Converter={local:BoolToStringConverter FalseValue=Activate, TrueValue=Deactivate}}}" />
+                <Border Margin="5,0" BorderThickness="0.5" BorderBrush="Gray" />
+                <Label >
+                    <Label.Content>
+                        <MultiTr Separator=": ">
+                            <Tr TextId="TheCheckBoxIs" />
+                            <Tr TextIdBinding="{Binding IsChecked, ElementName=DemoCheckBox, Converter={local:BoolToStringConverter FalseValue=Activated, TrueValue=Deactivated}}" />
+                        </MultiTr>
+                    </Label.Content>
+                </Label>
+            </WrapPanel>
         </StackPanel>
     </DockPanel>
 </Window>

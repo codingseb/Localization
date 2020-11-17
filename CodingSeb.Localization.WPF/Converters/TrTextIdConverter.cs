@@ -77,15 +77,15 @@ namespace CodingSeb.Localization.WPF
                     .GetValue(serviceProvider);
 
                 xamlTargetObject = xamlContext?.GetType()
-                    .GetProperty("GrandParentInstance")
+                    .GetProperty("GrandParentInstance")?
                     .GetValue(xamlContext) as DependencyObject;
 
                 var xamlProperty = xamlContext?.GetType()
-                    .GetProperty("GrandParentProperty")
+                    .GetProperty("GrandParentProperty")?
                     .GetValue(xamlContext);
 
                 xamlDependencyProperty = xamlProperty?.GetType()
-                    .GetProperty("DependencyProperty")
+                    .GetProperty("DependencyProperty")?
                     .GetValue(xamlProperty) as DependencyProperty;
             }
             catch { }
