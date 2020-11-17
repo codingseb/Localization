@@ -144,11 +144,6 @@ namespace CodingSeb.Localization
         /// <returns>The translated text</returns>
         public string Translate(string textId, string defaultText = null, string languageId = null)
         {
-            if (string.IsNullOrEmpty(textId))
-            {
-                throw new InvalidOperationException("The textId argument cannot be null or empty");
-            }
-
             if (string.IsNullOrEmpty(defaultText))
             {
                 defaultText = textId;
@@ -159,12 +154,12 @@ namespace CodingSeb.Localization
                 languageId = CurrentLanguage;
             }
 
-            CheckMissingTranslation(textId, defaultText);
+            CheckMissingTranslation(textId ?? string.Empty, defaultText);
 
             return Translators
                 .Find(tr => tr.CanTranslate(textId, languageId))?
-                .Translate(textId, languageId)
-                ?? defaultText;
+                .Translate(textId ?? string.Empty, languageId)
+                ?? defaultText ?? string.Empty;
         }
 
         /// <summary>

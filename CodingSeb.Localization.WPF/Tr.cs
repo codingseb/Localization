@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
@@ -131,10 +132,6 @@ namespace CodingSeb.Localization.WPF
             {
                 return this;
             }
-            //else if (targetObject.GetValue(targetProperty) is object value)
-            //{
-            //    return value;
-            //}
 
             try
             {
@@ -178,6 +175,7 @@ namespace CodingSeb.Localization.WPF
 
                 if (Converter != null)
                 {
+                    SetDependanciesInTrConverterBase(Converter, targetObject, targetProperty);
                     binding.Converter = Converter;
                     binding.ConverterParameter = ConverterParameter;
                     binding.ConverterCulture = ConverterCulture;
@@ -205,6 +203,8 @@ namespace CodingSeb.Localization.WPF
 
                     if (TextIdBinding != null)
                     {
+                        SetDependanciesInTrConverterBase(TextIdBinding, targetObject, targetProperty);
+
                         if (TextIdBinding is MultiBinding textIdMultiBinding)
                         {
                             textIdMultiBinding.Bindings.ToList().ForEach(multiBinding.Bindings.Add);
@@ -221,9 +221,18 @@ namespace CodingSeb.Localization.WPF
                     multiBinding.Bindings.Add(binding);
 
                     if (StringFormatBinding != null)
+                    {
+                        SetDependanciesInTrConverterBase(StringFormatBinding, targetObject, targetProperty);
                         multiBinding.Bindings.Add(StringFormatBinding);
+                    }
                     if (StringFormatBindings != null)
-                        StringFormatBindings.ToList().ForEach(multiBinding.Bindings.Add);
+                    {
+                        StringFormatBindings.ToList().ForEach(binding =>
+                        {
+                            SetDependanciesInTrConverterBase(binding, targetObject, targetProperty);
+                            multiBinding.Bindings.Add(binding);
+                        });
+                    }
 
                     if (InMultiTr)
                     {
@@ -247,6 +256,25 @@ namespace CodingSeb.Localization.WPF
                 }
 
                 return result;
+            }
+        }
+
+        private void SetDependanciesInTrConverterBase(object converterContainer, DependencyObject dependencyObject, DependencyProperty dependencyProperty)
+        {
+            if(converterContainer is Binding binding)
+            {
+                converterContainer = binding.Converter;
+            }
+            else if(converterContainer is MultiBinding multiBinding)
+            {
+                converterContainer = multiBinding.Converter;
+            }
+
+            if(converterContainer is TrConverterBase trConverterBase)
+            {
+                trConverterBase.xamlTargetObject = dependencyObject;
+                trConverterBase.xamlDependencyProperty = dependencyProperty;
+                trConverterBase.IsInAMultiBinding = true;
             }
         }
 

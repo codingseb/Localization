@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using System.Linq;
-using System.Reflection;
-using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 
@@ -13,7 +10,7 @@ namespace CodingSeb.Localization.WPF
     /// If Translation don't exist return DefaultText.
     /// Not usable in TwoWay Binding mode.
     /// </summary>
-    public class TrLanguageIdConverter : MarkupExtension, IValueConverter
+    public class TrLanguageIdConverter : TrConverterBase, IValueConverter
     {
         /// <summary>
         /// To force the use of a specific identifier
@@ -43,29 +40,11 @@ namespace CodingSeb.Localization.WPF
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
 
-        private DependencyObject xamlTargetObject;
-        private DependencyProperty xamlDependencyProperty;
-
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
             try
             {
-                var xamlContext = serviceProvider.GetType()
-                    .GetRuntimeFields().ToList()
-                    .Find(f => f.Name.Equals("_xamlContext"))
-                    .GetValue(serviceProvider);
-
-                xamlTargetObject = xamlContext?.GetType()
-                    .GetProperty("GrandParentInstance")
-                    .GetValue(xamlContext) as DependencyObject;
-
-                var xamlProperty = xamlContext?.GetType()
-                    .GetProperty("GrandParentProperty")
-                    .GetValue(xamlContext);
-
-                xamlDependencyProperty = xamlProperty?.GetType()
-                    .GetProperty("DependencyProperty")
-                    .GetValue(xamlProperty) as DependencyProperty;
+                SetXamlObjects(serviceProvider);
 
                 if (string.IsNullOrEmpty(TextId))
                 {

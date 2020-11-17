@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Globalization;
-using System.Linq;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 
 namespace CodingSeb.Localization.WPF
 {
-    public class TrStringFormatConverter : MarkupExtension, IValueConverter
+    public class TrStringFormatConverter : TrConverterBase, IValueConverter
     {
         public TrStringFormatConverter()
         {
@@ -50,7 +48,7 @@ namespace CodingSeb.Localization.WPF
         /// To force the use of a specific identifier
         /// </summary>
         [ConstructorArgument("textId")]
-        public string TextId { get; set; } = null;
+        public string TextId { get; set; }
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -59,29 +57,11 @@ namespace CodingSeb.Localization.WPF
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
 
-        private DependencyObject xamlTargetObject;
-        private DependencyProperty xamlDependencyProperty;
-
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
             try
             {
-                var xamlContext = serviceProvider.GetType()
-                    .GetRuntimeFields().ToList()
-                    .Find(f => f.Name.Equals("_xamlContext"))
-                    .GetValue(serviceProvider);
-
-                xamlTargetObject = xamlContext?.GetType()
-                    .GetProperty("GrandParentInstance")
-                    .GetValue(xamlContext) as DependencyObject;
-
-                var xamlProperty = xamlContext?.GetType()
-                    .GetProperty("GrandParentProperty")
-                    .GetValue(xamlContext);
-
-                xamlDependencyProperty = xamlProperty?.GetType()
-                    .GetProperty("DependencyProperty")
-                    .GetValue(xamlProperty) as DependencyProperty;
+                SetXamlObjects(serviceProvider);
 
                 if (string.IsNullOrEmpty(TextId))
                 {
@@ -112,7 +92,10 @@ namespace CodingSeb.Localization.WPF
         {
             if (xamlTargetObject != null && xamlDependencyProperty != null)
             {
-                BindingOperations.GetBindingExpression(xamlTargetObject, xamlDependencyProperty)?.UpdateTarget();
+                if (IsInAMultiBinding)
+                    BindingOperations.GetMultiBindingExpression(xamlTargetObject, xamlDependencyProperty)?.UpdateTarget();
+                else
+                    BindingOperations.GetBindingExpression(xamlTargetObject, xamlDependencyProperty)?.UpdateTarget();
             }
         }
     }

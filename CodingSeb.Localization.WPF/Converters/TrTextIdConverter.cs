@@ -13,7 +13,7 @@ namespace CodingSeb.Localization.WPF
     /// If Translation don't exist return DefaultText
     /// Not usable in TwoWay Binding mode.
     /// </summary>
-    public class TrTextIdConverter : MarkupExtension, IValueConverter
+    public class TrTextIdConverter : TrConverterBase, IValueConverter
     {
         public TrTextIdConverter()
         {
@@ -64,31 +64,9 @@ namespace CodingSeb.Localization.WPF
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
 
-        private DependencyObject xamlTargetObject;
-        private DependencyProperty xamlDependencyProperty;
-
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
-            try
-            {
-                var xamlContext = serviceProvider.GetType()
-                    .GetRuntimeFields().ToList()
-                    .Find(f => f.Name.Equals("_xamlContext"))
-                    .GetValue(serviceProvider);
-
-                xamlTargetObject = xamlContext?.GetType()
-                    .GetProperty("GrandParentInstance")?
-                    .GetValue(xamlContext) as DependencyObject;
-
-                var xamlProperty = xamlContext?.GetType()
-                    .GetProperty("GrandParentProperty")?
-                    .GetValue(xamlContext);
-
-                xamlDependencyProperty = xamlProperty?.GetType()
-                    .GetProperty("DependencyProperty")?
-                    .GetValue(xamlProperty) as DependencyProperty;
-            }
-            catch { }
+            SetXamlObjects(serviceProvider);
 
             return this;
         }
@@ -97,7 +75,10 @@ namespace CodingSeb.Localization.WPF
         {
             if (xamlTargetObject != null && xamlDependencyProperty != null)
             {
-                BindingOperations.GetBindingExpression(xamlTargetObject, xamlDependencyProperty)?.UpdateTarget();
+                if(IsInAMultiBinding)
+                    BindingOperations.GetMultiBindingExpression(xamlTargetObject, xamlDependencyProperty)?.UpdateTarget();
+                else
+                    BindingOperations.GetBindingExpression(xamlTargetObject, xamlDependencyProperty)?.UpdateTarget();
             }
         }
     }

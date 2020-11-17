@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         d:DataContext="{d:DesignData Type=local:MainViewModel, IsDesignTimeCreatable=False}"
         DataContext="{x:Static local:MainViewModel.Instance}"
-        Title="Localization Examples" Height="350" Width="525">
+        Title="Localization Examples" Height="400" Width="700">
     <DockPanel Margin="10">
         <DockPanel DockPanel.Dock="Top" VerticalAlignment="Top">
             <Label x:Name="lblCurrentLanguage" 
@@ -48,8 +48,8 @@
                       ItemsSource="{Binding Labels}"
                       SelectedIndex="0"
                       SelectedItem="{Binding Label}" />
-            <!--<Label BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Stretch"
-                   Content="{Binding Label, Converter={TrTextIdConverter DefaultText='DefaultText'}}"/>-->
+            <Label BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Stretch"
+                   Content="{Binding Label, Converter={TrTextIdConverter DefaultText='DefaultText'}}"/>
             <Label Content="{Tr TypeSomething}" />
             <TextBox x:Name="InputTextBox" />
             <TextBlock Text="{Tr Activate}" />
@@ -57,8 +57,8 @@
                        BorderThickness="1" 
                        Content="{Tr TextId='YouTypedInTheTextBox', StringFormatBinding={Binding Text, ElementName=InputTextBox}}"
                        VerticalAlignment="Center" Margin="5,0"/>
-            <Label>
-                <Label.Content>
+            <TextBlock>
+                <TextBlock.Text>
                     <Tr TextId="YouTypedInTheTextBoxAndSelectedInComboBox">
                         <Tr.StringFormatBindings>
                             <Binding Path="Text" ElementName="InputTextBox" />
@@ -66,19 +66,19 @@
                             <Binding Path="Label" Converter="{TrTextIdConverter DefaultText='DefaultText'}" />
                         </Tr.StringFormatBindings>
                     </Tr>
-                </Label.Content>
-            </Label>
+                </TextBlock.Text>
+            </TextBlock>
             <WrapPanel>
                 <CheckBox x:Name="DemoCheckBox" Content="{Tr {Binding IsChecked, RelativeSource={RelativeSource Mode=Self}, Converter={local:BoolToStringConverter FalseValue=Activate, TrueValue=Deactivate}}}" />
                 <Border Margin="5,0" BorderThickness="0.5" BorderBrush="Gray" />
-                <Label >
-                    <Label.Content>
+                <TextBlock>
+                    <TextBlock.Text>
                         <MultiTr Separator=": ">
                             <Tr TextId="TheCheckBoxIs" />
                             <Tr TextIdBinding="{Binding IsChecked, ElementName=DemoCheckBox, Converter={local:BoolToStringConverter FalseValue=Activated, TrueValue=Deactivated}}" />
                         </MultiTr>
-                    </Label.Content>
-                </Label>
+                    </TextBlock.Text>
+                </TextBlock>
             </WrapPanel>
         </StackPanel>
     </DockPanel>
