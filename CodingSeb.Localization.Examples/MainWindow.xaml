@@ -52,6 +52,7 @@
                    Content="{Binding Label, Converter={TrTextIdConverter DefaultText='DefaultText'}}"/>
             <Label Content="{Tr TypeSomething}" />
             <TextBox x:Name="InputTextBox" />
+            <TextBlock Text="{Tr Activate}" />
             <Label BorderBrush="Black" 
                        BorderThickness="1" 
                        Content="{Tr TextId='YouTypedInTheTextBox', StringFormatBinding={Binding Text, ElementName=InputTextBox}}"

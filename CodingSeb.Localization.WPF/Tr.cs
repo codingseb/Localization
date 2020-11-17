@@ -131,10 +131,10 @@ namespace CodingSeb.Localization.WPF
             {
                 return this;
             }
-            else if (targetObject.GetValue(targetProperty) is object value)
-            {
-                return value;
-            }
+            //else if (targetObject.GetValue(targetProperty) is object value)
+            //{
+            //    return value;
+            //}
 
             try
             {
