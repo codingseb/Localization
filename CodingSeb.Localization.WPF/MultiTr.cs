@@ -17,6 +17,59 @@ namespace CodingSeb.Localization.WPF
     [ContentWrapper(typeof(Tr))]
     public class MultiTr : MarkupExtension
     {
+        #region Constructors and args Management
+
+        public MultiTr()
+        { }
+
+        public MultiTr(object arg1, object arg2)
+        {
+            ManageArg(new List<object> { arg1, arg2 });
+        }
+
+        public MultiTr(object arg1, object arg2, object arg3)
+        {
+            ManageArg(new List<object> { arg1, arg2, arg3 });
+        }
+
+        public MultiTr(object arg1, object arg2, object arg3, object arg4)
+        {
+            ManageArg(new List<object> { arg1, arg2, arg3, arg4 });
+        }
+
+        public MultiTr(object arg1, object arg2, object arg3, object arg4, object arg5)
+        {
+            ManageArg(new List<object> { arg1, arg2, arg3, arg4, arg5 });
+        }
+
+        public MultiTr(object arg1, object arg2, object arg3, object arg4, object arg5, object arg6)
+        {
+            ManageArg(new List<object> { arg1, arg2, arg3, arg4, arg5, arg6 });
+        }
+
+        public MultiTr(object arg1, object arg2, object arg3, object arg4, object arg5, object arg6, object arg7)
+        {
+            ManageArg(new List<object> { arg1, arg2, arg3, arg4, arg5, arg6, arg7 });
+        }
+
+        public MultiTr(object arg1, object arg2, object arg3, object arg4, object arg5, object arg6, object arg7, object arg8)
+        {
+            ManageArg(new List<object> { arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8 });
+        }
+
+        private void ManageArg(List<object> args)
+        {
+            args.ForEach(arg =>
+            {
+                if (arg is Tr tr)
+                    Collection.Add(tr);
+                else
+                    Collection.Add(new Tr(arg));
+            });
+        }
+
+        #endregion
+
         public string StringFormat { get; set; }
 
         public string Separator { get; set; } = " ";
