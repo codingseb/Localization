@@ -223,7 +223,7 @@ namespace CodingSeb.Localization.WPF
 
                 SetDependanciesInTrConverterBase(Converter, targetObject, targetProperty);
 
-                if (StringFormatBinding == null && StringFormatBindings == null && TextIdBinding == null)
+                if (StringFormatBinding == null && StringFormatBindings.Count == 0 && TextIdBinding == null)
                 {
                     if (Converter != null)
                     {
@@ -281,7 +281,7 @@ namespace CodingSeb.Localization.WPF
                         internalConverter.StringFormatBindings.Insert(0, StringFormatBinding);
                         ManageStringFormatArgs(multiBinding, StringFormatBinding, targetObject, targetProperty);
                     }
-                    if (StringFormatBindings != null)
+                    if (StringFormatBindings.Count > 0)
                     {
                         StringFormatBindings.ToList().ForEach(binding => ManageStringFormatArgs(multiBinding, binding, targetObject, targetProperty));
                     }
