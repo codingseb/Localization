@@ -70,11 +70,36 @@ namespace CodingSeb.Localization.WPF
 
         #endregion
 
+        /// <summary>
+        /// To specify the way translations are concatenate
+        /// </summary>
         public string StringFormat { get; set; }
 
+        /// <summary>
+        /// A separator text to concat between each translations
+        /// Used if StringFormat is not set.
+        /// </summary>
         public string Separator { get; set; } = " ";
 
+        /// <summary>
+        /// A collection of sub translations to concatenate
+        /// </summary>
         public Collection<Tr> Collection { get; } = new Collection<Tr>();
+
+        /// <summary>
+        /// Converter to apply on the result text
+        /// </summary>
+        public IValueConverter Converter { get; set; }
+
+        /// <summary>
+        /// The parameter to pass to the converter
+        /// </summary>
+        public object ConverterParameter { get; set; }
+
+        /// <summary>
+        /// The culture to pass to the converter
+        /// </summary>
+        public CultureInfo ConverterCulture { get; set; }
 
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
@@ -91,15 +116,17 @@ namespace CodingSeb.Localization.WPF
 
             if (providedValues.All(p => p is BindingBase))
             {
-                MultiTrData multiTrData = new MultiTrData()
+                var internalConverter = new ForMultiTrMarkupInternalStringFormatMultiValuesConverter()
                 {
-                    StringFormat = StringFormat ?? string.Join(Separator, Enumerable.Range(0, Collection.Count).Select(i => "{" + i.ToString() + "}"))
+                    StringFormat = StringFormat ?? string.Join(Separator, Enumerable.Range(0, Collection.Count).Select(i => "{" + i.ToString() + "}")),
+                    MultiTrConverter = Converter,
+                    MultiTrConverterParameter = ConverterParameter,
+                    MultiTrConverterCulture = ConverterCulture,
                 };
 
                 MultiBinding multiBinding = new MultiBinding()
                 {
-                    Converter = new ForMultiTrMarkupInternalStringFormatMultiValuesConverter(),
-                    ConverterParameter = multiTrData
+                    Converter = internalConverter
                 };
 
                 Collection.ToList().ForEach(tr =>
@@ -115,7 +142,7 @@ namespace CodingSeb.Localization.WPF
                         multiBinding.Bindings.Add(bindingBase);
                     }
 
-                    multiTrData.Bindings.Add(bindingBase);
+                    internalConverter.StringFormatBindings.Add(bindingBase);
                 });
 
                 BindingOperations.SetBinding(targetObject, targetProperty, multiBinding);
@@ -130,14 +157,19 @@ namespace CodingSeb.Localization.WPF
 
         protected class ForMultiTrMarkupInternalStringFormatMultiValuesConverter : IMultiValueConverter
         {
+            internal string StringFormat { get; set; }
+            internal List<BindingBase> StringFormatBindings { get; } = new List<BindingBase>();
+            internal IValueConverter MultiTrConverter { get; set; }
+            internal object MultiTrConverterParameter { get; set; }
+            internal CultureInfo MultiTrConverterCulture { get; set; }
+
             public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
             {
-                MultiTrData multiTrData = parameter as MultiTrData;
                 List<object> stringFormatValues = new List<object>();
 
                 int offset = 0;
 
-                multiTrData.Bindings.ForEach(bindingBase =>
+                StringFormatBindings.ForEach(bindingBase =>
                 {
                     if (bindingBase is MultiBinding multiBinding)
                     {
@@ -151,7 +183,9 @@ namespace CodingSeb.Localization.WPF
                     }
                 });
 
-                return string.Format(multiTrData.StringFormat, stringFormatValues.ToArray());
+                var result = string.Format(StringFormat, stringFormatValues.ToArray());
+
+                return MultiTrConverter == null ? result : MultiTrConverter.Convert(result, null, MultiTrConverterParameter, MultiTrConverterCulture);
             }
 
             public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture) => throw new NotImplementedException();
