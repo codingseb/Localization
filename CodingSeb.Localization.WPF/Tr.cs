@@ -245,16 +245,19 @@ namespace CodingSeb.Localization.WPF
                 }
                 else
                 {
+                    var internalConverter = new ForTrMarkupInternalStringFormatMultiValuesConverter()
+                    {
+                        Data = trData,
+                        TextIdBindingBase = TextIdBinding,
+                        TrConverter = Converter,
+                        TrConverterParameter = ConverterParameter,
+                        TrConverterCulture = ConverterCulture,
+                        StringFormatBindings = StringFormatBindings ?? new Collection<BindingBase>()
+                    };
+
                     MultiBinding multiBinding = new MultiBinding
                     {
-                        Converter = new ForTrMarkupInternalStringFormatMultiValuesConverter()
-                        {
-                            Data = trData,
-                            TextIdBindingBase = TextIdBinding,
-                            TrConverter = Converter,
-                            TrConverterParameter = ConverterParameter,
-                            TrConverterCulture = ConverterCulture,
-                        },
+                        Converter = internalConverter
                     };
 
                     if (TextIdBinding != null)
@@ -275,16 +278,12 @@ namespace CodingSeb.Localization.WPF
 
                     if (StringFormatBinding != null)
                     {
-                        SetDependanciesInTrConverterBase(StringFormatBinding, targetObject, targetProperty);
-                        multiBinding.Bindings.Add(StringFormatBinding);
+                        internalConverter.StringFormatBindings.Insert(0, StringFormatBinding);
+                        ManageStringFormatArgs(multiBinding, StringFormatBinding, targetObject, targetProperty);
                     }
                     if (StringFormatBindings != null)
                     {
-                        StringFormatBindings.ToList().ForEach(binding =>
-                        {
-                            SetDependanciesInTrConverterBase(binding, targetObject, targetProperty);
-                            multiBinding.Bindings.Add(binding);
-                        });
+                        StringFormatBindings.ToList().ForEach(binding => ManageStringFormatArgs(multiBinding, binding, targetObject, targetProperty));
                     }
 
                     if (InMultiTr)
@@ -309,6 +308,23 @@ namespace CodingSeb.Localization.WPF
                 }
 
                 return result;
+            }
+        }
+
+        private void ManageStringFormatArgs(MultiBinding multiBinding, BindingBase stringFormatBinding, DependencyObject dependencyObject, DependencyProperty dependencyProperty)
+        {
+            if (stringFormatBinding == null)
+                return;
+
+            SetDependanciesInTrConverterBase(StringFormatBinding, dependencyObject, dependencyProperty);
+
+            if (stringFormatBinding is Binding)
+            {
+                multiBinding.Bindings.Add(stringFormatBinding);
+            }
+            else if(stringFormatBinding is MultiBinding stringFormatMultiBinding)
+            {
+                stringFormatMultiBinding.Bindings.ToList().ForEach(multiBinding.Bindings.Add);
             }
         }
 
@@ -355,7 +371,24 @@ namespace CodingSeb.Localization.WPF
                     offset++;
                 }
 
-                var translated = string.Format(Data.TranslatedText, values.Skip(offset).ToArray());
+                List<object> stringFormatArgs = new List<object>();
+
+                for(int i = 0; i < StringFormatBindings.Count; i++)
+                {
+                    if(StringFormatBindings[i] is MultiBinding stringFormatMultiBinding)
+                    {
+                        int bindingsCount = stringFormatMultiBinding.Bindings.Count;
+                        stringFormatArgs.Add(stringFormatMultiBinding.Converter.Convert(values.Skip(offset).Take(bindingsCount).ToArray(), null, stringFormatMultiBinding.ConverterParameter, stringFormatMultiBinding.ConverterCulture));
+                        offset += bindingsCount;
+                    }
+                    else
+                    {
+                        stringFormatArgs.Add(values[offset]);
+                        offset++;
+                    }
+                }
+
+                var translated = string.Format(Data.TranslatedText, stringFormatArgs.ToArray());
 
                 return TrConverter == null ? translated : TrConverter.Convert(translated, null, TrConverterParameter, TrConverterCulture);
             }
