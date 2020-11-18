@@ -316,7 +316,7 @@ namespace CodingSeb.Localization.WPF
             if (stringFormatBinding == null)
                 return;
 
-            SetDependanciesInTrConverterBase(StringFormatBinding, dependencyObject, dependencyProperty);
+            SetDependanciesInTrConverterBase(stringFormatBinding, dependencyObject, dependencyProperty);
 
             if (stringFormatBinding is Binding)
             {
