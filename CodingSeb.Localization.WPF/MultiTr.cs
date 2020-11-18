@@ -190,12 +190,5 @@ namespace CodingSeb.Localization.WPF
 
             public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture) => throw new NotImplementedException();
         }
-
-        protected class MultiTrData
-        {
-            public string StringFormat { get; set; }
-
-            public List<BindingBase> Bindings { get; set; } = new List<BindingBase>();
-        }
     }
 }
