@@ -127,7 +127,7 @@ __To Translate with Bindings__
     <!-- or -->
     <TextBlock>
         <TextBlock.Text>
-            <Tr TextId="SayHello"}">
+            <Tr TextId="SayHello">
 	        <Tr.StringFormatArgsBindings>
                     <Binding Path="FirstName" />
                     <Binding Path="LastName" />
