@@ -98,27 +98,52 @@ __To Translate with Bindings__
 
 ```xml
 <!-- To use the Binding as flexible TextId -->
-<TextBlock Text="{Binding MyPropertyAsTextId, Converter={TrTextIdConverter DefaultText='Not localized'}"/>
-<!-- or (for enum for example) -->
-<TextBlock Text="{Binding MyPropertyAsPartOfTextId, Converter={TrTextIdConverter TextIdStringFormat='MyEnum{0}', DefaultText='Not localized'}"/>
+    <TextBlock Text="{Tr {Binding MyPropertyAsTextId}, DefaultText='Not localized'}"/>
+    <!-- or -->
+    <TextBlock Text="{Tr TextId={Binding MyPropertyAsTextId}, DefaultText='Not localized'}"/>
+    <!-- or -->
+    <TextBlock Text="{Binding MyPropertyAsTextId, Converter={TrTextIdConverter DefaultText='Not localized'}"/>
+<!-- With StringFormat of the TextId (for enum for example) -->
+    <TextBlock Text="{Tr {Binding MyPropertyAsPartOfTextId}, TextIdStringFormat='MyEnum{0}'}"/>
+    <!-- or -->
+    <TextBlock Text="{Tr TextId={Binding MyPropertyAsPartOfTextId}, TextIdStringFormat='MyEnum{0}'}"/>
+    <!-- or -->
+    <TextBlock Text="{Binding MyPropertyAsPartOfTextId, Converter={TrTextIdConverter TextIdStringFormat='MyEnum{0}'}"/>
 
 <!-- To use the Binding as flexible LanguageId -->
-<TextBlock Text="{Binding MyPropertyAsLanguageId, Converter={TrLanguageIdConverter TextId='SayHello'}" />
+   <TextBlock Text="{Binding MyPropertyAsLanguageId, Converter={TrLanguageIdConverter TextId='SayHello'}" />
 
 <!-- To use the Binding as a value to inject in the localized text -->
 
-<!-- The translation would be "Hello {0}" or "Bonjour {0}"  -->
-<TextBlock Text="{Binding FirstName, Converter={TrStringFormatConverter TextId='SayHello'}" />
+    <!-- The translation would be "Hello {0}" or "Bonjour {0}"  -->
+    <TextBlock Text="{Tr SayHello, {Binding FirstName}}" />
+    <!-- or -->
+    <TextBlock Text="{Tr SayHello, StringFormatArgBinding={Binding FirstName}}" />
+    <!-- or -->
+    <TextBlock Text="{Binding FirstName, Converter={TrStringFormatConverter TextId='SayHello'}" />
 
 <!-- The translation would be "Hello {0} {1}" or "Bonjour {0} {1}"  -->
-<TextBlock>
-    <TextBlock.Text>
-        <MultiBinding Converter="{TrStringFormatConverter TextId='SayHello'}">
-            <Binding Path="FirstName" />
-            <Binding Path="LastName" />
-        </MultiBinding>
-    </TextBlock.Text>
-</TextBlock>
+    <TextBlock Text="{Tr SayHello, {Binding FirstName}, {Binding LastName}}" />
+    <!-- or -->
+    <TextBlock>
+        <TextBlock.Text>
+            <Tr TextId="SayHello"}">
+	        <Tr.StringFormatArgsBindings>
+                    <Binding Path="FirstName" />
+                    <Binding Path="LastName" />
+		</Tr.StringFormatArgBinding>
+            </Tr>
+        </TextBlock.Text>
+    </TextBlock>
+    <!-- or -->
+    <TextBlock>
+        <TextBlock.Text>
+            <MultiBinding Converter="{TrStringFormatConverter TextId='SayHello'}">
+                <Binding Path="FirstName" />
+                <Binding Path="LastName" />
+            </MultiBinding>
+        </TextBlock.Text>
+    </TextBlock>
 
 ```
 
