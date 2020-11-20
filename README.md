@@ -100,13 +100,13 @@ __To Translate with Bindings__
 <!-- To use the Binding as flexible TextId -->
     <TextBlock Text="{Tr {Binding MyPropertyAsTextId}, DefaultText='Not localized'}"/>
     <!-- or -->
-    <TextBlock Text="{Tr TextId={Binding MyPropertyAsTextId}, DefaultText='Not localized'}"/>
+    <TextBlock Text="{Tr TextIdBinding={Binding MyPropertyAsTextId}, DefaultText='Not localized'}"/>
     <!-- or -->
     <TextBlock Text="{Binding MyPropertyAsTextId, Converter={TrTextIdConverter DefaultText='Not localized'}"/>
 <!-- With StringFormat of the TextId (for enum for example) -->
     <TextBlock Text="{Tr {Binding MyPropertyAsPartOfTextId}, TextIdStringFormat='MyEnum{0}'}"/>
     <!-- or -->
-    <TextBlock Text="{Tr TextId={Binding MyPropertyAsPartOfTextId}, TextIdStringFormat='MyEnum{0}'}"/>
+    <TextBlock Text="{Tr TextIdBinding={Binding MyPropertyAsPartOfTextId}, TextIdStringFormat='MyEnum{0}'}"/>
     <!-- or -->
     <TextBlock Text="{Binding MyPropertyAsPartOfTextId, Converter={TrTextIdConverter TextIdStringFormat='MyEnum{0}'}"/>
 
@@ -152,8 +152,8 @@ __To concatenate some translations__
 <TextBlock>
     <TextBlock.Text>
         <MultiTr>
-            <Tr TextId1 />
-            <Tr TextId2 />
+            <Tr TextId=TextId1 />
+            <Tr TextId=TextId2 />
 	    <!-- ... -->
         </MultiTr>
     </TextBlock.Text>
