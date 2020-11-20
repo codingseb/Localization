@@ -147,6 +147,28 @@ __To Translate with Bindings__
 
 ```
 
+__To concatenate some translations__
+```xml
+<TextBlock>
+    <TextBlock.Text>
+        <MultiTr>
+            <Tr TextId1 />
+            <Tr TextId2 />
+	    <!-- ... -->
+        </MultiTr>
+    </TextBlock.Text>
+</TextBlock>
+<!-- or simpler syntax -->
+<TextBlock Text="{MultiTr {Tr TextId1}, {Tr TextId2}}" />
+<!-- or even simpler -->
+<TextBlock Text="{MultiTr TextId1, TextId2}" />
+
+<!-- To specify the way it concatenate (by default separate by a space) -->
+    <TextBlock Text="{MultiTr TextId1, TextId2, Separator=' - '}" />
+    <!-- or -->
+    <TextBlock Text="{MultiTr TextId1, TextId2, StringFormat='{0}, {1}.'}" />
+```
+
 *Remark : By default the translation made in the XAML are automatically updated when current language changed*
 
 __To Change the current language from the xaml__
