@@ -28,6 +28,12 @@ namespace CodingSeb.Localization.WPF
         public string TextId { get; set; }
 
         /// <summary>
+        /// To Format the Given TextId (useful when binding TextId).
+        /// Default value : "{0}"
+        /// </summary>
+        public string TextIdStringFormat { get; set; } = "{0}";
+
+        /// <summary>
         /// The text to return if no text correspond to textId in the current language
         /// </summary>
         public string DefaultText { get; set; }
@@ -63,7 +69,7 @@ namespace CodingSeb.Localization.WPF
             OnPropertyChanged(nameof(TranslatedText));
         }
 
-        public string TranslatedText => Prefix + Loc.Tr(TextId, DefaultText, LanguageId) + Suffix;
+        public string TranslatedText => Prefix + Loc.Tr(string.Format(TextIdStringFormat, TextId), DefaultText, LanguageId) + Suffix;
 
         public event PropertyChangedEventHandler PropertyChanged;
 

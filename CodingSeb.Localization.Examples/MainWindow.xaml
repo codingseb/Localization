@@ -28,6 +28,8 @@
             </ComboBox>
         </DockPanel>
         <StackPanel>
+            <!--<TextBlock Text="{Tr {Binding Text, ElementName=InputTextBox}, TextIdStringFormat='MyEnum{0}'}" />-->
+
             <StackPanel Orientation="Horizontal" >
                 <StackPanel>
                     <Label x:Name="lblHelloInCurrentLanguageEn" 
@@ -55,16 +57,16 @@
             <TextBlock Text="{Tr Activate}" />
             <Label BorderBrush="Black" 
                        BorderThickness="1" 
-                       Content="{Tr TextId='YouTypedInTheTextBox', StringFormatBinding={Binding Text, ElementName=InputTextBox}}"
+                       Content="{Tr TextId='YouTypedInTheTextBox', StringFormatArgBinding={Binding Text, ElementName=InputTextBox}}"
                        VerticalAlignment="Center" Margin="5,0"/>
             <TextBlock>
                 <TextBlock.Text>
                     <Tr TextId="YouTypedInTheTextBoxAndSelectedInComboBox">
-                        <Tr.StringFormatBindings>
+                        <Tr.StringFormatArgsBindings>
                             <Binding Path="Text" ElementName="InputTextBox" />
                             <Binding Path="SelectedItem" ElementName="TextComboBox" />
                             <Binding Path="Label" Converter="{TrTextIdConverter DefaultText='DefaultText'}" />
-                        </Tr.StringFormatBindings>
+                        </Tr.StringFormatArgsBindings>
                     </Tr>
                 </TextBlock.Text>
             </TextBlock>

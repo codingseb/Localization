@@ -78,7 +78,7 @@ namespace CodingSeb.Localization.WPF
 
         private void ManageArg(List<BindingBase> args)
         {
-            args.ForEach(StringFormatBindings.Add);
+            args.ForEach(StringFormatArgsBindings.Add);
         }
 
         #endregion
@@ -92,6 +92,12 @@ namespace CodingSeb.Localization.WPF
 		/// To Provide a TextId by binding
         /// </summary>
         public BindingBase TextIdBinding { get; set; }
+
+        /// <summary>
+        /// To Format the Given TextId (useful when binding TextId).
+        /// Default value : "{0}"
+        /// </summary>
+        public string TextIdStringFormat { get; set; } = "{0}";
 
         private string defaultText;
         /// <summary>
@@ -146,12 +152,12 @@ namespace CodingSeb.Localization.WPF
         /// <summary>
         /// A Simple binding to inject in the translated text with a string.Format
         /// </summary>
-        public BindingBase StringFormatBinding { get; set; }
+        public BindingBase StringFormatArgBinding { get; set; }
 
         /// <summary>
         /// A collection of bindings to inject in the translated text with a string.Format
         /// </summary>
-        public Collection<BindingBase> StringFormatBindings { get; } = new Collection<BindingBase>();
+        public Collection<BindingBase> StringFormatArgsBindings { get; } = new Collection<BindingBase>();
 
         /// <summary>
         /// Translation In Xaml
@@ -210,6 +216,7 @@ namespace CodingSeb.Localization.WPF
                 TrData trData = new TrData()
                 {
                     TextId = TextId,
+                    TextIdStringFormat = TextIdStringFormat,
                     DefaultText = DefaultText,
                     LanguageId = LanguageId,
                     Prefix = Prefix,
@@ -223,7 +230,7 @@ namespace CodingSeb.Localization.WPF
 
                 SetDependanciesInTrConverterBase(Converter, targetObject, targetProperty);
 
-                if (StringFormatBinding == null && StringFormatBindings.Count == 0 && TextIdBinding == null)
+                if (StringFormatArgBinding == null && StringFormatArgsBindings.Count == 0 && TextIdBinding == null)
                 {
                     if (Converter != null)
                     {
@@ -252,7 +259,7 @@ namespace CodingSeb.Localization.WPF
                         TrConverter = Converter,
                         TrConverterParameter = ConverterParameter,
                         TrConverterCulture = ConverterCulture,
-                        StringFormatBindings = StringFormatBindings ?? new Collection<BindingBase>()
+                        StringFormatBindings = StringFormatArgsBindings ?? new Collection<BindingBase>()
                     };
 
                     MultiBinding multiBinding = new MultiBinding
@@ -276,14 +283,14 @@ namespace CodingSeb.Localization.WPF
 
                     multiBinding.Bindings.Add(binding);
 
-                    if (StringFormatBinding != null)
+                    if (StringFormatArgBinding != null)
                     {
-                        internalConverter.StringFormatBindings.Insert(0, StringFormatBinding);
-                        ManageStringFormatArgs(multiBinding, StringFormatBinding, targetObject, targetProperty);
+                        internalConverter.StringFormatBindings.Insert(0, StringFormatArgBinding);
+                        ManageStringFormatArgs(multiBinding, StringFormatArgBinding, targetObject, targetProperty);
                     }
-                    if (StringFormatBindings.Count > 0)
+                    if (StringFormatArgsBindings.Count > 0)
                     {
-                        StringFormatBindings.ToList().ForEach(binding => ManageStringFormatArgs(multiBinding, binding, targetObject, targetProperty));
+                        StringFormatArgsBindings.ToList().ForEach(binding => ManageStringFormatArgs(multiBinding, binding, targetObject, targetProperty));
                     }
 
                     if (InMultiTr)
