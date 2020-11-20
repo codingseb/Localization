@@ -138,7 +138,7 @@ __To Translate with Bindings__
     <!-- or -->
     <TextBlock>
         <TextBlock.Text>
-            <MultiBinding Converter="{TrStringFormatConverter TextId='SayHello'}">
+            <MultiBinding Converter="{TrStringFormatMultiValuesConverter TextId='SayHello'}">
                 <Binding Path="FirstName" />
                 <Binding Path="LastName" />
             </MultiBinding>
