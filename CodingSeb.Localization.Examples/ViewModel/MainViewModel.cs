@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace CodingSeb.Localization.Examples
@@ -37,5 +38,19 @@ namespace CodingSeb.Localization.Examples
         }
 
         public string Label { get; set; }
+
+        public ObservableCollection<ItemViewModel> Items { get; set; } = new ObservableCollection<ItemViewModel>()
+        {
+            new ItemViewModel()
+            {
+                ContentName="Text:Hello",
+                OtherValue = 1
+            },
+            new ItemViewModel()
+            {
+                ContentName="Text:HowAreYou",
+                OtherValue=2
+            }
+        };
     }
 }

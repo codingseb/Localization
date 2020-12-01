@@ -76,6 +76,17 @@
                 <Border Margin="5,0" BorderThickness="0.5" BorderBrush="Gray" />
                 <TextBlock Text="{MultiTr TheCheckBoxIs, {Binding IsChecked, ElementName=DemoCheckBox, Converter={local:BoolToStringConverter FalseValue=Activated, TrueValue=Deactivated}}, Separator=': '}" />
             </WrapPanel>
+            <ListBox ItemsSource="{Binding Items}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate DataType="ListBoxItem">
+                        <Grid>
+                            <Grid x:Name="GridLevel0">
+                                <TextBlock Text="{Tr {Binding ContentName}, DefaultText='DefaultText'}"/>
+                            </Grid>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </StackPanel>
     </DockPanel>
 </Window>
