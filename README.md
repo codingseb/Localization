@@ -169,7 +169,8 @@ __To concatenate some translations__
     <TextBlock Text="{MultiTr TextId1, TextId2, StringFormat='{0}, {1}.'}" />
 ```
 
-*Remark : By default the translation made in the XAML are automatically updated when current language changed*
+*Remark : By default the translation made in the XAML are automatically updated when current language changed.*  
+*In templates (`DataTemplate`, `ControlTemplate`) Bindings with TrConverters do not update when language change. Prefer to use `Tr` Markup with bindings in templates*
 
 __To Change the current language from the xaml__
 
