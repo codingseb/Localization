@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         d:DataContext="{d:DesignData Type=local:MainViewModel, IsDesignTimeCreatable=False}"
         DataContext="{x:Static local:MainViewModel.Instance}"
-        Title="Localization Examples" Height="400" Width="700">
+        Title="Localization Examples" Height="500" Width="700">
     <DockPanel Margin="10">
         <DockPanel DockPanel.Dock="Top" VerticalAlignment="Top">
             <Label x:Name="lblCurrentLanguage" 
