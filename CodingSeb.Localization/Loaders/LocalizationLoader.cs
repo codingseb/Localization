@@ -97,10 +97,11 @@ namespace CodingSeb.Localization.Loaders
         /// <summary>
         /// Empty All Dictionnaries
         /// </summary>
-        public void ClearAllTranslations()
+        public void ClearAllTranslations(bool clearAlsoAvailableLanguages = false)
         {
             localization.TranslationsDictionary.Clear();
-            localization.AvailableLanguages.Clear();
+            if(clearAlsoAvailableLanguages)
+                localization.AvailableLanguages.Clear();
             localization.MissingTranslations.Clear();
         }
     }

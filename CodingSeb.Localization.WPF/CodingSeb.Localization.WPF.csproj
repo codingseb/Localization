@@ -11,15 +11,10 @@
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <RepositoryUrl>https://github.com/codingseb/Localization</RepositoryUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <AssemblyVersion>1.1.4.0</AssemblyVersion>
-    <FileVersion>1.1.4.0</FileVersion>
-    <Version>1.1.4</Version>
-    <PackageReleaseNotes>* Allow now to use a Converter on the result of a Multi Tr
-* Net core 3.0 -&gt; 3.1
-Add TextIdStringFormat on Tr
-* StringFormatBinding -&gt; StringFormatArgBinding and StringFormatBindings -&gt; StringFormatArgsBindings 
-* Support MultiBindings in StringFormatArgBinding and StringFormatArgsBindings
-* Simpler syntax to write Tr and MultiTr</PackageReleaseNotes>
+    <AssemblyVersion>1.1.5.0</AssemblyVersion>
+    <FileVersion>1.1.5.0</FileVersion>
+    <Version>1.1.5</Version>
+    <PackageReleaseNotes>* For CondingSeb.Localization 1.1.2</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>

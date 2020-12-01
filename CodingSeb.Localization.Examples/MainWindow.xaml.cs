@@ -12,5 +12,11 @@ namespace CodingSeb.Localization.Examples
             InitializeComponent();
             cbLanguageSelection.Focus();
         }
+
+        private void LanguageChangedRefreshButton_Click(object sender, RoutedEventArgs e)
+        {
+            Languages.ReloadFiles();
+            Loc.Instance.RaiseLanguageChangeEvents();
+        }
     }
 }

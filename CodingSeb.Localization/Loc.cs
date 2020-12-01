@@ -29,23 +29,26 @@ namespace CodingSeb.Localization
             get { return currentLanguage; }
             set
             {
-                if (!AvailableLanguages.Contains(value))
+                if (value != null)
                 {
-                    AvailableLanguages.Add(value);
-                }
-
-                if (!currentLanguage.Equals(value))
-                {
-                    CurrentLanguageChangingEventArgs changingArgs = new CurrentLanguageChangingEventArgs(currentLanguage, value);
-                    CurrentLanguageChangedEventArgs changedArgs = new CurrentLanguageChangedEventArgs(currentLanguage, value);
-
-                    CurrentLanguageChanging?.Invoke(this, changingArgs);
-
-                    if (!changingArgs.Cancel)
+                    if (!AvailableLanguages.Contains(value))
                     {
-                        currentLanguage = value;
-                        CurrentLanguageChanged?.Invoke(this, changedArgs);
-                        NotifyPropertyChanged();
+                        AvailableLanguages.Add(value);
+                    }
+
+                    if (!currentLanguage.Equals(value))
+                    {
+                        CurrentLanguageChangingEventArgs changingArgs = new CurrentLanguageChangingEventArgs(currentLanguage, value);
+                        CurrentLanguageChangedEventArgs changedArgs = new CurrentLanguageChangedEventArgs(currentLanguage, value);
+
+                        CurrentLanguageChanging?.Invoke(this, changingArgs);
+
+                        if (!changingArgs.Cancel)
+                        {
+                            currentLanguage = value;
+                            CurrentLanguageChanged?.Invoke(this, changedArgs);
+                            NotifyPropertyChanged();
+                        }
                     }
                 }
             }
@@ -136,6 +139,7 @@ namespace CodingSeb.Localization
             if (!changingArgs.Cancel)
             {
                 CurrentLanguageChanged?.Invoke(this, changedArgs);
+                NotifyPropertyChanged(nameof(CurrentLanguage));
             }
         }
 
@@ -194,7 +198,7 @@ namespace CodingSeb.Localization
             {
                 bool needLogUpdate = false;
 
-                AvailableLanguages.ToList().ForEach(languageId =>
+                AvailableLanguages.Where(al => al != null).ToList().ForEach(languageId =>
                 {
                     if (!Translators.Any(tr => tr.CanTranslate(textId, languageId)))
                     {

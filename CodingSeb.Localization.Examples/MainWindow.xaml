@@ -14,9 +14,13 @@
                    DockPanel.Dock="Left"
                    Margin="0,0,10,0"
                    Content="{Tr 'Current Language'}" />
+            <Button x:Name="LanguageChangedRefreshButton" 
+                    DockPanel.Dock="Right"
+                    Content="Refresh"
+                    Click="LanguageChangedRefreshButton_Click" />
             <ComboBox x:Name="cbLanguageSelection"
                       ItemsSource="{Binding LanguagesManager.AvailableLanguages}" 
-                      SelectedItem="{Binding LanguagesManager.CurrentLanguage}">
+                      SelectedValue="{Binding LanguagesManager.CurrentLanguage}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate DataType="ComboBoxItem">
                         <StackPanel>

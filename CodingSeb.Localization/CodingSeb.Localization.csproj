@@ -10,10 +10,10 @@
     <RepositoryUrl>https://github.com/codingseb/Localization</RepositoryUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
-    <AssemblyVersion>1.1.1.0</AssemblyVersion>
-    <FileVersion>1.1.1.0</FileVersion>
-    <PackageReleaseNotes>Better support for null or Empty TextId</PackageReleaseNotes>
-    <Version>1.1.1</Version>
+    <AssemblyVersion>1.1.2.0</AssemblyVersion>
+    <FileVersion>1.1.2.0</FileVersion>
+    <PackageReleaseNotes>* Add the method RaiseLanguageChangeEvents in Loc to force the update in WPF</PackageReleaseNotes>
+    <Version>1.1.2</Version>
   </PropertyGroup>
 
   <ItemGroup>
