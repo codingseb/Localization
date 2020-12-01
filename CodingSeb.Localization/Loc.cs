@@ -123,6 +123,23 @@ namespace CodingSeb.Localization
         }
 
         /// <summary>
+        /// To Manually raise CurrentLanguageChanging and CurrentLanguageChanged events.
+        /// Force events even if the current language didn't changed.
+        /// </summary>
+        public void RaiseLanguageChangeEvents()
+        {
+            var changingArgs = new CurrentLanguageChangingEventArgs(currentLanguage, currentLanguage);
+            var changedArgs = new CurrentLanguageChangedEventArgs(currentLanguage, currentLanguage);
+
+            CurrentLanguageChanging?.Invoke(this, changingArgs);
+
+            if (!changingArgs.Cancel)
+            {
+                CurrentLanguageChanged?.Invoke(this, changedArgs);
+            }
+        }
+
+        /// <summary>
         /// Translate the given textId in current language.
         /// This method is a shortcut to Instance.Translate
         /// </summary>
@@ -199,7 +216,7 @@ namespace CodingSeb.Localization
 
         /// <summary>
         /// For developpers, for developement and/or debug time.
-        /// Fired to inform some translation are missing. 
+        /// Fired to inform some translation are missing.
         /// LogOutMissingTranslations must be set to true
         /// </summary>
         public event EventHandler<LocalizationMissingTranslationEventArgs> MissingTranslationFound;
