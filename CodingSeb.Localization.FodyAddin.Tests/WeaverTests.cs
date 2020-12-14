@@ -1,5 +1,6 @@
-﻿using CodingSeb.Localization.Fody;
+﻿using CodingSeb.Localization.FodyAddin.Fody;
 using Fody;
+using System;
 using Xunit;
 
 namespace CodingSeb.Localization.FodyAddin.Tests
@@ -17,7 +18,10 @@ namespace CodingSeb.Localization.FodyAddin.Tests
         [Fact]
         public void ValidateThatPropertyWithLocalizeAttributeIsUpdatewhenLanguageChanged()
         {
-            Assert.Equal(1, 1);
+            var type = testResult.Assembly.GetType("CodingSeb.Localization.AssemblyToProcess.LocalizedWithFodyClass");
+            var instance = (dynamic)Activator.CreateInstance(type);
+
+            Assert.Equal("Hello World", instance.World());
         }
     }
 }

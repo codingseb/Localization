@@ -5,30 +5,37 @@ using System.Linq;
 using Fody;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
+using Mono.Collections.Generic;
 
-namespace CodingSeb.Localization.Fody
+namespace CodingSeb.Localization.FodyAddin.Fody
 {
     public class ModuleWeaver : BaseModuleWeaver
     {
+        public MethodReference DebuggerNonUserCodeAttributeConstructor;
+
         public override void Execute()
         {
-            List<string> typeDefinitions = ModuleDefinition.
-                Types
-                .Where(td => td.IsClass)
-                .Select(td => td.Name + ";"+ string.Join(";", td.Properties.Select(p => string.Join(";", p.CustomAttributes.Select(a => a.AttributeType.Name)))))
-                .ToList();
-
             ModuleDefinition
                 .Types
                 .Where(typeDefinition =>
                     typeDefinition.IsClass &&
+                    typeDefinition.IsINotifyPropertyChanged() &&
                     typeDefinition.Properties.Any(property => property.CustomAttributes.Any(attribute => attribute.AttributeType.Name.Equals("LocalizeAttribute"))))
                 .ToList()
                 .ForEach(typeDefinition =>
                 {
-                    int i = 0;
-                    Debug.WriteLine(typeDefinition.Name);
+                    AddHelloWorld(typeDefinition);
                 });
+        }
+
+        void AddHelloWorld(TypeDefinition typeDefinition)
+        {
+            var method = new MethodDefinition("World", MethodAttributes.Public, TypeSystem.StringReference);
+            ILProcessor processor = method.Body.GetILProcessor();
+            var instructions = method.Body.Instructions;
+            processor.Append(Instruction.Create(OpCodes.Ldstr, "Hello World"));
+            processor.Append(Instruction.Create(OpCodes.Ret));
+            typeDefinition.Methods.Add(method);
         }
 
         public override IEnumerable<string> GetAssembliesForScanning()
