@@ -17,6 +17,5 @@
     <ProjectReference Include="..\CodingSeb.Localization.AssemblyToProcess\CodingSeb.Localization.AssemblyToProcess.csproj" />
     <ProjectReference Include="..\CodingSeb.Localization.FodyAddin.Fody\CodingSeb.Localization.FodyAddin.Fody.csproj" />
     <ProjectReference Include="..\CodingSeb.Localization.FodyAddin\CodingSeb.Localization.FodyAddin.csproj" />
-    <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
 </Project>

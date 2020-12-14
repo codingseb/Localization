@@ -3,7 +3,7 @@ using CodingSeb.Localization;
 
 namespace CodingSeb.Localization.AssemblyToProcess
 {
-    public class Class
+    public class LocalizedWithFodyClass
     {
         [Localize]
         public string TestProperty => Loc.Tr("TestLabel");

@@ -12,9 +12,9 @@
     <PackageProjectUrl>https://github.com/codingseb/Localization</PackageProjectUrl>
     <PackageId>CodingSeb.Localization.Fody</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Product>CodingSeb.Localization.Fody</Product>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
+    <AssemblyName>CodingSeb.Localization.FodyAddin</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Fody" Version="6.3.0" PrivateAssets="none" />
