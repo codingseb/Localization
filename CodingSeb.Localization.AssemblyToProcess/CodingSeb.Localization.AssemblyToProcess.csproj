@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
+    <DisableFody>true</DisableFody>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CodingSeb.Localization.FodyAddin\CodingSeb.Localization.FodyAddin.csproj" />
+    <ProjectReference Include="..\CodingSeb.Localization\CodingSeb.Localization.csproj" />
+  </ItemGroup>
+
+</Project>

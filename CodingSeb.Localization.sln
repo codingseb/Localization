@@ -15,9 +15,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodingSeb.Localization.Test
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodingSeb.Localization.Examples", "CodingSeb.Localization.Examples\CodingSeb.Localization.Examples.csproj", "{96A2AE9B-8551-40A1-A232-D3AB89AD7FCB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodingSeb.Localization.YamlFileLoader", "CodingSeb.Localization.YamlFileLoader\CodingSeb.Localization.YamlFileLoader.csproj", "{90162BE2-B255-46C9-B3AE-0B8314A6FCE7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodingSeb.Localization.YamlFileLoader", "CodingSeb.Localization.YamlFileLoader\CodingSeb.Localization.YamlFileLoader.csproj", "{90162BE2-B255-46C9-B3AE-0B8314A6FCE7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodingSeb.Localization.YamlFileLoader.Tests", "CodingSeb.Localization.YamlFileLoader.Tests\CodingSeb.Localization.YamlFileLoader.Tests.csproj", "{476929D3-B80D-406E-A324-BE5BFCA54541}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodingSeb.Localization.YamlFileLoader.Tests", "CodingSeb.Localization.YamlFileLoader.Tests\CodingSeb.Localization.YamlFileLoader.Tests.csproj", "{476929D3-B80D-406E-A324-BE5BFCA54541}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodingSeb.Localization.FodyAddin", "CodingSeb.Localization.FodyAddin\CodingSeb.Localization.FodyAddin.csproj", "{256AF69D-90B0-4A74-B634-EEC2DBDC469A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodingSeb.Localization.FodyAddin.Fody", "CodingSeb.Localization.FodyAddin.Fody\CodingSeb.Localization.FodyAddin.Fody.csproj", "{BA2FB0C3-D76C-4C5C-B163-8EE4D2497394}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodingSeb.Localization.AssemblyToProcess", "CodingSeb.Localization.AssemblyToProcess\CodingSeb.Localization.AssemblyToProcess.csproj", "{05900915-BD84-495D-B6FB-E0C8F662BE0F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodingSeb.Localization.FodyAddin.Tests", "CodingSeb.Localization.FodyAddin.Tests\CodingSeb.Localization.FodyAddin.Tests.csproj", "{20437578-F0F8-4106-87D1-34CD65E69195}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +65,22 @@ Global
 		{476929D3-B80D-406E-A324-BE5BFCA54541}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{476929D3-B80D-406E-A324-BE5BFCA54541}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{476929D3-B80D-406E-A324-BE5BFCA54541}.Release|Any CPU.Build.0 = Release|Any CPU
+		{256AF69D-90B0-4A74-B634-EEC2DBDC469A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{256AF69D-90B0-4A74-B634-EEC2DBDC469A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{256AF69D-90B0-4A74-B634-EEC2DBDC469A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{256AF69D-90B0-4A74-B634-EEC2DBDC469A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA2FB0C3-D76C-4C5C-B163-8EE4D2497394}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA2FB0C3-D76C-4C5C-B163-8EE4D2497394}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA2FB0C3-D76C-4C5C-B163-8EE4D2497394}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA2FB0C3-D76C-4C5C-B163-8EE4D2497394}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05900915-BD84-495D-B6FB-E0C8F662BE0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05900915-BD84-495D-B6FB-E0C8F662BE0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05900915-BD84-495D-B6FB-E0C8F662BE0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05900915-BD84-495D-B6FB-E0C8F662BE0F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20437578-F0F8-4106-87D1-34CD65E69195}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20437578-F0F8-4106-87D1-34CD65E69195}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20437578-F0F8-4106-87D1-34CD65E69195}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20437578-F0F8-4106-87D1-34CD65E69195}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
