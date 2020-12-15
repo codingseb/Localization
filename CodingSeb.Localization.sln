@@ -25,7 +25,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodingSeb.Localization.Fody
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodingSeb.Localization.AssemblyToProcess", "CodingSeb.Localization.AssemblyToProcess\CodingSeb.Localization.AssemblyToProcess.csproj", "{05900915-BD84-495D-B6FB-E0C8F662BE0F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodingSeb.Localization.FodyAddin.Tests", "CodingSeb.Localization.FodyAddin.Tests\CodingSeb.Localization.FodyAddin.Tests.csproj", "{20437578-F0F8-4106-87D1-34CD65E69195}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodingSeb.Localization.FodyAddin.Tests", "CodingSeb.Localization.FodyAddin.Tests\CodingSeb.Localization.FodyAddin.Tests.csproj", "{20437578-F0F8-4106-87D1-34CD65E69195}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodingSeb.Localization.FodyAddin.WantedResult", "CodingSeb.Localization.FodyAddin.WantedResult\CodingSeb.Localization.FodyAddin.WantedResult.csproj", "{0953B24E-86C7-4DEC-886D-10EA81559693}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,6 +83,10 @@ Global
 		{20437578-F0F8-4106-87D1-34CD65E69195}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{20437578-F0F8-4106-87D1-34CD65E69195}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{20437578-F0F8-4106-87D1-34CD65E69195}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0953B24E-86C7-4DEC-886D-10EA81559693}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0953B24E-86C7-4DEC-886D-10EA81559693}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0953B24E-86C7-4DEC-886D-10EA81559693}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0953B24E-86C7-4DEC-886D-10EA81559693}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
