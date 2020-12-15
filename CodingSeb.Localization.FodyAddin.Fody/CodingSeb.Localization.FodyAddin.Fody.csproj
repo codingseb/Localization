@@ -6,4 +6,7 @@
   <ItemGroup>
     <PackageReference Include="FodyHelpers" Version="6.3.0" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CodingSeb.Localization\CodingSeb.Localization.csproj" />
+  </ItemGroup>
 </Project>

@@ -25,15 +25,17 @@ namespace CodingSeb.Localization.FodyAddin.Tests
             var type = testResult.Assembly.GetType("CodingSeb.Localization.AssemblyToProcess.LocalizedWithFodyClass");
 
             FieldInfo propertyNamesField = type.GetField("__localizedPropertyNames__", BindingFlags.NonPublic | BindingFlags.Static);
+            MethodInfo languageChangedMethod = type.GetMethod("__CurrentLanguageChanged__", BindingFlags.NonPublic | BindingFlags.Instance);
 
             Assert.NotNull(propertyNamesField);
+            Assert.NotNull(languageChangedMethod);
 
             var instance = (dynamic)Activator.CreateInstance(type);
 
             List<string> listOfPropertyNames = propertyNamesField.GetValue(instance) as List<string>;
 
             Assert.NotNull(listOfPropertyNames);
-            Assert.Contains("TestPropertya", listOfPropertyNames);
+            Assert.Contains("TestProperty", listOfPropertyNames);
 
             INotifyPropertyChanged notifyPropertyChanged = instance as INotifyPropertyChanged;
 
@@ -46,9 +48,13 @@ namespace CodingSeb.Localization.FodyAddin.Tests
 
             notifyPropertyChanged.PropertyChanged += NotifyPropertyChanged_PropertyChanged;
 
+            languageChangedMethod.Invoke(instance, new object[] { Loc.Instance, new CurrentLanguageChangedEventArgs("en", "fr") });
+            Assert.Equal("TestProperty", propertyName);
+
+            propertyName = string.Empty;
+
             notifyPropertyChanged.PropertyChanged -= NotifyPropertyChanged_PropertyChanged;
 
-            //Assert.Equal("TestProperty" ,propertyName);
         }
     }
 }

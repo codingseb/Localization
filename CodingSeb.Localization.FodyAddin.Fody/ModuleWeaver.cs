@@ -39,10 +39,29 @@ namespace CodingSeb.Localization.FodyAddin.Fody
 
             FieldDefinition propertyListFieldDefinition = AddLocalizedPropertyNamesStaticList(typeDefinition, propertyToLocalize.Select(p => p.Name));
 
+            MethodDefinition triggerPropertyChangedMethod = typeDefinition.FindPropertyChangedTriggerMethod();
+
+            if (triggerPropertyChangedMethod == null)
+            {
+                triggerPropertyChangedMethod = new MethodDefinition("__NotifyPropertyChanged__", MethodAttributes.Private, TypeSystem.VoidReference);
+                triggerPropertyChangedMethod.Parameters.Add(new ParameterDefinition("propertyName", ParameterAttributes.None, ModuleDefinition.ImportReference(typeof(string))));
+                typeDefinition.Methods.Add(triggerPropertyChangedMethod);
+
+                // TODO
+            }
+
             var method = new MethodDefinition("__CurrentLanguageChanged__", MethodAttributes.Private, TypeSystem.VoidReference);
+            method.Parameters.Add(new ParameterDefinition("sender", ParameterAttributes.None, TypeSystem.ObjectReference));
+            method.Parameters.Add(new ParameterDefinition("e", ParameterAttributes.None, ModuleDefinition.ImportReference(typeof(CurrentLanguageChangedEventArgs))));
             ILProcessor processor = method.Body.GetILProcessor();
-            processor.Append(Instruction.Create(OpCodes.Ldstr, "Hello World"));
-            processor.Append(Instruction.Create(OpCodes.Ret));
+            processor.Emit(OpCodes.Nop);
+            processor.Emit(OpCodes.Ldsfld, propertyListFieldDefinition);
+            processor.Emit(OpCodes.Ldarg_0);
+            processor.Emit(OpCodes.Ldftn, triggerPropertyChangedMethod);
+            processor.Emit(OpCodes.Newobj, ModuleDefinition.ImportReference(typeof(Action<string>).GetConstructors().First()));
+            processor.Emit(OpCodes.Callvirt, ModuleDefinition.ImportReference(typeof(List<string>).GetMethod("ForEach", new Type[] { typeof(Action<string>) })));
+            processor.Emit(OpCodes.Nop);
+            processor.Emit(OpCodes.Ret);
             typeDefinition.Methods.Add(method);
         }
 
@@ -56,35 +75,35 @@ namespace CodingSeb.Localization.FodyAddin.Fody
 
             typeDefinition.Fields.Add(field);
 
-            MethodDefinition staticConstructor = GetOrCreateStaticConstructor(typeDefinition);
+            MethodDefinition staticConstructor = typeDefinition.GetStaticConstructor();
 
-            var il = staticConstructor.Body.GetILProcessor();
-
-            if (il.Body.Instructions.LastOrDefault(i => i.OpCode == OpCodes.Ret) is Instruction instruction)
+            if (staticConstructor == null)
             {
-                il.Remove(instruction);
+                staticConstructor = new MethodDefinition(".cctor", staticConstructorAttributes, TypeSystem.VoidReference);
+                typeDefinition.Methods.Add(staticConstructor);
             }
 
-            il.Emit(OpCodes.Newobj, constructorOnStringList);
+            var instructions = staticConstructor.Body.Instructions;
 
-            //propertiesNames.ToList().ForEach(propertyName =>
-            //{
-            //    instructions.Add(Instruction.Create(OpCodes.Dup));
-            //    instructions.Add(Instruction.Create(OpCodes.Ldstr, propertyName));
-            //    instructions.Add(Instruction.Create(OpCodes.Callvirt, addMethodOnStringList));
-            //});
+            if (instructions.LastOrDefault(i => i.OpCode == OpCodes.Ret) is Instruction instruction)
+            {
+                instructions.Remove(instruction);
+            }
 
-            il.Emit(OpCodes.Stsfld, field);
+            instructions.Add(Instruction.Create(OpCodes.Newobj, constructorOnStringList));
 
-            il.Emit(OpCodes.Ret);
+            propertiesNames.ToList().ForEach(propertyName =>
+            {
+                instructions.Add(Instruction.Create(OpCodes.Dup));
+                instructions.Add(Instruction.Create(OpCodes.Ldstr, propertyName));
+                instructions.Add(Instruction.Create(OpCodes.Callvirt, addMethodOnStringList));
+            });
+
+            instructions.Add(Instruction.Create(OpCodes.Stsfld, field));
+
+            instructions.Add(Instruction.Create(OpCodes.Ret));
 
             return field;
-        }
-
-        public MethodDefinition GetOrCreateStaticConstructor(TypeDefinition typeDefinition)
-        {
-            return typeDefinition.GetStaticConstructor() ??
-                new MethodDefinition(".cctor", staticConstructorAttributes, TypeSystem.VoidReference);
         }
 
         public override IEnumerable<string> GetAssembliesForScanning()
