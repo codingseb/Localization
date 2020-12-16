@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using Fody;
+﻿using Fody;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
 using Mono.Cecil.Rocks;
-using Mono.Collections.Generic;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
 
 namespace CodingSeb.Localization.FodyAddin.Fody
 {
     public class ModuleWeaver : BaseModuleWeaver
     {
-        public MethodReference DebuggerNonUserCodeAttributeConstructor;
+        #region Attibutes
 
         private const MethodAttributes staticConstructorAttributes =
             MethodAttributes.Private |
@@ -20,6 +19,8 @@ namespace CodingSeb.Localization.FodyAddin.Fody
             MethodAttributes.Static |
             MethodAttributes.SpecialName |
             MethodAttributes.RTSpecialName;
+
+        #endregion
 
         public override void Execute()
         {
@@ -37,19 +38,53 @@ namespace CodingSeb.Localization.FodyAddin.Fody
         {
             IEnumerable<PropertyDefinition> propertyToLocalize = typeDefinition.Properties.Where(property => property.HasLocalizeAttribute());
 
-            FieldDefinition propertyListFieldDefinition = AddLocalizedPropertyNamesStaticList(typeDefinition, propertyToLocalize.Select(p => p.Name));
+            var propertyListFieldDefinition = AddLocalizedPropertyNamesStaticList(typeDefinition, propertyToLocalize.Select(p => p.Name));
 
-            MethodDefinition triggerPropertyChangedMethod = typeDefinition.FindPropertyChangedTriggerMethod();
+            var triggerPropertyChangedMethod = typeDefinition.FindPropertyChangedTriggerMethod();
 
-            if (triggerPropertyChangedMethod == null)
+            var currentLanguageChangedMethod = AddCurrentLanguageChangedMethod(typeDefinition, propertyListFieldDefinition, triggerPropertyChangedMethod);
+
+            List<MethodDefinition> exclusiveAlwaysCalledConstructors = typeDefinition.GetConstructors().Where(constructor =>
             {
-                triggerPropertyChangedMethod = new MethodDefinition("__NotifyPropertyChanged__", MethodAttributes.Private, TypeSystem.VoidReference);
-                triggerPropertyChangedMethod.Parameters.Add(new ParameterDefinition("propertyName", ParameterAttributes.None, ModuleDefinition.ImportReference(typeof(string))));
-                typeDefinition.Methods.Add(triggerPropertyChangedMethod);
+                return constructor.Body.Instructions.Count > 2 &&
+                    constructor.Body.Instructions[1].OpCode == OpCodes.Call &&
+                    constructor.Body.Instructions[1].Operand is MethodReference methodReference &&
+                    methodReference.DeclaringType != typeDefinition;
+            }).ToList();
 
-                // TODO
-            }
+            var weakEventManagerType = ModuleDefinition.ImportReference(FindTypeDefinition("System.Windows.WeakEventManager`2"));
+            var locType = ModuleDefinition.ImportReference(FindTypeDefinition("CodingSeb.Localization.Loc"));
+            var currentLanguageChangedEventArgsType = ModuleDefinition.ImportReference(FindTypeDefinition("CodingSeb.Localization.CurrentLanguageChangedEventArgs"));
+            var genericEventManagerType = ModuleDefinition.ImportReference(weakEventManagerType.MakeGenericInstanceType(locType, currentLanguageChangedEventArgsType));
+            //var resolvedEventManagerType = ModuleDefinition.ImportReference(genericEventManagerType.Resolve());
+            var addHandlerMethod = ModuleDefinition.ImportReference(genericEventManagerType.Resolve().Methods.FirstOrDefault(m => m.Name.Equals("AddHandler")));
+            var genericAddHandlerMethod = ModuleDefinition.ImportReference(addHandlerMethod.MakeHostInstanceGeneric(locType, currentLanguageChangedEventArgsType));
 
+            var tempMethod = typeDefinition.Methods.FirstOrDefault(m => m.Name.Equals("MyMethod"));
+
+            //exclusiveAlwaysCalledConstructors.ForEach(constructor =>
+            //{
+            //    var instructions = constructor.Body.Instructions;
+
+            //    if (instructions.LastOrDefault(i => i.OpCode == OpCodes.Ret) is Instruction instruction)
+            //    {
+            //        instructions.Remove(instruction);
+            //    }
+
+            //    instructions.Add(Instruction.Create(OpCodes.Nop));
+            //    instructions.Add(Instruction.Create(OpCodes.Call, ModuleDefinition.ImportReference(typeof(Loc).GetProperty("Instance").GetGetMethod())));
+            //    instructions.Add(Instruction.Create(OpCodes.Ldstr, "CurrentLanguageChanged"));
+            //    instructions.Add(Instruction.Create(OpCodes.Ldarg_0));
+            //    instructions.Add(Instruction.Create(OpCodes.Ldftn, currentLanguageChangedMethod));
+            //    instructions.Add(Instruction.Create(OpCodes.Newobj, ModuleDefinition.ImportReference(typeof(CurrentLanguageChangedEventArgs).GetConstructors()[0])));
+            //    instructions.Add(Instruction.Create(OpCodes.Call, genericAddHandlerMethod));
+            //    instructions.Add(Instruction.Create(OpCodes.Nop));
+            //    instructions.Add(Instruction.Create(OpCodes.Ret));
+            //});
+        }
+
+        private MethodDefinition AddCurrentLanguageChangedMethod(TypeDefinition typeDefinition, FieldDefinition propertyListFieldDefinition,  MethodDefinition triggerPropertyChangedMethod)
+        {
             var method = new MethodDefinition("__CurrentLanguageChanged__", MethodAttributes.Private, TypeSystem.VoidReference);
             method.Parameters.Add(new ParameterDefinition("sender", ParameterAttributes.None, TypeSystem.ObjectReference));
             method.Parameters.Add(new ParameterDefinition("e", ParameterAttributes.None, ModuleDefinition.ImportReference(typeof(CurrentLanguageChangedEventArgs))));
@@ -58,14 +93,15 @@ namespace CodingSeb.Localization.FodyAddin.Fody
             processor.Emit(OpCodes.Ldsfld, propertyListFieldDefinition);
             processor.Emit(OpCodes.Ldarg_0);
             processor.Emit(OpCodes.Ldftn, triggerPropertyChangedMethod);
-            processor.Emit(OpCodes.Newobj, ModuleDefinition.ImportReference(typeof(Action<string>).GetConstructors().First()));
+            processor.Emit(OpCodes.Newobj, ModuleDefinition.ImportReference(typeof(Action<string>).GetConstructors()[0]));
             processor.Emit(OpCodes.Callvirt, ModuleDefinition.ImportReference(typeof(List<string>).GetMethod("ForEach", new Type[] { typeof(Action<string>) })));
             processor.Emit(OpCodes.Nop);
             processor.Emit(OpCodes.Ret);
             typeDefinition.Methods.Add(method);
+            return method;
         }
 
-        public FieldDefinition AddLocalizedPropertyNamesStaticList(TypeDefinition typeDefinition, IEnumerable<string> propertiesNames)
+        private FieldDefinition AddLocalizedPropertyNamesStaticList(TypeDefinition typeDefinition, IEnumerable<string> propertiesNames)
         {
             TypeReference listOfStringTypeReference = ModuleDefinition.ImportReference(typeof(List<string>));
             FieldDefinition field = new FieldDefinition("__localizedPropertyNames__", FieldAttributes.Private | FieldAttributes.Static, listOfStringTypeReference);
@@ -99,6 +135,7 @@ namespace CodingSeb.Localization.FodyAddin.Fody
                 instructions.Add(Instruction.Create(OpCodes.Callvirt, addMethodOnStringList));
             });
 
+            instructions.Add(Instruction.Create(OpCodes.Nop));
             instructions.Add(Instruction.Create(OpCodes.Stsfld, field));
 
             instructions.Add(Instruction.Create(OpCodes.Ret));
@@ -110,6 +147,12 @@ namespace CodingSeb.Localization.FodyAddin.Fody
         {
             yield return "netstandard";
             yield return "mscorlib";
+            yield return "System.Runtime";
+            yield return "System.Core";
+            yield return "netstandard";
+            yield return "System.Collections";
+            yield return "System.ObjectModel";
+            yield return "System.Threading";
             yield return "WindowsBase";
             yield return "CodingSeb.Localization";
         }

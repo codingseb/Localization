@@ -1,7 +1,5 @@
-﻿using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using CodingSeb.Localization;
+﻿using System.Diagnostics;
+using System.Windows;
 
 namespace CodingSeb.Localization.AssemblyToProcess
 {
@@ -9,5 +7,11 @@ namespace CodingSeb.Localization.AssemblyToProcess
     {
         [Localize]
         public string TestProperty => Loc.Tr("TestLabel");
+
+        static LocalizedWithFodyClass()
+        {
+            Debug.WriteLine("Hello");
+        }
+
     }
 }

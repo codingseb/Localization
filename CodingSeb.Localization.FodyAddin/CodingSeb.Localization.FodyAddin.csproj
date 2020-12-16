@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>CodingSeb</Authors>
     <Copyright>Copyright © Coding Seb 2020</Copyright>
     <Description>Inject the code that generate PropertyChanged event on property that has the attribute 'Localize' when the Language of the Localization changed</Description>

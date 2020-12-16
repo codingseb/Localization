@@ -11,7 +11,6 @@ namespace CodingSeb.Localization.FodyAddin.WantedResult
         private static readonly List<string> __localizedPropertyNames__ = new List<string>()
         {
             "TestProperty",
-            "OtherProperty"
         };
 
         public DirectResult()

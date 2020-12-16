@@ -1,11 +1,8 @@
-﻿using System;
+﻿using Mono.Cecil;
+using Mono.Cecil.Rocks;
+using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using Fody;
-using Mono.Cecil;
-using Mono.Cecil.Cil;
-using Mono.Collections.Generic;
 
 namespace CodingSeb.Localization.FodyAddin.Fody
 {
@@ -56,6 +53,31 @@ namespace CodingSeb.Localization.FodyAddin.Fody
         public static bool HasLocalizeAttribute(this PropertyDefinition propertyDefinition)
         {
             return propertyDefinition.CustomAttributes.Any(attribute => attribute.AttributeType.Name.Equals("LocalizeAttribute"));
+        }
+
+        public static MethodReference MakeHostInstanceGeneric(this MethodReference self, params TypeReference[] args)
+        {
+            var reference = new MethodReference(
+                self.Name,
+                self.ReturnType,
+                self.DeclaringType.MakeGenericInstanceType(args))
+            {
+                HasThis = self.HasThis,
+                ExplicitThis = self.ExplicitThis,
+                CallingConvention = self.CallingConvention
+            };
+
+            foreach (var parameter in self.Parameters)
+            {
+                reference.Parameters.Add(new ParameterDefinition(parameter.ParameterType));
+            }
+
+            foreach (var genericParam in self.GenericParameters)
+            {
+                reference.GenericParameters.Add(new GenericParameter(genericParam.Name, reference));
+            }
+
+            return reference;
         }
     }
 }

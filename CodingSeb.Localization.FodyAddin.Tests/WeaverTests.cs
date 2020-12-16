@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using Xunit;
 
 namespace CodingSeb.Localization.FodyAddin.Tests
@@ -53,8 +52,11 @@ namespace CodingSeb.Localization.FodyAddin.Tests
 
             propertyName = string.Empty;
 
-            notifyPropertyChanged.PropertyChanged -= NotifyPropertyChanged_PropertyChanged;
+            Loc.Instance.CurrentLanguage = "es";
 
+            Assert.Equal("TestProperty", propertyName);
+
+            notifyPropertyChanged.PropertyChanged -= NotifyPropertyChanged_PropertyChanged;
         }
     }
 }
