@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;net452</TargetFrameworks>
     <Authors>CodingSeb</Authors>
     <Copyright>Copyright © Coding Seb 2020</Copyright>
     <Description>Inject the code that generate PropertyChanged event on property that has the attribute 'Localize' when the Language of the Localization changed</Description>
@@ -10,7 +10,7 @@
     <PackageTags>Localization, Fody</PackageTags>
     <PackageOutputPath>$(SolutionDir)../nugets</PackageOutputPath>
     <PackageProjectUrl>https://github.com/codingseb/Localization</PackageProjectUrl>
-    <PackageId>CodingSeb.Localization.Fody</PackageId>
+    <PackageId>CodingSebLocalization.Fody</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
@@ -21,7 +21,6 @@
     <PackageReference Include="FodyPackaging" Version="6.3.0" PrivateAssets="All" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CodingSeb.Localization.FodyAddin.Fody\CodingSeb.Localization.FodyAddin.Fody.csproj" />
     <ProjectReference Include="..\CodingSeb.Localization\CodingSeb.Localization.csproj" />
   </ItemGroup>
 </Project>

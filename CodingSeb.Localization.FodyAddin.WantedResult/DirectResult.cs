@@ -18,6 +18,11 @@ namespace CodingSeb.Localization.FodyAddin.WantedResult
             WeakEventManager<Loc, CurrentLanguageChangedEventArgs>.AddHandler(Loc.Instance, nameof(Loc.Instance.CurrentLanguageChanged), __CurrentLanguageChanged__);
         }
 
+        ~DirectResult()
+        {
+            WeakEventManager<Loc, CurrentLanguageChangedEventArgs>.RemoveHandler(Loc.Instance, nameof(Loc.Instance.CurrentLanguageChanged), __CurrentLanguageChanged__);
+        }
+
         protected void __CurrentLanguageChanged__(object sender, CurrentLanguageChangedEventArgs e)
         {
             __localizedPropertyNames__.ForEach(__NotifyPropertyChanged__);

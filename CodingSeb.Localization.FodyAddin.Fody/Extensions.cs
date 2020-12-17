@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace CodingSeb.Localization.FodyAddin.Fody
 {
-    public static class FodyExtensions
+    internal static class Extensions
     {
         private static readonly List<string> propertyChangedTriggerMethodCommonNames = new List<string>()
         {
@@ -48,6 +48,12 @@ namespace CodingSeb.Localization.FodyAddin.Fody
                 return parentTypeDefinition.FindPropertyChangedTriggerMethod();
             else
                 return null;
+        }
+
+        public static MethodDefinition FindNearestFinalizeParentMethod(this TypeDefinition typeDefinition)
+        {
+            return typeDefinition.Methods.FirstOrDefault(m => m.Name.Equals("Finalize"))
+                ?? typeDefinition.BaseType.Resolve().FindNearestFinalizeParentMethod();
         }
 
         public static bool HasLocalizeAttribute(this PropertyDefinition propertyDefinition)

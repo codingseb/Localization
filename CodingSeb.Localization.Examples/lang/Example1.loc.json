@@ -83,5 +83,10 @@
     "en": "The checkbox is",
     "es": "La casilla de verificación es",
     "fr": "La case à cochée est"
+  },
+  "ANiceText": {
+    "en": "A nice text",
+    "fr": "Un texte sympa",
+    "es": "Un buen texto"
   }
 }
