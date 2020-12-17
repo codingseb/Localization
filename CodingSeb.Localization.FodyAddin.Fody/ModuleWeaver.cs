@@ -11,7 +11,7 @@ namespace CodingSeb.Localization.FodyAddin.Fody
 {
     public class ModuleWeaver : BaseModuleWeaver
     {
-        #region Attibutes
+        #region atrributes and references
 
         private const MethodAttributes staticConstructorAttributes =
             MethodAttributes.Private |
@@ -20,10 +20,19 @@ namespace CodingSeb.Localization.FodyAddin.Fody
             MethodAttributes.SpecialName |
             MethodAttributes.RTSpecialName;
 
+        private TypeReference weakEventManagerType;
+        private TypeReference locType;
+        private TypeReference currentLanguageChangedEventArgsType;
+        private TypeReference genericEventManagerType;
+        private MethodReference addHandlerMethod;
+        private MethodReference genericAddHandlerMethod;
+
         #endregion
 
         public override void Execute()
         {
+            InitReferences();
+
             ModuleDefinition
                 .Types
                 .Where(typeDefinition =>
@@ -32,6 +41,16 @@ namespace CodingSeb.Localization.FodyAddin.Fody
                     typeDefinition.Properties.Any(property => property.HasLocalizeAttribute()))
                 .ToList()
                 .ForEach(AddCurrentLanguageChangedSensitivity);
+        }
+
+        private void InitReferences()
+        {
+            weakEventManagerType = ModuleDefinition.ImportReference(FindTypeDefinition("System.Windows.WeakEventManager`2"));
+            locType = ModuleDefinition.ImportReference(FindTypeDefinition("CodingSeb.Localization.Loc"));
+            currentLanguageChangedEventArgsType = ModuleDefinition.ImportReference(FindTypeDefinition("CodingSeb.Localization.CurrentLanguageChangedEventArgs"));
+            genericEventManagerType = ModuleDefinition.ImportReference(weakEventManagerType.MakeGenericInstanceType(locType, currentLanguageChangedEventArgsType));
+            addHandlerMethod = ModuleDefinition.ImportReference(genericEventManagerType.Resolve().Methods.FirstOrDefault(m => m.Name.Equals("AddHandler")));
+            genericAddHandlerMethod = ModuleDefinition.ImportReference(addHandlerMethod.MakeHostInstanceGeneric(locType, currentLanguageChangedEventArgsType));
         }
 
         private void AddCurrentLanguageChangedSensitivity(TypeDefinition typeDefinition)
@@ -46,41 +65,32 @@ namespace CodingSeb.Localization.FodyAddin.Fody
 
             List<MethodDefinition> exclusiveAlwaysCalledConstructors = typeDefinition.GetConstructors().Where(constructor =>
             {
-                return constructor.Body.Instructions.Count > 2 &&
+                return !constructor.IsStatic &&
+                    constructor.Body.Instructions.Count > 2 &&
                     constructor.Body.Instructions[1].OpCode == OpCodes.Call &&
                     constructor.Body.Instructions[1].Operand is MethodReference methodReference &&
                     methodReference.DeclaringType != typeDefinition;
             }).ToList();
 
-            var weakEventManagerType = ModuleDefinition.ImportReference(FindTypeDefinition("System.Windows.WeakEventManager`2"));
-            var locType = ModuleDefinition.ImportReference(FindTypeDefinition("CodingSeb.Localization.Loc"));
-            var currentLanguageChangedEventArgsType = ModuleDefinition.ImportReference(FindTypeDefinition("CodingSeb.Localization.CurrentLanguageChangedEventArgs"));
-            var genericEventManagerType = ModuleDefinition.ImportReference(weakEventManagerType.MakeGenericInstanceType(locType, currentLanguageChangedEventArgsType));
-            //var resolvedEventManagerType = ModuleDefinition.ImportReference(genericEventManagerType.Resolve());
-            var addHandlerMethod = ModuleDefinition.ImportReference(genericEventManagerType.Resolve().Methods.FirstOrDefault(m => m.Name.Equals("AddHandler")));
-            var genericAddHandlerMethod = ModuleDefinition.ImportReference(addHandlerMethod.MakeHostInstanceGeneric(locType, currentLanguageChangedEventArgsType));
+            exclusiveAlwaysCalledConstructors.ForEach(constructor =>
+            {
+                var instructions = constructor.Body.Instructions;
 
-            var tempMethod = typeDefinition.Methods.FirstOrDefault(m => m.Name.Equals("MyMethod"));
+                if (instructions.LastOrDefault(i => i.OpCode == OpCodes.Ret) is Instruction instruction)
+                {
+                    instructions.Remove(instruction);
+                }
 
-            //exclusiveAlwaysCalledConstructors.ForEach(constructor =>
-            //{
-            //    var instructions = constructor.Body.Instructions;
-
-            //    if (instructions.LastOrDefault(i => i.OpCode == OpCodes.Ret) is Instruction instruction)
-            //    {
-            //        instructions.Remove(instruction);
-            //    }
-
-            //    instructions.Add(Instruction.Create(OpCodes.Nop));
-            //    instructions.Add(Instruction.Create(OpCodes.Call, ModuleDefinition.ImportReference(typeof(Loc).GetProperty("Instance").GetGetMethod())));
-            //    instructions.Add(Instruction.Create(OpCodes.Ldstr, "CurrentLanguageChanged"));
-            //    instructions.Add(Instruction.Create(OpCodes.Ldarg_0));
-            //    instructions.Add(Instruction.Create(OpCodes.Ldftn, currentLanguageChangedMethod));
-            //    instructions.Add(Instruction.Create(OpCodes.Newobj, ModuleDefinition.ImportReference(typeof(CurrentLanguageChangedEventArgs).GetConstructors()[0])));
-            //    instructions.Add(Instruction.Create(OpCodes.Call, genericAddHandlerMethod));
-            //    instructions.Add(Instruction.Create(OpCodes.Nop));
-            //    instructions.Add(Instruction.Create(OpCodes.Ret));
-            //});
+                instructions.Add(Instruction.Create(OpCodes.Nop));
+                instructions.Add(Instruction.Create(OpCodes.Call, ModuleDefinition.ImportReference(typeof(Loc).GetProperty("Instance").GetGetMethod())));
+                instructions.Add(Instruction.Create(OpCodes.Ldstr, "CurrentLanguageChanged"));
+                instructions.Add(Instruction.Create(OpCodes.Ldarg_0));
+                instructions.Add(Instruction.Create(OpCodes.Ldftn, currentLanguageChangedMethod));
+                instructions.Add(Instruction.Create(OpCodes.Newobj, ModuleDefinition.ImportReference(typeof(EventHandler<CurrentLanguageChangedEventArgs>).GetConstructors()[0])));
+                instructions.Add(Instruction.Create(OpCodes.Call, genericAddHandlerMethod));
+                instructions.Add(Instruction.Create(OpCodes.Nop));
+                instructions.Add(Instruction.Create(OpCodes.Ret));
+            });
         }
 
         private MethodDefinition AddCurrentLanguageChangedMethod(TypeDefinition typeDefinition, FieldDefinition propertyListFieldDefinition,  MethodDefinition triggerPropertyChangedMethod)

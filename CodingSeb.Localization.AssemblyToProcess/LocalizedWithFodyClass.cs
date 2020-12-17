@@ -7,11 +7,5 @@ namespace CodingSeb.Localization.AssemblyToProcess
     {
         [Localize]
         public string TestProperty => Loc.Tr("TestLabel");
-
-        static LocalizedWithFodyClass()
-        {
-            Debug.WriteLine("Hello");
-        }
-
     }
 }
