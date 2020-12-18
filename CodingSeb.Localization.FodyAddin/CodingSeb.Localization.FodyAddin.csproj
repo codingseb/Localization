@@ -8,13 +8,14 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <!-- PackageTags are optional. Defaults to 'ILWeaving, Fody, Cecil, AOP' -->
     <PackageTags>Localization, Fody</PackageTags>
-    <PackageOutputPath>$(SolutionDir)../nugets</PackageOutputPath>
+    <PackageOutputPath>$(SolutionDir)/FodyNuget</PackageOutputPath>
     <PackageProjectUrl>https://github.com/codingseb/Localization</PackageProjectUrl>
     <PackageId>CodingSebLocalization.Fody</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
     <AssemblyName>CodingSeb.Localization.FodyAddin</AssemblyName>
+    <RootNamespace>CodingSeb.Localization</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Fody" Version="6.3.0" PrivateAssets="none" />
