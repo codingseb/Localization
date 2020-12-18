@@ -91,6 +91,7 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
+            <TextBlock Text="{Binding AutoTranslation}" />
         </StackPanel>
     </DockPanel>
 </Window>

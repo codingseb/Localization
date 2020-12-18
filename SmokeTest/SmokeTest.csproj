@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <TargetFrameworks>netcoreapp3.1;net472</TargetFrameworks>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Fody" Version="6.3.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <WeaverFiles Include="$(SolutionDir)\CodingSeb.Localization.FodyAddin.Fody\bin\$(Configuration)\netstandard2.0\CodingSebLocalization.Fody.dll" />
+    <ProjectReference Include="..\CodingSeb.Localization.FodyAddin\CodingSeb.Localization.FodyAddin.csproj" />
+  </ItemGroup>
+
+</Project>

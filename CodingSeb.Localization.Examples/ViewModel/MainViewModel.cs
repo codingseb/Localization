@@ -37,7 +37,8 @@ namespace CodingSeb.Localization.Examples
             }
         }
 
-        public string AutoTranslation => Loc.Tr("ANiceText");
+        [Localize("ANiceText")]
+        public string AutoTranslation { get; set; }
 
         public string Label { get; set; }
 

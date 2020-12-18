@@ -11,6 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CodingSeb.Localization.FodyAddin\CodingSeb.Localization.FodyAddin.csproj" />
+    <WeaverFiles Include="$(SolutionDir)\CodingSeb.Localization.FodyAddin.Fody\bin\$(Configuration)\netstandard2.0\CodingSebLocalization.Fody.dll" />
     <ProjectReference Include="..\CodingSeb.Localization.JsonFileLoader\CodingSeb.Localization.JsonFileLoader.csproj" />
     <ProjectReference Include="..\CodingSeb.Localization.WPF\CodingSeb.Localization.WPF.csproj" />
   </ItemGroup>

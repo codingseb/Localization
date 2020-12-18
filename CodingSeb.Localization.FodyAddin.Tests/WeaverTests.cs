@@ -29,7 +29,7 @@ namespace CodingSeb.Localization.FodyAddin.Tests
             Assert.NotNull(propertyNamesField);
             Assert.NotNull(languageChangedMethod);
 
-            var instance = (dynamic)Activator.CreateInstance(type);
+            var instance = (dynamic)Activator.CreateInstance(type, true);
 
             List<string> listOfPropertyNames = propertyNamesField.GetValue(instance) as List<string>;
 
@@ -38,23 +38,28 @@ namespace CodingSeb.Localization.FodyAddin.Tests
 
             INotifyPropertyChanged notifyPropertyChanged = instance as INotifyPropertyChanged;
 
-            string propertyName = string.Empty;
+            List<string> propertyNames = new List<string>();
 
             void NotifyPropertyChanged_PropertyChanged(object sender, PropertyChangedEventArgs e)
             {
-                propertyName = e.PropertyName;
+                propertyNames.Add(e.PropertyName);
             }
 
             notifyPropertyChanged.PropertyChanged += NotifyPropertyChanged_PropertyChanged;
 
             languageChangedMethod.Invoke(instance, new object[] { Loc.Instance, new CurrentLanguageChangedEventArgs("en", "fr") });
-            Assert.Equal("TestProperty", propertyName);
 
-            propertyName = string.Empty;
+            Assert.Contains("TestProperty", propertyNames);
+            Assert.Contains("TextIdInAttribute", propertyNames);
+
+            propertyNames.Clear();
+
+            Assert.Empty(propertyNames);
 
             Loc.Instance.CurrentLanguage = "es";
 
-            Assert.Equal("TestProperty", propertyName);
+            Assert.Contains("TestProperty", propertyNames);
+            Assert.Contains("TextIdInAttribute", propertyNames);
 
             notifyPropertyChanged.PropertyChanged -= NotifyPropertyChanged_PropertyChanged;
         }

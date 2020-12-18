@@ -7,5 +7,8 @@ namespace CodingSeb.Localization.AssemblyToProcess
     {
         [Localize]
         public string TestProperty => Loc.Tr("TestLabel");
+
+        [Localize(nameof(TextIdInAttribute))]
+        public string TextIdInAttribute { get; set; }
     }
 }

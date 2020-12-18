@@ -73,6 +73,8 @@ namespace CodingSeb.Localization.FodyAddin.Fody
         {
             IEnumerable<PropertyDefinition> propertyToLocalize = typeDefinition.Properties.Where(property => property.HasLocalizeAttribute());
 
+            propertyToLocalize.ToList().ForEach(EventuallyInjectPropertyCode);
+
             var propertyListFieldDefinition = AddLocalizedPropertyNamesStaticList(typeDefinition, propertyToLocalize.Select(p => p.Name));
             var triggerPropertyChangedMethod = typeDefinition.FindPropertyChangedTriggerMethod();
             var currentLanguageChangedMethod = AddCurrentLanguageChangedMethod(typeDefinition, propertyListFieldDefinition, triggerPropertyChangedMethod);
@@ -81,15 +83,46 @@ namespace CodingSeb.Localization.FodyAddin.Fody
             UnSubscribeFromLanguageChangedInDestructors(GetOrCreateFinalizer(typeDefinition), currentLanguageChangedMethod);
         }
 
+        private void EventuallyInjectPropertyCode(PropertyDefinition property)
+        {
+            var attribute = property.CustomAttributes.FirstOrDefault(a => a.AttributeType.Name.Equals("LocalizeAttribute"));
+
+            if (attribute.ConstructorArguments.Count > 0)
+            {
+                var textId = attribute.ConstructorArguments[0].Value.ToString();
+
+                var instructions = property.GetMethod.Body.Instructions;
+
+                instructions.Clear();
+
+                instructions.Add(Instruction.Create(OpCodes.Ldstr, textId));
+
+                if (attribute.Properties.FirstOrDefault(p => p.Name.Equals("DefaultValue")) is CustomAttributeNamedArgument defaultValueProperty
+                    && defaultValueProperty.Argument.Value != null)
+                {
+                    instructions.Add(Instruction.Create(OpCodes.Ldstr, defaultValueProperty.Argument.Value.ToString()));
+                }
+                else
+                {
+                    instructions.Add(Instruction.Create(OpCodes.Ldnull));
+                }
+
+                instructions.Add(Instruction.Create(OpCodes.Ldnull));
+                instructions.Add(Instruction.Create(OpCodes.Call, ModuleDefinition.ImportReference(typeof(Loc).GetMethod("Tr", new Type[] { typeof(string), typeof(string), typeof(string) }))));
+                instructions.Add(Instruction.Create(OpCodes.Ret));
+            }
+        }
+
         private void SubscribeToLanguageChangedInConstructors(TypeDefinition typeDefinition, MethodDefinition currentLanguageChangedMethod)
         {
             List<MethodDefinition> exclusiveAlwaysCalledConstructors = typeDefinition.GetConstructors().Where(constructor =>
             {
                 return !constructor.IsStatic &&
                     constructor.Body.Instructions.Count > 2 &&
-                    constructor.Body.Instructions[1].OpCode == OpCodes.Call &&
-                    constructor.Body.Instructions[1].Operand is MethodReference methodReference &&
-                    methodReference.DeclaringType != typeDefinition;
+                    !constructor.Body.Instructions.Any(i => i.OpCode == OpCodes.Call 
+                        && i.Operand is MethodReference methodReference
+                        && methodReference.Resolve().IsConstructor
+                        && methodReference.DeclaringType == typeDefinition);
             }).ToList();
 
             exclusiveAlwaysCalledConstructors.ForEach(constructor =>
