@@ -32,8 +32,6 @@
             </ComboBox>
         </DockPanel>
         <StackPanel>
-            <!--<TextBlock Text="{Tr {Binding Text, ElementName=InputTextBox}, TextIdStringFormat='MyEnum{0}'}" />-->
-
             <StackPanel Orientation="Horizontal" >
                 <StackPanel>
                     <Label x:Name="lblHelloInCurrentLanguageEn" 
