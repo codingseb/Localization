@@ -12,13 +12,15 @@ __Replace the archived [TranslateMe](https://github.com/codingseb/TranslateMe) l
 |CodingSebLocalization.Fody|[![NuGet Status](http://img.shields.io/nuget/v/CodingSebLocalization.Fody.svg?style=flat&max-age=86400)](https://www.nuget.org/packages/CodingSebLocalization.Fody/)|
 
 ## The differents parts of the project
-The library is composed of 3 parts :  
+The library is composed of 4 parts :  
 
   1. The part "Core" : Nuget "CodingSeb.Localization" Contains the dictionnary of all translations for a "TextId" in C#.  
 	
   2. A part "FileLoader" : Allow to open a type of file that contains translations to load in the dictionnary of the "Core" part.  
   
   3. The part to translate (localize) XAML (WPF) "CodingSeb.Localization.WPF". Provide `Tr` and `MultiTr` markups and some converters to use in Bindings. It use the "Core" in backend.  
+  
+  4. The part to translate ViewModel (`INotifyPropertyChanged`). Provide `Localize` attribute to put on ViewModel properties that are localized
 
 ## Installation
 
@@ -42,6 +44,10 @@ __For WPF projects__
 Add this :
 ```
 PM> Install-Package CodingSeb.Localization.WPF
+```
+and
+```
+PM> Install-Package CodingSebLocalization.Fody
 ```
 
 ## Use it in C# :
@@ -181,6 +187,44 @@ xmlns:loc="clr-namespace:Localization;assembly=Localization" -->
 <ComboBox ItemsSource="{Binding AvailableLanguages, Source={x:Static loc:Loc.Instance}}"
           SelectedItem="{Binding CurrentLanguage, Source={x:Static loc:Loc.Instance}}"/>
 
+```
+
+### Use it In ViewModel (Fody) :
+
+You can use the Property attibute `Localize` to automatically generate the PropertyChanged event for the property when CurrentLanguageChanged.
+
+```
+    public class LocalizedWithFodyClass : INotifyPropertyChanged
+    {
+        [Localize]
+        public string TestProperty => Loc.Tr("TestLabel");
+
+        [Localize(nameof(TextIdInAttribute))]
+        public string TextIdInAttribute { get; set; }
+	
+	/// ...
+	
+	public event PropertyChangedEventHandler PropertyChanged;
+	
+	public void NotifyPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+```
+
+The specific code is injected at compile time thanks to [Fody](https://github.com/Fody/Fody).
+It is compatible with [PropertyChanged.Fody](https://github.com/Fody/PropertyChanged) or other similar fody addins like [ReactiveUI.Fody](https://github.com/kswoll/ReactiveUI.Fody). Just ensure that CodingSebLocalization is defined after in the `FodyWeavers.xml` file.
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<Weavers xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="FodyWeavers.xsd">
+  <PropertyChanged />
+  <!-- or -->
+  <ReactiveUI />
+  <!-- ... -->
+  <CodingSebLocalization />	
+</Weavers>
 ```
 
 ## OK But... ...How I define my translations ?
