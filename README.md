@@ -193,24 +193,24 @@ xmlns:loc="clr-namespace:Localization;assembly=Localization" -->
 
 You can use the Property attibute `Localize` to automatically generate the PropertyChanged event for the property when CurrentLanguageChanged.
 
-```
-    public class LocalizedWithFodyClass : INotifyPropertyChanged
-    {
-        [Localize]
-        public string TestProperty => Loc.Tr("TestLabel");
+```c#
+public class LocalizedWithFodyClass : INotifyPropertyChanged
+{
+    [Localize]
+    public string TestProperty => Loc.Tr("TestLabel");
 
-        [Localize(nameof(TextIdInAttribute))]
-        public string TextIdInAttribute { get; set; }
-	
-	/// ...
-	
-	public event PropertyChangedEventHandler PropertyChanged;
-	
-	public void NotifyPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+    [Localize(nameof(TextIdInAttribute))]
+    public string TextIdInAttribute { get; set; }
+
+    // ...
+
+    public event PropertyChangedEventHandler PropertyChanged;
+
+    public void NotifyPropertyChanged(string propertyName)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
+}
 ```
 
 The specific code is injected at compile time thanks to [Fody](https://github.com/Fody/Fody).
