@@ -119,7 +119,7 @@ namespace CodingSeb.Localization.FodyAddin.Fody
             {
                 return !constructor.IsStatic &&
                     constructor.Body.Instructions.Count > 2 &&
-                    !constructor.Body.Instructions.Any(i => i.OpCode == OpCodes.Call 
+                    !constructor.Body.Instructions.Any(i => i.OpCode == OpCodes.Call
                         && i.Operand is MethodReference methodReference
                         && methodReference.Resolve().IsConstructor
                         && methodReference.DeclaringType == typeDefinition);
@@ -160,7 +160,7 @@ namespace CodingSeb.Localization.FodyAddin.Fody
             instructions.Insert(index++, Instruction.Create(OpCodes.Nop));
         }
 
-        private MethodDefinition AddCurrentLanguageChangedMethod(TypeDefinition typeDefinition, FieldDefinition propertyListFieldDefinition,  MethodDefinition triggerPropertyChangedMethod)
+        private MethodDefinition AddCurrentLanguageChangedMethod(TypeDefinition typeDefinition, FieldDefinition propertyListFieldDefinition, MethodDefinition triggerPropertyChangedMethod)
         {
             var method = new MethodDefinition("__CurrentLanguageChanged__", MethodAttributes.Private, TypeSystem.VoidReference);
             method.Parameters.Add(new ParameterDefinition("sender", ParameterAttributes.None, TypeSystem.ObjectReference));
@@ -223,7 +223,6 @@ namespace CodingSeb.Localization.FodyAddin.Fody
         private MethodDefinition GetOrCreateFinalizer(TypeDefinition typeDefinition)
         {
             MethodDefinition finalizer = typeDefinition.Methods.FirstOrDefault(m => m.Name.Equals("Finalize"));
-            
 
             if (finalizer == null)
             {
