@@ -9,7 +9,7 @@ __Replace the archived [TranslateMe](https://github.com/codingseb/TranslateMe) l
 |CodingSeb.Localization.JsonFileLoader|[![NuGet Status](http://img.shields.io/nuget/v/CodingSeb.Localization.JsonFileLoader.svg?style=flat&max-age=86400)](https://www.nuget.org/packages/CodingSeb.Localization.JsonFileLoader/)|
 |CodingSeb.Localization.YamlFileLoader|[![NuGet Status](http://img.shields.io/nuget/v/CodingSeb.Localization.YamlFileLoader.svg?style=flat&max-age=86400)](https://www.nuget.org/packages/CodingSeb.Localization.YamlFileLoader/)|
 |CodingSeb.Localization.WPF|[![NuGet Status](http://img.shields.io/nuget/v/CodingSeb.Localization.WPF.svg?style=flat&max-age=86400)](https://www.nuget.org/packages/CodingSeb.Localization.WPF/)|
-|CodingSeb.Localization.Fody|[![NuGet Status](http://img.shields.io/nuget/v/CodingSeb.Localization.Fody.svg?style=flat&max-age=86400)](https://www.nuget.org/packages/CodingSeb.Localization.Fody/)|
+|CodingSebLocalization.Fody|[![NuGet Status](http://img.shields.io/nuget/v/CodingSebLocalization.Fody.svg?style=flat&max-age=86400)](https://www.nuget.org/packages/CodingSebLocalization.Fody/)|
 
 ## The differents parts of the project
 The library is composed of 3 parts :  
