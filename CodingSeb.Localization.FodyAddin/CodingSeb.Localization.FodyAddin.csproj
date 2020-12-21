@@ -5,7 +5,7 @@
     <Authors>CodingSeb</Authors>
     <Copyright>Copyright © Coding Seb 2020</Copyright>
     <Description>Inject the code that generate PropertyChanged event on property that has the attribute 'Localize' when the Language of the Localization changed</Description>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageLicenseExpression></PackageLicenseExpression>
     <!-- PackageTags are optional. Defaults to 'ILWeaving, Fody, Cecil, AOP' -->
     <PackageTags>Localization, Fody</PackageTags>
     <PackageOutputPath>$(SolutionDir)/FodyNuget</PackageOutputPath>
@@ -16,6 +16,7 @@
     <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
     <AssemblyName>CodingSeb.Localization.FodyAddin</AssemblyName>
     <RootNamespace>CodingSeb.Localization</RootNamespace>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Fody" Version="6.3.0" PrivateAssets="none" />
@@ -23,5 +24,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CodingSeb.Localization\CodingSeb.Localization.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\LICENSE.md">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 </Project>
