@@ -40,14 +40,35 @@ namespace CodingSeb.Localization.FodyAddin.Fody
 
         public static MethodDefinition FindPropertyChangedTriggerMethod(this TypeDefinition typeDefinition)
         {
-            if (typeDefinition?.FullName.Equals("System.Object") != false)
-                return null;
-            else if (typeDefinition.Methods.SingleOrDefault(m => propertyChangedTriggerMethodCommonNames.Any(name => name.Equals(m.Name, StringComparison.OrdinalIgnoreCase))) is MethodDefinition method)
-                return method;
-            else if (typeDefinition.BaseType is TypeDefinition parentTypeDefinition)
-                return parentTypeDefinition.FindPropertyChangedTriggerMethod();
-            else
-                return null;
+            bool removeFirstEntry = false;
+
+            var attribute = typeDefinition.CustomAttributes.FirstOrDefault(a => a.AttributeType.Name.Equals("PropertyChangedTriggerMethodNameForLocalization"));
+
+            if(attribute != null)
+            {
+                propertyChangedTriggerMethodCommonNames.Insert(0, attribute.ConstructorArguments[0].Value.ToString());
+
+                removeFirstEntry = true;
+            }
+
+            try
+            {
+                if (typeDefinition?.FullName.Equals("System.Object") != false)
+                    return null;
+                else if (typeDefinition.Methods.FirstOrDefault(m => propertyChangedTriggerMethodCommonNames.Any(name => name.Equals(m.Name, StringComparison.OrdinalIgnoreCase))) is MethodDefinition method)
+                    return method;
+                else if (typeDefinition.BaseType is TypeDefinition parentTypeDefinition)
+                    return parentTypeDefinition.FindPropertyChangedTriggerMethod();
+                else
+                    return null;
+            }
+            finally
+            {
+                if(removeFirstEntry)
+                {
+                    propertyChangedTriggerMethodCommonNames.RemoveAt(0);
+                }
+            }
         }
 
         public static MethodDefinition FindNearestFinalizeParentMethod(this TypeDefinition typeDefinition)
