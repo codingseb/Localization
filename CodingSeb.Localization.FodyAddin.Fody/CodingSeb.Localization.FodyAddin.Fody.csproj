@@ -5,7 +5,7 @@
     <AssemblyName>CodingSebLocalization.Fody</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="FodyHelpers" Version="6.3.0" />
+    <PackageReference Include="FodyHelpers" Version="6.5.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CodingSeb.Localization\CodingSeb.Localization.csproj" />
