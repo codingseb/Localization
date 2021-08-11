@@ -11,10 +11,10 @@
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <RepositoryUrl>https://github.com/codingseb/Localization</RepositoryUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <AssemblyVersion>1.1.5.0</AssemblyVersion>
-    <FileVersion>1.1.5.0</FileVersion>
-    <Version>1.1.5</Version>
-    <PackageReleaseNotes>* For CondingSeb.Localization 1.1.2</PackageReleaseNotes>
+    <AssemblyVersion>1.1.6.0</AssemblyVersion>
+    <FileVersion>1.1.6.0</FileVersion>
+    <Version>1.1.6</Version>
+    <PackageReleaseNotes>Small correction for StringFormat of Tr in combobox</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
