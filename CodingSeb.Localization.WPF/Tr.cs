@@ -365,39 +365,50 @@ namespace CodingSeb.Localization.WPF
 
             public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
             {
-                int offset = 1;
-
-                if (TextIdBindingBase is MultiBinding textIdMultiBinding)
+                try
                 {
-                    Data.TextId = textIdMultiBinding.Converter.Convert(values.Take(textIdMultiBinding.Bindings.Count).ToArray(), null, textIdMultiBinding.ConverterParameter, textIdMultiBinding.ConverterCulture).ToString();
-                    offset = textIdMultiBinding.Bindings.Count;
-                }
-                else if(TextIdBindingBase is Binding)
-                {
-                    Data.TextId = values[0] as string ?? string.Empty;
-                    offset++;
-                }
+                    int offset = 1;
 
-                List<object> stringFormatArgs = new List<object>();
-
-                for(int i = 0; i < StringFormatBindings.Count; i++)
-                {
-                    if(StringFormatBindings[i] is MultiBinding stringFormatMultiBinding)
+                    if (TextIdBindingBase is MultiBinding textIdMultiBinding)
                     {
-                        int bindingsCount = stringFormatMultiBinding.Bindings.Count;
-                        stringFormatArgs.Add(stringFormatMultiBinding.Converter.Convert(values.Skip(offset).Take(bindingsCount).ToArray(), null, stringFormatMultiBinding.ConverterParameter, stringFormatMultiBinding.ConverterCulture));
-                        offset += bindingsCount;
+                        Data.TextId = textIdMultiBinding.Converter.Convert(values.Take(textIdMultiBinding.Bindings.Count).ToArray(), null, textIdMultiBinding.ConverterParameter, textIdMultiBinding.ConverterCulture).ToString();
+                        offset = textIdMultiBinding.Bindings.Count;
                     }
-                    else
+                    else if(TextIdBindingBase is Binding)
                     {
-                        stringFormatArgs.Add(values[offset]);
+                        if (values.Length > 0)
+                            Data.TextId = values[0] as string ?? string.Empty;
+                        else
+                            Data.TextId = string.Empty;
                         offset++;
                     }
+
+                    List<object> stringFormatArgs = new List<object>();
+
+                    for(int i = 0; i < StringFormatBindings.Count; i++)
+                    {
+                        if(StringFormatBindings[i] is MultiBinding stringFormatMultiBinding)
+                        {
+                            int bindingsCount = stringFormatMultiBinding.Bindings.Count;
+                            stringFormatArgs.Add(stringFormatMultiBinding.Converter.Convert(values.Skip(offset).Take(bindingsCount).ToArray(), null, stringFormatMultiBinding.ConverterParameter, stringFormatMultiBinding.ConverterCulture));
+                            offset += bindingsCount;
+                        }
+                        else
+                        {
+                            if (values.Length > offset)
+                                stringFormatArgs.Add(values[offset]);
+                            offset++;
+                        }
+                    }
+
+                    var translated = string.Format(Data.TranslatedText, stringFormatArgs.ToArray());
+
+                    return TrConverter == null ? translated : TrConverter.Convert(translated, null, TrConverterParameter, TrConverterCulture);
                 }
-
-                var translated = string.Format(Data.TranslatedText, stringFormatArgs.ToArray());
-
-                return TrConverter == null ? translated : TrConverter.Convert(translated, null, TrConverterParameter, TrConverterCulture);
+                catch
+                {
+                    return string.Empty;
+                }
             }
 
             public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture) => throw new NotImplementedException();
