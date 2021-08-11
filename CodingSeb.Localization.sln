@@ -27,11 +27,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodingSeb.Localization.Asse
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodingSeb.Localization.FodyAddin.Tests", "CodingSeb.Localization.FodyAddin.Tests\CodingSeb.Localization.FodyAddin.Tests.csproj", "{20437578-F0F8-4106-87D1-34CD65E69195}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodingSeb.Localization.FodyAddin.WantedResult", "CodingSeb.Localization.FodyAddin.WantedResult\CodingSeb.Localization.FodyAddin.WantedResult.csproj", "{0953B24E-86C7-4DEC-886D-10EA81559693}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Fody", "Fody", "{35CF686F-1902-4EEC-B0EC-1D36722853EC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmokeTest", "SmokeTest\SmokeTest.csproj", "{F7364099-B013-4B56-9ACA-202047E915F7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmokeTest", "SmokeTest\SmokeTest.csproj", "{F7364099-B013-4B56-9ACA-202047E915F7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -87,10 +85,6 @@ Global
 		{20437578-F0F8-4106-87D1-34CD65E69195}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{20437578-F0F8-4106-87D1-34CD65E69195}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{20437578-F0F8-4106-87D1-34CD65E69195}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0953B24E-86C7-4DEC-886D-10EA81559693}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0953B24E-86C7-4DEC-886D-10EA81559693}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0953B24E-86C7-4DEC-886D-10EA81559693}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0953B24E-86C7-4DEC-886D-10EA81559693}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F7364099-B013-4B56-9ACA-202047E915F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F7364099-B013-4B56-9ACA-202047E915F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7364099-B013-4B56-9ACA-202047E915F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -104,7 +98,6 @@ Global
 		{BA2FB0C3-D76C-4C5C-B163-8EE4D2497394} = {35CF686F-1902-4EEC-B0EC-1D36722853EC}
 		{05900915-BD84-495D-B6FB-E0C8F662BE0F} = {35CF686F-1902-4EEC-B0EC-1D36722853EC}
 		{20437578-F0F8-4106-87D1-34CD65E69195} = {35CF686F-1902-4EEC-B0EC-1D36722853EC}
-		{0953B24E-86C7-4DEC-886D-10EA81559693} = {35CF686F-1902-4EEC-B0EC-1D36722853EC}
 		{F7364099-B013-4B56-9ACA-202047E915F7} = {35CF686F-1902-4EEC-B0EC-1D36722853EC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
