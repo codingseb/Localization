@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 
 namespace CodingSeb.Localization.Examples
 {
@@ -36,6 +37,8 @@ namespace CodingSeb.Localization.Examples
                     .FindAll(k => k.StartsWith("Text:"));
             }
         }
+
+        public Visibility VisibilityForText { get; set; } = Visibility.Hidden;
 
         [Localize("ANiceText")]
         public string AutoTranslation { get; set; }

@@ -4,10 +4,19 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CodingSeb.Localization.Examples"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
         d:DataContext="{d:DesignData Type=local:MainViewModel, IsDesignTimeCreatable=False}"
         DataContext="{x:Static local:MainViewModel.Instance}"
         Title="Localization Examples" Height="500" Width="700">
+    <Window.Resources>
+        <ObjectDataProvider x:Key="dataFromVisibilityEnum" MethodName="GetValues"
+                            ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="Visibility"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </Window.Resources>
     <DockPanel Margin="10">
         <DockPanel DockPanel.Dock="Top" VerticalAlignment="Top">
             <Label x:Name="lblCurrentLanguage" 
@@ -90,6 +99,9 @@
                 </ListBox.ItemTemplate>
             </ListBox>
             <TextBlock Text="{Binding AutoTranslation}" />
+            <ComboBox ItemsSource="{Binding Source={StaticResource dataFromVisibilityEnum}}"
+                      SelectedValue="{Binding VisibilityForText}" />
+            <TextBlock Text="{Tr {Binding VisibilityForText}, TextIdStringFormat='Enums.Visibility.{0}'}"/>
         </StackPanel>
     </DockPanel>
 </Window>

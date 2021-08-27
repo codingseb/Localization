@@ -88,5 +88,24 @@
     "en": "A nice text",
     "fr": "Un texte sympa",
     "es": "Un buen texto"
+  },
+  "Enums": {
+    "Visibility": {
+      "Visible": {
+        "en": "Visible",
+        "fr": "Visible",
+        "es": "Visible"
+      },
+      "Hidden": {
+        "en": "Hidden",
+        "fr": "Caché",
+        "es": "Oculto"
+      },
+      "Collapsed": {
+        "en": "Collapsed",
+        "fr": "Réduit",
+        "es": "Colapsado"
+      }
+    }
   }
 }

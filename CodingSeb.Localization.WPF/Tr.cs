@@ -377,7 +377,7 @@ namespace CodingSeb.Localization.WPF
                     else if(TextIdBindingBase is Binding)
                     {
                         if (values.Length > 0)
-                            Data.TextId = values[0] as string ?? string.Empty;
+                            Data.TextId = values[0]?.ToString() ?? string.Empty;
                         else
                             Data.TextId = string.Empty;
                         offset++;
