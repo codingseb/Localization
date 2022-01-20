@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net452</TargetFrameworks>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>CodingSeb</Authors>
     <Copyright>Copyright © Coding Seb 2020</Copyright>
     <Description>Inject the code that generate PropertyChanged event on property that has the attribute 'Localize' when the Language of the Localization changed</Description>
@@ -17,6 +17,10 @@
     <AssemblyName>CodingSeb.Localization.FodyAddin</AssemblyName>
     <RootNamespace>CodingSeb.Localization</RootNamespace>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+	<AssemblyVersion>1.2.0.0</AssemblyVersion>
+	<FileVersion>1.2.0.0</FileVersion>
+	<PackageReleaseNotes>* Correction of dependencies for weaving lib</PackageReleaseNotes>
+	<Version>1.2.0</Version>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Fody" Version="6.5.1" PrivateAssets="none" />
@@ -30,5 +34,12 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+	  <None Include="..\CodingSeb.Localization\bin\$(Configuration)\netstandard2.0\CodingSeb.Localization.dll">
+		<Pack>true</Pack>
+		<PackagePath>weaver</PackagePath>
+		<IncludeInPackage>true</IncludeInPackage>
+		<BuildAction>Content</BuildAction>
+		<copyToOutput>true</copyToOutput>
+	</None>
   </ItemGroup>
 </Project>
