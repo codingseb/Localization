@@ -20,7 +20,7 @@
 	<AssemblyVersion>1.2.0.0</AssemblyVersion>
 	<FileVersion>1.2.0.0</FileVersion>
 	<PackageReleaseNotes>* Correction of dependencies for weaving lib</PackageReleaseNotes>
-	<Version>1.2.0</Version>
+	<Version>1.2.0-alpha003</Version>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Fody" Version="6.5.1" PrivateAssets="none" />
