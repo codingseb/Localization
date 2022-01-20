@@ -136,6 +136,7 @@ namespace CodingSeb.Localization.WPF
             if (TargetObject != null && TargetProperty != null)
             {
                 BindingOperations.GetBindingExpression(TargetObject, TargetProperty)?.UpdateTarget();
+                BindingOperations.GetMultiBindingExpression(TargetObject, TargetProperty)?.UpdateTarget();
             }
         }
     }
