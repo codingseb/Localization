@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>CodingSeb</Authors>
     <Company />
     <Description>A suite to localize C# and WPF project easily base on file format you choose.</Description>
@@ -10,9 +10,10 @@
     <RepositoryUrl>https://github.com/codingseb/Localization</RepositoryUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
-    <AssemblyVersion>1.1.2.0</AssemblyVersion>
-    <FileVersion>1.1.2.0</FileVersion>
-    <Version>1.1.2</Version>
+	  <AssemblyVersion>1.2.0.0</AssemblyVersion>
+	  <FileVersion>1.2.0.0</FileVersion>
+	  <PackageReleaseNotes>* Some .net framework breaking changes in dependencies</PackageReleaseNotes>
+	  <Version>1.2.0</Version>
   </PropertyGroup>
 
   <ItemGroup>

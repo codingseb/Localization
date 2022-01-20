@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29519.87
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodingSeb.Localization", "CodingSeb.Localization\CodingSeb.Localization.csproj", "{8DA47C0D-4FB7-42D6-993D-E3D108AB62AB}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodingSeb.Localization.JsonFileLoader", "CodingSeb.Localization.JsonFileLoader\CodingSeb.Localization.JsonFileLoader.csproj", "{C537AC6D-7B65-4597-B20C-203E9098B584}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodingSeb.Localization.WPF", "CodingSeb.Localization.WPF\CodingSeb.Localization.WPF.csproj", "{D42EAC6C-46F6-4FEE-89AE-D0463366A2B8}"
 EndProject
@@ -31,6 +29,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Fody", "Fody", "{35CF686F-1
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmokeTest", "SmokeTest\SmokeTest.csproj", "{F7364099-B013-4B56-9ACA-202047E915F7}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodingSeb.Localization.JsonFileLoader", "CodingSeb.Localization.JsonFileLoader\CodingSeb.Localization.JsonFileLoader.csproj", "{0B9BD203-2F27-4E2D-B880-C059AA3ADC22}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,10 +41,6 @@ Global
 		{8DA47C0D-4FB7-42D6-993D-E3D108AB62AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8DA47C0D-4FB7-42D6-993D-E3D108AB62AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8DA47C0D-4FB7-42D6-993D-E3D108AB62AB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C537AC6D-7B65-4597-B20C-203E9098B584}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C537AC6D-7B65-4597-B20C-203E9098B584}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C537AC6D-7B65-4597-B20C-203E9098B584}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C537AC6D-7B65-4597-B20C-203E9098B584}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D42EAC6C-46F6-4FEE-89AE-D0463366A2B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D42EAC6C-46F6-4FEE-89AE-D0463366A2B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D42EAC6C-46F6-4FEE-89AE-D0463366A2B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -89,6 +85,10 @@ Global
 		{F7364099-B013-4B56-9ACA-202047E915F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7364099-B013-4B56-9ACA-202047E915F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7364099-B013-4B56-9ACA-202047E915F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B9BD203-2F27-4E2D-B880-C059AA3ADC22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B9BD203-2F27-4E2D-B880-C059AA3ADC22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B9BD203-2F27-4E2D-B880-C059AA3ADC22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B9BD203-2F27-4E2D-B880-C059AA3ADC22}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
