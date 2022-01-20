@@ -34,12 +34,17 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
-	  <None Include="..\CodingSeb.Localization\bin\$(Configuration)\netstandard2.0\CodingSeb.Localization.dll">
-		<Pack>true</Pack>
-		<PackagePath>weaver</PackagePath>
-		<IncludeInPackage>true</IncludeInPackage>
-		<BuildAction>Content</BuildAction>
-		<copyToOutput>true</copyToOutput>
+	<None Include="..\CodingSeb.Localization\bin\$(Configuration)\netstandard2.0\CodingSeb.Localization.dll">
+	  <Pack>true</Pack>
+	  <PackagePath>weaver</PackagePath>
+	  <IncludeInPackage>true</IncludeInPackage>
+	  <BuildAction>Content</BuildAction>
+	</None>	
+	<None Include="..\WeaverDependencies\*.*">
+	  <Pack>true</Pack>
+	  <PackagePath>weaver</PackagePath>
+	  <IncludeInPackage>true</IncludeInPackage>
+	  <BuildAction>Content</BuildAction>
 	</None>
   </ItemGroup>
 </Project>
