@@ -365,4 +365,4 @@ JsonMissingTranslationsLogger.EnableLogFor(Loc.Instance);
 ## Tr and WPF Styles
 The `Tr`markup is usable in Styles. but if a Trigger is used the `Tr` markup only works if used in static mode : `<Tr IsDynamic=False ...`.
 In dynamic mode the `Tr`markup create in backend a Binding and do not allow to be modified by a Datatrigger.
-To do a localization in a same manner way, prefer to use a binding with a `TrTextIdConverter` in place of a trigger.
+To do a localization in a same manner, prefer to use a binding with a `TrTextIdConverter` in place of a trigger.
