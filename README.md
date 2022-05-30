@@ -240,12 +240,12 @@ Here an example :
     "es": "Español",
     "fr": "Français"
   },
-  "[TranslateMe.Examples.MainWindow].lblCurrentLanguage[Label].Content": {
+  "[Localization.Examples.MainWindow].lblCurrentLanguage[Label].Content": {
     "en": "Current language",
     "es": "Lenguaje actual",
     "fr": "Langue courrante"
   },
-  "[TranslateMe.Examples.MainWindow].lblHelloInCurrentLanguage[Label].Content": {
+  "[Localization.Examples.MainWindow].lblHelloInCurrentLanguage[Label].Content": {
     "en": "Hello",
     "es": "Hola",
     "fr": "Bonjour"
@@ -255,7 +255,7 @@ Here an example :
     "es": "Hola en la lengua actual",
     "fr": "Bonjour dans la langue actuelle"
   },
-  "[TranslateMe.Examples.MainWindow].lblHelloInCurrentLanguage[Label].ToolTip": {
+  "[Localization.Examples.MainWindow].lblHelloInCurrentLanguage[Label].ToolTip": {
     "en": "In english",
     "es": "En español",
     "fr": "En français"
