@@ -1,0 +1,44 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:CodingSeb.Localization.AvaloniaExample.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="CodingSeb.Localization.AvaloniaExample.Views.MainWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="Localization Examples"
+		Height="500" Width="700">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+     <DockPanel Margin="10">
+        <DockPanel DockPanel.Dock="Top" VerticalAlignment="Top" LastChildFill="True">
+            <TextBlock x:Name="lblCurrentLanguage" 
+                   DockPanel.Dock="Left"
+				   VerticalAlignment="Center"
+                   Margin="0,0,10,0"
+                   Text="{Tr}" />
+            <!--<Button x:Name="LanguageChangedRefreshButton" 
+                    DockPanel.Dock="Right"
+                    Content="Refresh"
+                    Click="LanguageChangedRefreshButton_Click" />-->
+            <ComboBox x:Name="cbLanguageSelection"
+					  HorizontalAlignment="Stretch"
+                      Items="{Binding LanguagesManager.AvailableLanguages}" 
+                      SelectedItem="{Binding LanguagesManager.CurrentLanguage}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate DataType="ComboBoxItem">
+                        <StackPanel>
+                            <!--<TextBlock Text="{Binding Converter={TrLanguageIdConverter TextId='LanguageName' }}" FontWeight="Bold" />-->
+                            <TextBlock Text="{Binding}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </DockPanel>
+	</DockPanel>
+	
+	
+</Window>

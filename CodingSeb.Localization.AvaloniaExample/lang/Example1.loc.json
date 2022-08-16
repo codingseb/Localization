@@ -1,0 +1,111 @@
+﻿{
+  "LanguageName": {
+    "en": "English",
+    "es": "Español",
+    "fr": "Français"
+  },
+  "[CodingSeb.Localization.Examples.MainWindow].lblCurrentLanguage[Label].Content": {
+    "en": "Current language",
+    "es": "Lenguaje actual",
+    "fr": "Langue courrante"
+  },
+  "[CodingSeb.Localization.Examples.MainWindow].lblHelloInCurrentLanguage[Label].Content": {
+    "en": "Hello",
+    "es": "Hola",
+    "fr": "Bonjour"
+  },
+  "HelloInCurrentLanguage": {
+    "en": "Hello in the current language",
+    "es": "Hola en la lengua actual",
+    "fr": "Bonjour dans la langue actuelle"
+  },
+  "[CodingSeb.Localization.Examples.MainWindow].lblHelloInCurrentLanguage[Label].ToolTip": {
+    "en": "In english",
+    "es": "En español",
+    "fr": "En français"
+  },
+  "Text:Hello": {
+    "en": "Hello",
+    "es": "Hola",
+    "fr": "Bonjour"
+  },
+  "Text:HowAreYou": {
+    "en": "How are you ?",
+    "es": "¿Cómo estás?",
+    "fr": "Comment allez-vous?"
+  },
+  "Text:Yes": {
+    "en": "Yes",
+    "es": "Si",
+    "fr": "Oui"
+  },
+  "Text:No": {
+    "en": "No",
+    "es": "No",
+    "fr": "Non"
+  },
+  "TypeSomething": {
+    "en": "Type Something :",
+    "es": "Escribe algo :",
+    "fr": "Tapez quelque chose :"
+  },
+  "YouTypedInTheTextBox": {
+    "en": "You Typed \"{0}\" in the textbox",
+    "es": "Escribiste \"{0}\" en el cuadro de texto",
+    "fr": "Vous avez tapé \"{0}\" dans la zone de texte"
+  },
+  "YouTypedInTheTextBoxAndSelectedInComboBox": {
+    "en": "You Typed \"{0}\" in the textbox and selected \"{1}\" : \"{2}\" in the combobox",
+    "es": "Escribiste \"{0}\" en el cuadro de texto y seleccionaste \"{1}\" : \"{2}\" de la lista desplegable",
+    "fr": "Vous avez tapé \"{0}\" dans la zone de texte et sélectionné \"{1}\" : \"{2}\" dans la liste déroulante"
+  },
+  "Activate": {
+    "en": "Activate",
+    "es": "Activar",
+    "fr": "Activer"
+  },
+  "Deactivate": {
+    "en": "Deactivate",
+    "es": "Desactivar",
+    "fr": "Désactiver"
+  },
+  "Activated": {
+    "en": "Activated",
+    "es": "Habilitado",
+    "fr": "Activéé"
+  },
+  "Deactivated": {
+    "en": "Deactivated",
+    "es": "Discapacitado",
+    "fr": "Désactivée"
+  },
+  "TheCheckBoxIs": {
+    "en": "The checkbox is",
+    "es": "La casilla de verificación es",
+    "fr": "La case à cochée est"
+  },
+  "ANiceText": {
+    "en": "A nice text",
+    "fr": "Un texte sympa",
+    "es": "Un buen texto"
+  },
+  "Enums": {
+    "Visibility": {
+      "Visible": {
+        "en": "Visible",
+        "fr": "Visible",
+        "es": "Visible"
+      },
+      "Hidden": {
+        "en": "Hidden",
+        "fr": "Caché",
+        "es": "Oculto"
+      },
+      "Collapsed": {
+        "en": "Collapsed",
+        "fr": "Réduit",
+        "es": "Colapsado"
+      }
+    }
+  }
+}

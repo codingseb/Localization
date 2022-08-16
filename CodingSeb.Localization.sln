@@ -31,6 +31,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmokeTest", "SmokeTest\Smok
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodingSeb.Localization.JsonFileLoader", "CodingSeb.Localization.JsonFileLoader\CodingSeb.Localization.JsonFileLoader.csproj", "{0B9BD203-2F27-4E2D-B880-C059AA3ADC22}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodingSeb.Localization.AvaloniaExample", "CodingSeb.Localization.AvaloniaExample\CodingSeb.Localization.AvaloniaExample.csproj", "{5315B6BC-695E-406F-BB31-32AEFDA2A727}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodingSeb.Localization.Avalonia", "CodingSeb.Localization.Avalonia\CodingSeb.Localization.Avalonia.csproj", "{38ED3D6A-C804-4C10-9FAA-E378854D4A73}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -89,6 +93,14 @@ Global
 		{0B9BD203-2F27-4E2D-B880-C059AA3ADC22}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0B9BD203-2F27-4E2D-B880-C059AA3ADC22}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B9BD203-2F27-4E2D-B880-C059AA3ADC22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5315B6BC-695E-406F-BB31-32AEFDA2A727}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5315B6BC-695E-406F-BB31-32AEFDA2A727}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5315B6BC-695E-406F-BB31-32AEFDA2A727}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5315B6BC-695E-406F-BB31-32AEFDA2A727}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38ED3D6A-C804-4C10-9FAA-E378854D4A73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38ED3D6A-C804-4C10-9FAA-E378854D4A73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38ED3D6A-C804-4C10-9FAA-E378854D4A73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38ED3D6A-C804-4C10-9FAA-E378854D4A73}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

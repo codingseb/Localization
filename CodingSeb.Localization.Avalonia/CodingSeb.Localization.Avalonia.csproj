@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+	
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="0.10.18" />
+    <PackageReference Include="PropertyChanged.Fody" Version="3.4.1" />
+  </ItemGroup>
+	
+  <ItemGroup>
+    <ProjectReference Include="..\CodingSeb.Localization\CodingSeb.Localization.csproj" />
+  </ItemGroup>
+
+</Project>

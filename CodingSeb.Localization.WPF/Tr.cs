@@ -113,7 +113,7 @@ namespace CodingSeb.Localization.WPF
         }
 
         /// <summary>
-        /// The language id in which to get the translation. To Specify if not CurrentLanguage
+        /// The language id in which to get the translation. If not Specify -> CurrentLanguage
         /// </summary>
         public string LanguageId { get; set; }
 
@@ -176,13 +176,9 @@ namespace CodingSeb.Localization.WPF
         /// <returns></returns>
         public object ProvideValue(IServiceProvider serviceProvider, bool InMultiTr)
         {
-            if (!(serviceProvider.GetService(typeof(IProvideValueTarget)) is IProvideValueTarget service))
-                return this;
-
-            DependencyProperty targetProperty = service.TargetProperty as DependencyProperty;
-            DependencyObject targetObject = service.TargetObject as DependencyObject;
-
-            if ((targetObject == null || targetProperty == null) && IsDynamic)
+            if (serviceProvider.GetService(typeof(IProvideValueTarget)) is not IProvideValueTarget service
+                || service.TargetObject is not DependencyObject targetObject
+                || service.TargetProperty is not DependencyProperty targetProperty)
             {
                 return this;
             }
