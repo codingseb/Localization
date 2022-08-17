@@ -4,7 +4,7 @@
     "es": "Español",
     "fr": "Français"
   },
-  "[CodingSeb.Localization.Examples.MainWindow].lblCurrentLanguage[Label].Content": {
+  "MainWindow.TextBlock[lblCurrentLanguage].Text": {
     "en": "Current language",
     "es": "Lenguaje actual",
     "fr": "Langue courrante"

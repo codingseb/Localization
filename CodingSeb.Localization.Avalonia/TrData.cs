@@ -1,5 +1,6 @@
 ﻿using Avalonia.Utilities;
 using PropertyChanged;
+using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
@@ -13,12 +14,12 @@ namespace CodingSeb.Localization.Avalonia
     {
         public TrData()
         {
-            WeakEventHandlerManager.Subscribe<Loc,CurrentLanguageChangedEventArgs,TrData>(Loc.Instance, nameof(Loc.Instance.CurrentLanguageChanged), CurrentLanguageChanged);
+            WeakEventHandlerManager.Subscribe<Loc,CurrentLanguageChangedEventArgs,TrData>(Loc.Instance, nameof(Loc.CurrentLanguageChanged), CurrentLanguageChanged);
         }
 
         ~TrData()
         {
-            WeakEventHandlerManager.Unsubscribe<CurrentLanguageChangedEventArgs, TrData>(Loc.Instance, nameof(Loc.Instance.CurrentLanguageChanged), CurrentLanguageChanged);
+            WeakEventHandlerManager.Unsubscribe<CurrentLanguageChangedEventArgs, TrData>(Loc.Instance, nameof(Loc.CurrentLanguageChanged), CurrentLanguageChanged);
         }
 
         /// <summary>

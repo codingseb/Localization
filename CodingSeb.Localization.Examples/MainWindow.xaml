@@ -22,7 +22,7 @@
             <Label x:Name="lblCurrentLanguage" 
                    DockPanel.Dock="Left"
                    Margin="0,0,10,0"
-                   Content="{Tr 'Current Language'}" />
+                   Content="{Tr}" />
             <Button x:Name="LanguageChangedRefreshButton" 
                     DockPanel.Dock="Right"
                     Content="Refresh"
