@@ -4,7 +4,7 @@
     "es": "Español",
     "fr": "Français"
   },
-  "MainWindow.TextBlock[lblCurrentLanguage].Text": {
+  "MainWindow.Label[lblCurrentLanguage].Content": {
     "en": "Current language",
     "es": "Lenguaje actual",
     "fr": "Langue courrante"

@@ -84,9 +84,13 @@ namespace CodingSeb.Localization.Avalonia
         /// <summary>
         /// To force the use of a specific identifier
         /// </summary>
+        public string TextId { get; set; }
+
+        /// <summary>
+		/// To Provide a TextId by binding
+        /// </summary>
         [AssignBinding]
-        [ConstructorArgument("textId")]
-        public object TextId { get; set; }
+        public IBinding TextIdBinding { get; set; }
 
         /// <summary>
         /// To Format the Given TextId (useful when binding TextId).
@@ -178,31 +182,39 @@ namespace CodingSeb.Localization.Avalonia
                 return this;
             }
 
-            if (TextId == null)
+            try
             {
-                if (serviceProvider is IRootObjectProvider rootObjectProvider)
+                if (string.IsNullOrEmpty(TextId) && TextIdBinding == null)
                 {
-                    TextId = $"{rootObjectProvider.RootObject.GetType().Name}";
+                    if (serviceProvider is IRootObjectProvider rootObjectProvider)
+                    {
+                        TextId = $"{rootObjectProvider.RootObject.GetType().Name}";
 
-                    if (rootObjectProvider.RootObject is Control rootControl && !string.IsNullOrEmpty(rootControl.Name))
-                        TextId += $"[{rootControl.Name}]";
+                        if (rootObjectProvider.RootObject is Control rootControl && !string.IsNullOrEmpty(rootControl.Name))
+                            TextId += $"[{rootControl.Name}]";
 
-                    TextId += ".";
+                        TextId += ".";
+                    }
+
+                    TextId = (TextId ?? "") + $"{targetObject.GetType().Name}";
+
+                    if (targetObject is Control targetControl && !string.IsNullOrEmpty(targetControl.Name))
+                        TextId += $"[{targetControl.Name}]";
+
+                    TextId += $".{targetProperty.Name}";
                 }
-
-                TextId = (TextId ?? "") + $"{targetObject.GetType().Name}";
-
-                if (targetObject is Control targetControl && !string.IsNullOrEmpty(targetControl.Name))
-                    TextId += $"[{targetControl.Name}]";
-
-                TextId += $".{targetProperty.Name}";
+            }
+            catch (InvalidCastException)
+            {
+                // For Xaml Design Time
+                TextId = Guid.NewGuid().ToString();
             }
 
             if (IsDynamic)
             {
                 TrData trData = new()
                 {
-                    TextId = TextId.ToString(),
+                    TextId = TextId,
                     TextIdStringFormat = TextIdStringFormat,
                     DefaultText = DefaultText,
                     LanguageId = LanguageId,
@@ -215,7 +227,7 @@ namespace CodingSeb.Localization.Avalonia
                     Source = trData,
                 };
 
-                if (StringFormatArgBinding == null && StringFormatArgsBindings.Count == 0 && TextId is not IBinding)
+                if (StringFormatArgBinding == null && StringFormatArgsBindings.Count == 0 && TextIdBinding == null)
                 {
                     if (Converter != null)
                     {
@@ -223,22 +235,69 @@ namespace CodingSeb.Localization.Avalonia
                         binding.ConverterParameter = ConverterParameter;
                     }
 
-                    bindingAutoCleanRefs.ManualShrink();
-
-                    if (!bindingAutoCleanRefs.ContainsKey(targetObject))
-                    {
-                        bindingAutoCleanRefs.Add(targetObject, new List<IBinding>());
-                    }
-
-                    bindingAutoCleanRefs[targetObject].Add(binding);
-
                     if (InMultiTr)
                     {
                         return binding;
                     }
                     else
                     {
+                        KeepRefOfBindingUntilTargetObjectDie(targetObject, binding);
+
                         targetObject.Bind(targetProperty, binding, targetObject);
+
+                        return trData.TranslatedText;
+                    }
+                }
+                else
+                {
+                    var internalConverter = new ForTrMarkupInternalStringFormatMultiValuesConverter()
+                    {
+                        Data = trData,
+                        TextIdBindingBase = TextIdBinding,
+                        TrConverter = Converter,
+                        TrConverterParameter = ConverterParameter,
+                        TrConverterCulture = ConverterCulture,
+                        StringFormatBindings = StringFormatArgsBindings ?? new Collection<IBinding>()
+                    };
+
+                    MultiBinding multiBinding = new()
+                    {
+                        Converter = internalConverter
+                    };
+
+                    if (TextIdBinding != null)
+                    {
+                        if (TextIdBinding is MultiBinding textIdMultiBinding)
+                        {
+                            textIdMultiBinding.Bindings.ToList().ForEach(multiBinding.Bindings.Add);
+                        }
+                        else
+                        {
+                            multiBinding.Bindings.Add(TextIdBinding);
+                        }
+                    }
+
+                    multiBinding.Bindings.Add(binding);
+
+                    if (StringFormatArgBinding != null)
+                    {
+                        internalConverter.StringFormatBindings.Insert(0, StringFormatArgBinding);
+                        ManageStringFormatArgs(multiBinding, StringFormatArgBinding);
+                    }
+                    if (StringFormatArgsBindings.Count > 0)
+                    {
+                        StringFormatArgsBindings.ToList().ForEach(binding => ManageStringFormatArgs(multiBinding, binding));
+                    }
+
+                    if (InMultiTr)
+                    {
+                        return multiBinding;
+                    }
+                    else
+                    {
+                        KeepRefOfBindingUntilTargetObjectDie(targetObject, multiBinding);
+
+                        targetObject.Bind(targetProperty, multiBinding, targetObject);
 
                         return trData.TranslatedText;
                     }
@@ -246,7 +305,7 @@ namespace CodingSeb.Localization.Avalonia
             }
             else
             {
-                object result = Prefix + Loc.Tr(TextId.ToString(), DefaultText, LanguageId) + Suffix;
+                object result = Prefix + Loc.Tr(TextId, DefaultText, LanguageId) + Suffix;
 
                 if (Converter != null)
                 {
@@ -255,9 +314,93 @@ namespace CodingSeb.Localization.Avalonia
 
                 return result;
             }
-
-            return TextId?.ToString();
         }
 
+        private static void KeepRefOfBindingUntilTargetObjectDie(AvaloniaObject targetObject, IBinding binding)
+        {
+            bindingAutoCleanRefs.ManualShrink();
+
+            if (!bindingAutoCleanRefs.ContainsKey(targetObject))
+            {
+                bindingAutoCleanRefs.Add(targetObject, new List<IBinding>());
+            }
+
+            bindingAutoCleanRefs[targetObject].Add(binding);
+        }
+
+        private static void ManageStringFormatArgs(MultiBinding multiBinding, IBinding stringFormatBinding)
+        {
+            if (stringFormatBinding == null)
+                return;
+
+            if (stringFormatBinding is Binding)
+            {
+                multiBinding.Bindings.Add(stringFormatBinding);
+            }
+            else if (stringFormatBinding is MultiBinding stringFormatMultiBinding)
+            {
+                stringFormatMultiBinding.Bindings.ToList().ForEach(multiBinding.Bindings.Add);
+            }
+        }
+
+        protected class ForTrMarkupInternalStringFormatMultiValuesConverter : IMultiValueConverter
+        {
+            internal TrData Data { get; set; }
+            internal IBinding TextIdBindingBase { get; set; }
+            internal IValueConverter TrConverter { get; set; }
+            internal object TrConverterParameter { get; set; }
+            internal CultureInfo TrConverterCulture { get; set; }
+            internal Collection<IBinding> StringFormatBindings { get; set; }
+
+            public object Convert(IList<object> values, Type targetType, object parameter, CultureInfo culture)
+            {
+                try
+                {
+                    int offset = 1;
+
+                    if (TextIdBindingBase is MultiBinding textIdMultiBinding)
+                    {
+                        Data.TextId = textIdMultiBinding.Converter.Convert(values.Take(textIdMultiBinding.Bindings.Count).ToArray(), null, textIdMultiBinding.ConverterParameter, TrConverterCulture).ToString();
+                        offset = textIdMultiBinding.Bindings.Count;
+                    }
+                    else if (TextIdBindingBase is Binding)
+                    {
+                        if (values.Count > 0)
+                            Data.TextId = values[0]?.ToString() ?? string.Empty;
+                        else
+                            Data.TextId = string.Empty;
+                        offset++;
+                    }
+
+                    List<object> stringFormatArgs = new();
+
+                    for (int i = 0; i < StringFormatBindings.Count; i++)
+                    {
+                        if (StringFormatBindings[i] is MultiBinding stringFormatMultiBinding)
+                        {
+                            int bindingsCount = stringFormatMultiBinding.Bindings.Count;
+                            stringFormatArgs.Add(stringFormatMultiBinding.Converter.Convert(values.Skip(offset).Take(bindingsCount).ToArray(), null, stringFormatMultiBinding.ConverterParameter, TrConverterCulture));
+                            offset += bindingsCount;
+                        }
+                        else
+                        {
+                            if (values.Count > offset)
+                                stringFormatArgs.Add(values[offset]);
+                            offset++;
+                        }
+                    }
+
+                    var translated = string.Format(Data.TranslatedText, stringFormatArgs.ToArray());
+
+                    return TrConverter == null ? translated : TrConverter.Convert(translated, null, TrConverterParameter, TrConverterCulture);
+                }
+                catch
+                {
+                    return string.Empty;
+                }
+            }
+
+            public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture) => throw new NotImplementedException();
+        }
     }
 }

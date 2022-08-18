@@ -14,5 +14,9 @@
   <ItemGroup>
     <ProjectReference Include="..\CodingSeb.Localization\CodingSeb.Localization.csproj" />
   </ItemGroup>
+	
+  <ItemGroup>
+    <Folder Include="Converters\" />
+  </ItemGroup>
 
 </Project>

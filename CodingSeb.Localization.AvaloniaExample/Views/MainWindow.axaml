@@ -8,6 +8,15 @@
         Icon="/Assets/avalonia-logo.ico"
         Title="Localization Examples"
 		Height="500" Width="700">
+	
+    <!--<Window.Resources>
+        <ObjectDataProvider x:Key="dataFromVisibilityEnum" MethodName="GetValues"
+							>
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="Visibility"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </Window.Resources>-->
 
     <Design.DataContext>
         <vm:MainWindowViewModel/>
@@ -15,15 +24,14 @@
 
      <DockPanel Margin="10">
         <DockPanel DockPanel.Dock="Top" VerticalAlignment="Top" LastChildFill="True">
-            <TextBlock x:Name="lblCurrentLanguage" 
+            <Label x:Name="lblCurrentLanguage" 
                    DockPanel.Dock="Left"
 				   VerticalAlignment="Center"
-                   Margin="0,0,10,0"
-                   Text="{Tr}" />
-            <!--<Button x:Name="LanguageChangedRefreshButton" 
+                   Content="{Tr}" />
+            <Button x:Name="LanguageChangedRefreshButton" 
                     DockPanel.Dock="Right"
                     Content="Refresh"
-                    Click="LanguageChangedRefreshButton_Click" />-->
+                    Click="LanguageChangedRefreshButton_Click" />
             <ComboBox x:Name="cbLanguageSelection"
 					  HorizontalAlignment="Stretch"
                       Items="{Binding LanguagesManager.AvailableLanguages}" 
@@ -38,6 +46,71 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
         </DockPanel>
+		 <StackPanel>
+            <StackPanel Orientation="Horizontal" >
+                <StackPanel>
+                    <Label x:Name="lblHelloInCurrentLanguageEn" 
+                           Content="{Tr IsDynamic=False, LanguageId='en', TextId='HelloInCurrentLanguage'}" />
+                    <Label x:Name="lblHelloInCurrentLanguageFr" 
+                           Content="{Tr IsDynamic=False, LanguageId='fr', TextId='HelloInCurrentLanguage'}" />
+                    <Label x:Name="lblHelloInCurrentLanguageEs" 
+                           Content="{Tr IsDynamic=False, LanguageId='es', TextId='HelloInCurrentLanguage'}" />
+                </StackPanel>
+                <Label BorderBrush="Black" 
+                       BorderThickness="1" 
+                       x:Name="lblHelloInCurrentLanguage" 
+                       Content="{Tr 'HelloInCurrentLanguage'}"
+                       ToolTip.Tip="{Tr}"
+                       VerticalAlignment="Center" Margin="5,0"/>
+            </StackPanel>
+			  <!--<ComboBox x:Name="TextComboBox"
+                      Items="{Binding Labels}"
+                      SelectedIndex="0"
+                      SelectedItem="{Binding Label}" />-->
+            <!--<Label BorderBrush="Black" BorderThickness="1" 
+				   HorizontalAlignment="Stretch"
+                   Content="{Binding Label, Converter={TrTextIdConverter DefaultText='DefaultText'}}"/>-->
+            <Label Content="{Tr TypeSomething}" />
+            <TextBox x:Name="InputTextBox" />
+            <TextBlock Text="{Tr Activate}" />
+            <Label BorderBrush="Black" 
+                       BorderThickness="1" 
+                       Content="{Tr TextId='YouTypedInTheTextBox', StringFormatArgBinding={Binding Text, ElementName=InputTextBox}}"
+                       VerticalAlignment="Center" Margin="5,0"/>
+            <!--<TextBlock>
+                <TextBlock.Text>
+                    <Tr TextId="YouTypedInTheTextBoxAndSelectedInComboBox">
+                        <Tr.StringFormatArgsBindings>
+                            <Binding Path="Text" ElementName="InputTextBox" />
+                            <Binding Path="SelectedItem" ElementName="TextComboBox" />
+                            --><!--<Binding Path="Label" Converter="{TrTextIdConverter DefaultText='DefaultText'}" />--><!--
+                        </Tr.StringFormatArgsBindings>
+                    </Tr>
+                </TextBlock.Text>
+            </TextBlock>-->
+            <!--<TextBlock Text="{Tr YouTypedInTheTextBoxAndSelectedInComboBox, {Binding Text, ElementName=InputTextBox}, {Binding SelectedItem, ElementName=TextComboBox}, {Binding Label, Converter={TrTextIdConverter}}}" />-->
+            <WrapPanel>
+                <!--<CheckBox x:Name="DemoCheckBox" Content="{Tr {Binding IsChecked, RelativeSource={RelativeSource Mode=Self}, Converter={local:BoolToStringConverter FalseValue=Activate, TrueValue=Deactivate}}}" />-->
+                <Border Margin="5,0" BorderThickness="0.5" BorderBrush="Gray" />
+                <!--<TextBlock Text="{MultiTr TheCheckBoxIs, {Binding IsChecked, ElementName=DemoCheckBox, Converter={local:BoolToStringConverter FalseValue=Activated, TrueValue=Deactivated}}, Separator=': '}" />-->
+            </WrapPanel>
+            <ListBox Items="{Binding Items}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate DataType="ListBoxItem">
+                        <Grid>
+                            <Grid x:Name="GridLevel0">
+                                <TextBlock Text="{Tr {Binding ContentName}, DefaultText='DefaultText'}"/>
+                            </Grid>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <TextBlock Text="{Binding AutoTranslation}" />
+            <!--<ComboBox Items="{Binding Source={StaticResource dataFromVisibilityEnum}}"
+                      SelectedItem="{Binding VisibilityForText}" />-->
+            <TextBlock Text="{Tr {Binding VisibilityForText}, TextIdStringFormat='Enums.Visibility.{0}'}"/>
+
+	    </StackPanel>
 	</DockPanel>
 	
 	
