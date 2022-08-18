@@ -22,7 +22,7 @@ namespace CodingSeb.Localization.Avalonia
         /// The Default TextId is "CurrentNamespace.CurrentClass.CurrentProperty"
         /// </summary>
         public Tr()
-        {}
+        { }
 
         /// <summary>
         /// Translate the current Property in the current language
@@ -171,20 +171,20 @@ namespace CodingSeb.Localization.Avalonia
         /// <returns></returns>
         public object ProvideValue(IServiceProvider serviceProvider, bool InMultiTr)
         {
-            if (serviceProvider.GetService(typeof(IProvideValueTarget)) is not IProvideValueTarget service 
+            if (serviceProvider.GetService(typeof(IProvideValueTarget)) is not IProvideValueTarget service
                 || service.TargetObject is not AvaloniaObject targetObject
                 || service.TargetProperty is not AvaloniaProperty targetProperty)
             {
                 return this;
             }
 
-            if(TextId == null)
+            if (TextId == null)
             {
                 if (serviceProvider is IRootObjectProvider rootObjectProvider)
                 {
                     TextId = $"{rootObjectProvider.RootObject.GetType().Name}";
-                    
-                    if(rootObjectProvider.RootObject is Control rootControl && !string.IsNullOrEmpty(rootControl.Name))
+
+                    if (rootObjectProvider.RootObject is Control rootControl && !string.IsNullOrEmpty(rootControl.Name))
                         TextId += $"[{rootControl.Name}]";
 
                     TextId += ".";
@@ -192,13 +192,13 @@ namespace CodingSeb.Localization.Avalonia
 
                 TextId = (TextId ?? "") + $"{targetObject.GetType().Name}";
 
-                if(targetObject is Control targetControl && !string.IsNullOrEmpty(targetControl.Name))
+                if (targetObject is Control targetControl && !string.IsNullOrEmpty(targetControl.Name))
                     TextId += $"[{targetControl.Name}]";
 
                 TextId += $".{targetProperty.Name}";
             }
 
-            if(IsDynamic)
+            if (IsDynamic)
             {
                 TrData trData = new()
                 {
@@ -210,7 +210,7 @@ namespace CodingSeb.Localization.Avalonia
                     Suffix = Suffix
                 };
 
-                Binding binding = new Binding(nameof(TrData.TranslatedText))
+                Binding binding = new(nameof(TrData.TranslatedText))
                 {
                     Source = trData,
                 };
@@ -223,7 +223,9 @@ namespace CodingSeb.Localization.Avalonia
                         binding.ConverterParameter = ConverterParameter;
                     }
 
-                    if(!bindingAutoCleanRefs.ContainsKey(targetObject))
+                    bindingAutoCleanRefs.ManualShrink();
+
+                    if (!bindingAutoCleanRefs.ContainsKey(targetObject))
                     {
                         bindingAutoCleanRefs.Add(targetObject, new List<IBinding>());
                     }
@@ -246,7 +248,7 @@ namespace CodingSeb.Localization.Avalonia
             {
                 object result = Prefix + Loc.Tr(TextId.ToString(), DefaultText, LanguageId) + Suffix;
 
-                if(Converter != null)
+                if (Converter != null)
                 {
                     result = Converter.Convert(result, targetProperty?.PropertyType, ConverterParameter, ConverterCulture);
                 }
@@ -256,47 +258,6 @@ namespace CodingSeb.Localization.Avalonia
 
             return TextId?.ToString();
         }
-
-        private void V_DetachedFromVisualTree(object sender, VisualTreeAttachmentEventArgs e)
-        {
-            
-        }
-
-        private void ManageStringFormatArgs(MultiBinding multiBinding, IBinding stringFormatBinding, AvaloniaObject dependencyObject, AvaloniaProperty dependencyProperty)
-        {
-            if (stringFormatBinding == null)
-                return;
-
-            //SetDependanciesInTrConverterBase(stringFormatBinding, dependencyObject, dependencyProperty);
-
-            if (stringFormatBinding is Binding)
-            {
-                multiBinding.Bindings.Add(stringFormatBinding);
-            }
-            else if (stringFormatBinding is MultiBinding stringFormatMultiBinding)
-            {
-                stringFormatMultiBinding.Bindings.ToList().ForEach(multiBinding.Bindings.Add);
-            }
-        }
-
-        //private void SetDependanciesInTrConverterBase(object converterContainer, AvaloniaObject targetObject, AvaloniaProperty targetProperty)
-        //{
-        //    if(converterContainer is Binding binding)
-        //    {
-        //        converterContainer = binding.Converter;
-        //    }
-        //    else if(converterContainer is MultiBinding multiBinding)
-        //    {
-        //        converterContainer = multiBinding.Converter;
-        //    }
-
-        //    if(converterContainer is TrConverterBase trConverterBase)
-        //    {
-        //        trConverterBase.xamlTargetObject = targetObject;
-        //        trConverterBase.xamlDependencyProperty = targetProperty;
-        //        trConverterBase.IsInAMultiBinding = true;
-        //    }
-        //}
 
     }
 }
