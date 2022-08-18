@@ -31,7 +31,10 @@ namespace CodingSeb.Localization.Avalonia
         /// <param name="textId">To force the use of a specific identifier</param>
         public Tr(object textId)
         {
-            TextId = textId.ToString();
+            if (textId is BindingBase textIdBinding)
+                TextIdBinding = textIdBinding;
+            else
+                TextId = textId.ToString();
         }
 
         public Tr(object textId, BindingBase arg1) : this(textId)
@@ -151,12 +154,14 @@ namespace CodingSeb.Localization.Avalonia
         /// <summary>
         /// A Simple binding to inject in the translated text with a string.Format
         /// </summary>
+        [AssignBinding]
         public IBinding StringFormatArgBinding { get; set; }
 
         /// <summary>
         /// A collection of bindings to inject in the translated text with a string.Format
         /// </summary>
-        public Collection<IBinding> StringFormatArgsBindings { get; } = new Collection<IBinding>();
+        [AssignBinding]
+        public Collection<IBinding> StringFormatArgsBindings { get; set; } = new Collection<IBinding>();
 
         /// <summary>
         /// Translation In Xaml

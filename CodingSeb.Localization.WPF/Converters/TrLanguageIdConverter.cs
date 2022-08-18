@@ -15,7 +15,6 @@ namespace CodingSeb.Localization.WPF
         /// <summary>
         /// To force the use of a specific identifier
         /// </summary>
-        [ConstructorArgument("textId")]
         public virtual string TextId { get; set; }
 
         /// <summary>

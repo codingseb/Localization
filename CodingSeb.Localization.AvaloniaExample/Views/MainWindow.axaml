@@ -3,20 +3,12 @@
         xmlns:vm="using:CodingSeb.Localization.AvaloniaExample.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:conv="CodingSeb.Localization.AvaloniaExample.Converters"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="CodingSeb.Localization.AvaloniaExample.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="Localization Examples"
 		Height="500" Width="700">
-	
-    <!--<Window.Resources>
-        <ObjectDataProvider x:Key="dataFromVisibilityEnum" MethodName="GetValues"
-							>
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="Visibility"/>
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
-    </Window.Resources>-->
 
     <Design.DataContext>
         <vm:MainWindowViewModel/>
@@ -37,9 +29,9 @@
                       Items="{Binding LanguagesManager.AvailableLanguages}" 
                       SelectedItem="{Binding LanguagesManager.CurrentLanguage}">
                 <ComboBox.ItemTemplate>
-                    <DataTemplate DataType="ComboBoxItem">
+                    <DataTemplate>
                         <StackPanel>
-                            <!--<TextBlock Text="{Binding Converter={TrLanguageIdConverter TextId='LanguageName' }}" FontWeight="Bold" />-->
+                            <TextBlock Text="{Binding Converter={TrLanguageIdConverter TextId=LanguageName }}" FontWeight="Bold" />
                             <TextBlock Text="{Binding}" />
                         </StackPanel>
                     </DataTemplate>
@@ -63,13 +55,13 @@
                        ToolTip.Tip="{Tr}"
                        VerticalAlignment="Center" Margin="5,0"/>
             </StackPanel>
-			  <!--<ComboBox x:Name="TextComboBox"
+			  <ComboBox x:Name="TextComboBox"
                       Items="{Binding Labels}"
                       SelectedIndex="0"
-                      SelectedItem="{Binding Label}" />-->
-            <!--<Label BorderBrush="Black" BorderThickness="1" 
+                      SelectedItem="{Binding Label}" />
+            <Label BorderBrush="Black" BorderThickness="1" 
 				   HorizontalAlignment="Stretch"
-                   Content="{Binding Label, Converter={TrTextIdConverter DefaultText='DefaultText'}}"/>-->
+                   Content="{Binding Label, Converter={TrTextIdConverter DefaultText='DefaultText'}}"/>
             <Label Content="{Tr TypeSomething}" />
             <TextBox x:Name="InputTextBox" />
             <TextBlock Text="{Tr Activate}" />
@@ -83,20 +75,20 @@
                         <Tr.StringFormatArgsBindings>
                             <Binding Path="Text" ElementName="InputTextBox" />
                             <Binding Path="SelectedItem" ElementName="TextComboBox" />
-                            --><!--<Binding Path="Label" Converter="{TrTextIdConverter DefaultText='DefaultText'}" />--><!--
+                            <Binding Path="Label" Converter="{TrTextIdConverter DefaultText='DefaultText'}" />
                         </Tr.StringFormatArgsBindings>
                     </Tr>
                 </TextBlock.Text>
             </TextBlock>-->
             <!--<TextBlock Text="{Tr YouTypedInTheTextBoxAndSelectedInComboBox, {Binding Text, ElementName=InputTextBox}, {Binding SelectedItem, ElementName=TextComboBox}, {Binding Label, Converter={TrTextIdConverter}}}" />-->
             <WrapPanel>
-                <!--<CheckBox x:Name="DemoCheckBox" Content="{Tr {Binding IsChecked, RelativeSource={RelativeSource Mode=Self}, Converter={local:BoolToStringConverter FalseValue=Activate, TrueValue=Deactivate}}}" />-->
+                <CheckBox x:Name="DemoCheckBox" Content="{Tr {Binding ElementName=DemoCheckBox, Path=IsChecked}}"/>
                 <Border Margin="5,0" BorderThickness="0.5" BorderBrush="Gray" />
-                <!--<TextBlock Text="{MultiTr TheCheckBoxIs, {Binding IsChecked, ElementName=DemoCheckBox, Converter={local:BoolToStringConverter FalseValue=Activated, TrueValue=Deactivated}}, Separator=': '}" />-->
+                <TextBlock Text="{MultiTr TheCheckBoxIs, {Binding IsChecked, ElementName=DemoCheckBox}, Separator=': '}" />
             </WrapPanel>
             <ListBox Items="{Binding Items}">
                 <ListBox.ItemTemplate>
-                    <DataTemplate DataType="ListBoxItem">
+                    <DataTemplate>
                         <Grid>
                             <Grid x:Name="GridLevel0">
                                 <TextBlock Text="{Tr {Binding ContentName}, DefaultText='DefaultText'}"/>
