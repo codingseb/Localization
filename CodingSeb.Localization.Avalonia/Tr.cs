@@ -5,10 +5,8 @@ using Avalonia.Data.Converters;
 using Avalonia.Markup.Xaml;
 using Avalonia.Markup.Xaml.MarkupExtensions;
 using Avalonia.Markup.Xaml.XamlIl.Runtime;
-using Avalonia.Metadata;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 
@@ -170,10 +168,7 @@ namespace CodingSeb.Localization.Avalonia
         /// Translation In Xaml
         /// </summary>
         /// <param name="serviceProvider"></param>
-        public override object ProvideValue(IServiceProvider serviceProvider)
-        {
-            return ProvideValue(serviceProvider, false);
-        }
+        public override object ProvideValue(IServiceProvider serviceProvider) => ProvideValue(serviceProvider, false);
 
         /// <summary>
         /// Translation In Xaml
