@@ -1,9 +1,11 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using CodingSeb.Localization.AvaloniaExamples;
+using PropertyChanged;
 
 namespace CodingSeb.Localization.AvaloniaExample.Views
 {
+    [DoNotNotify]
     public partial class MainWindow : Window
     {
         public MainWindow()

@@ -2,6 +2,8 @@
 using Avalonia.Data;
 using Avalonia.Data.Converters;
 using Avalonia.Markup.Xaml;
+using Avalonia.Markup.Xaml.MarkupExtensions;
+using Avalonia.Markup.Xaml.XamlIl.Runtime;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -101,10 +103,11 @@ namespace CodingSeb.Localization.Avalonia
 
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
-            if (serviceProvider.GetService(typeof(IProvideValueTarget)) is not IProvideValueTarget service)
-                return this;
-
-            if (service.TargetObject is not AvaloniaObject targetObject
+            if (serviceProvider.GetService(typeof(IProvideValueTarget)) is not IProvideValueTarget service
+                || (service.TargetObject is not AvaloniaObject targetObject
+                    && !((service.TargetObject is ReflectionBindingExtension || service.TargetObject is MultiTr)
+                        && serviceProvider.GetService(typeof(IAvaloniaXamlIlParentStackProvider)) is IAvaloniaXamlIlParentStackProvider parentStackProvider
+                        && (targetObject = parentStackProvider.Parents.FirstOrDefault(p => p is AvaloniaObject) as AvaloniaObject) is not null))
                 || service.TargetProperty is not AvaloniaProperty targetProperty)
             {
                 return this;

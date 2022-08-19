@@ -4,10 +4,12 @@ using Avalonia.Markup.Xaml;
 using CodingSeb.Localization.AvaloniaExample.ViewModels;
 using CodingSeb.Localization.AvaloniaExample.Views;
 using CodingSeb.Localization.AvaloniaExamples;
+using PropertyChanged;
 using System;
 
 namespace CodingSeb.Localization.AvaloniaExample
 {
+    [DoNotNotify]
     public partial class App : Application
     {
         public override void Initialize()

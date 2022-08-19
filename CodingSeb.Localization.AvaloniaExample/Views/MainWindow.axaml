@@ -3,7 +3,7 @@
         xmlns:vm="using:CodingSeb.Localization.AvaloniaExample.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-		xmlns:conv="CodingSeb.Localization.AvaloniaExample.Converters"
+		xmlns:conv="using:CodingSeb.Localization.AvaloniaExample.Converters"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="CodingSeb.Localization.AvaloniaExample.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
@@ -56,9 +56,9 @@
                        VerticalAlignment="Center" Margin="5,0"/>
             </StackPanel>
 			  <ComboBox x:Name="TextComboBox"
-                      Items="{Binding Labels}"
-                      SelectedIndex="0"
-                      SelectedItem="{Binding Label}" />
+						HorizontalAlignment="Stretch"
+                        Items="{Binding Labels}"
+                        SelectedItem="{Binding Label}" />
             <Label BorderBrush="Black" BorderThickness="1" 
 				   HorizontalAlignment="Stretch"
                    Content="{Binding Label, Converter={TrTextIdConverter DefaultText='DefaultText'}}"/>
@@ -69,7 +69,7 @@
                        BorderThickness="1" 
                        Content="{Tr TextId='YouTypedInTheTextBox', StringFormatArgBinding={Binding Text, ElementName=InputTextBox}}"
                        VerticalAlignment="Center" Margin="5,0"/>
-            <!--<TextBlock>
+            <TextBlock>
                 <TextBlock.Text>
                     <Tr TextId="YouTypedInTheTextBoxAndSelectedInComboBox">
                         <Tr.StringFormatArgsBindings>
@@ -79,12 +79,13 @@
                         </Tr.StringFormatArgsBindings>
                     </Tr>
                 </TextBlock.Text>
-            </TextBlock>-->
-            <!--<TextBlock Text="{Tr YouTypedInTheTextBoxAndSelectedInComboBox, {Binding Text, ElementName=InputTextBox}, {Binding SelectedItem, ElementName=TextComboBox}, {Binding Label, Converter={TrTextIdConverter}}}" />-->
+            </TextBlock>
+            <TextBlock Text="{Tr YouTypedInTheTextBoxAndSelectedInComboBox, {Binding Text, ElementName=InputTextBox}, {Binding SelectedItem, ElementName=TextComboBox}, {Binding Label, Converter={TrTextIdConverter}}}" />
             <WrapPanel>
-                <CheckBox x:Name="DemoCheckBox" Content="{Tr {Binding ElementName=DemoCheckBox, Path=IsChecked}}"/>
+                <CheckBox x:Name="DemoCheckBox" Content="{Tr {Binding IsChecked, RelativeSource={RelativeSource Mode=Self}, Converter={conv:BoolToStringConverter FalseValue=Activate, TrueValue=Deactivate}}}" />
                 <Border Margin="5,0" BorderThickness="0.5" BorderBrush="Gray" />
-                <TextBlock Text="{MultiTr TheCheckBoxIs, {Binding IsChecked, ElementName=DemoCheckBox}, Separator=': '}" />
+                <TextBlock VerticalAlignment="Center"
+					Text="{MultiTr TheCheckBoxIs, {Binding IsChecked, ElementName=DemoCheckBox, Converter={conv:BoolToStringConverter FalseValue=Activated, TrueValue=Deactivated}}, Separator=': '}" />
             </WrapPanel>
             <ListBox Items="{Binding Items}">
                 <ListBox.ItemTemplate>

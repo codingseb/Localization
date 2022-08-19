@@ -3,6 +3,9 @@ using Avalonia.Controls;
 using Avalonia.Data;
 using Avalonia.Data.Converters;
 using Avalonia.Markup.Xaml;
+using Avalonia.Markup.Xaml.MarkupExtensions;
+using Avalonia.Markup.Xaml.XamlIl.Runtime;
+using Avalonia.Metadata;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -31,53 +34,53 @@ namespace CodingSeb.Localization.Avalonia
         /// <param name="textId">To force the use of a specific identifier</param>
         public Tr(object textId)
         {
-            if (textId is BindingBase textIdBinding)
+            if (textId is IBinding textIdBinding)
                 TextIdBinding = textIdBinding;
             else
                 TextId = textId.ToString();
         }
 
-        public Tr(object textId, BindingBase arg1) : this(textId)
+        public Tr(object textId, IBinding arg1) : this(textId)
         {
-            ManageArg(new List<BindingBase> { arg1 });
+            ManageArg(new List<IBinding> { arg1 });
         }
 
-        public Tr(object textId, BindingBase arg1, BindingBase arg2) : this(textId)
+        public Tr(object textId, IBinding arg1, IBinding arg2) : this(textId)
         {
-            ManageArg(new List<BindingBase> { arg1, arg2 });
+            ManageArg(new List<IBinding> { arg1, arg2 });
         }
 
-        public Tr(object textId, BindingBase arg1, BindingBase arg2, BindingBase arg3) : this(textId)
+        public Tr(object textId, IBinding arg1, IBinding arg2, IBinding arg3) : this(textId)
         {
-            ManageArg(new List<BindingBase> { arg1, arg2, arg3 });
+            ManageArg(new List<IBinding> { arg1, arg2, arg3 });
         }
 
-        public Tr(object textId, BindingBase arg1, BindingBase arg2, BindingBase arg3, BindingBase arg4) : this(textId)
+        public Tr(object textId, IBinding arg1, IBinding arg2, IBinding arg3, IBinding arg4) : this(textId)
         {
-            ManageArg(new List<BindingBase> { arg1, arg2, arg3, arg4 });
+            ManageArg(new List<IBinding> { arg1, arg2, arg3, arg4 });
         }
 
-        public Tr(object textId, BindingBase arg1, BindingBase arg2, BindingBase arg3, BindingBase arg4, BindingBase arg5) : this(textId)
+        public Tr(object textId, IBinding arg1, IBinding arg2, IBinding arg3, IBinding arg4, IBinding arg5) : this(textId)
         {
-            ManageArg(new List<BindingBase> { arg1, arg2, arg3, arg4, arg5 });
+            ManageArg(new List<IBinding> { arg1, arg2, arg3, arg4, arg5 });
         }
 
-        public Tr(object textId, BindingBase arg1, BindingBase arg2, BindingBase arg3, BindingBase arg4, BindingBase arg5, BindingBase arg6) : this(textId)
+        public Tr(object textId, IBinding arg1, IBinding arg2, IBinding arg3, IBinding arg4, IBinding arg5, IBinding arg6) : this(textId)
         {
-            ManageArg(new List<BindingBase> { arg1, arg2, arg3, arg4, arg5, arg6 });
+            ManageArg(new List<IBinding> { arg1, arg2, arg3, arg4, arg5, arg6 });
         }
 
-        public Tr(object textId, BindingBase arg1, BindingBase arg2, BindingBase arg3, BindingBase arg4, BindingBase arg5, BindingBase arg6, BindingBase arg7) : this(textId)
+        public Tr(object textId, IBinding arg1, IBinding arg2, IBinding arg3, IBinding arg4, IBinding arg5, IBinding arg6, IBinding arg7) : this(textId)
         {
-            ManageArg(new List<BindingBase> { arg1, arg2, arg3, arg4, arg5, arg6, arg7 });
+            ManageArg(new List<IBinding> { arg1, arg2, arg3, arg4, arg5, arg6, arg7 });
         }
 
-        public Tr(object textId, BindingBase arg1, BindingBase arg2, BindingBase arg3, BindingBase arg4, BindingBase arg5, BindingBase arg6, BindingBase arg7, BindingBase arg8) : this(textId)
+        public Tr(object textId, IBinding arg1, IBinding arg2, IBinding arg3, IBinding arg4, IBinding arg5, IBinding arg6, IBinding arg7, IBinding arg8) : this(textId)
         {
-            ManageArg(new List<BindingBase> { arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8 });
+            ManageArg(new List<IBinding> { arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8 });
         }
 
-        private void ManageArg(List<BindingBase> args)
+        private void ManageArg(List<IBinding> args)
         {
             args.ForEach(StringFormatArgsBindings.Add);
         }
@@ -161,7 +164,7 @@ namespace CodingSeb.Localization.Avalonia
         /// A collection of bindings to inject in the translated text with a string.Format
         /// </summary>
         [AssignBinding]
-        public Collection<IBinding> StringFormatArgsBindings { get; set; } = new Collection<IBinding>();
+        public IList<IBinding> StringFormatArgsBindings { get; set; } = new List<IBinding>();
 
         /// <summary>
         /// Translation In Xaml
@@ -181,7 +184,10 @@ namespace CodingSeb.Localization.Avalonia
         public object ProvideValue(IServiceProvider serviceProvider, bool InMultiTr)
         {
             if (serviceProvider.GetService(typeof(IProvideValueTarget)) is not IProvideValueTarget service
-                || service.TargetObject is not AvaloniaObject targetObject
+                || (service.TargetObject is not AvaloniaObject targetObject
+                    && !((service.TargetObject is ReflectionBindingExtension || service.TargetObject is Tr)
+                        && serviceProvider.GetService(typeof(IAvaloniaXamlIlParentStackProvider)) is IAvaloniaXamlIlParentStackProvider parentStackProvider
+                        && (targetObject = parentStackProvider.Parents.FirstOrDefault(p => p is AvaloniaObject) as AvaloniaObject) is not null))
                 || service.TargetProperty is not AvaloniaProperty targetProperty)
             {
                 return this;
@@ -258,11 +264,11 @@ namespace CodingSeb.Localization.Avalonia
                     var internalConverter = new ForTrMarkupInternalStringFormatMultiValuesConverter()
                     {
                         Data = trData,
-                        TextIdBindingBase = TextIdBinding,
+                        TextIdBinding = TextIdBinding,
                         TrConverter = Converter,
                         TrConverterParameter = ConverterParameter,
                         TrConverterCulture = ConverterCulture,
-                        StringFormatBindings = StringFormatArgsBindings ?? new Collection<IBinding>()
+                        StringFormatBindings = StringFormatArgsBindings ?? new List<IBinding>()
                     };
 
                     MultiBinding multiBinding = new()
@@ -351,11 +357,11 @@ namespace CodingSeb.Localization.Avalonia
         protected class ForTrMarkupInternalStringFormatMultiValuesConverter : IMultiValueConverter
         {
             internal TrData Data { get; set; }
-            internal IBinding TextIdBindingBase { get; set; }
+            internal IBinding TextIdBinding { get; set; }
             internal IValueConverter TrConverter { get; set; }
             internal object TrConverterParameter { get; set; }
             internal CultureInfo TrConverterCulture { get; set; }
-            internal Collection<IBinding> StringFormatBindings { get; set; }
+            internal IList<IBinding> StringFormatBindings { get; set; }
 
             public object Convert(IList<object> values, Type targetType, object parameter, CultureInfo culture)
             {
@@ -363,12 +369,12 @@ namespace CodingSeb.Localization.Avalonia
                 {
                     int offset = 1;
 
-                    if (TextIdBindingBase is MultiBinding textIdMultiBinding)
+                    if (TextIdBinding is MultiBinding textIdMultiBinding)
                     {
                         Data.TextId = textIdMultiBinding.Converter.Convert(values.Take(textIdMultiBinding.Bindings.Count).ToArray(), null, textIdMultiBinding.ConverterParameter, TrConverterCulture).ToString();
                         offset = textIdMultiBinding.Bindings.Count;
                     }
-                    else if (TextIdBindingBase is Binding)
+                    else if (TextIdBinding is Binding)
                     {
                         if (values.Count > 0)
                             Data.TextId = values[0]?.ToString() ?? string.Empty;
