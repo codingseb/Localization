@@ -13,7 +13,7 @@ namespace CodingSeb.Localization.AvaloniaExample.ViewModels
                     .Keys.ToList()
                     .FindAll(k => k.StartsWith("Text:"));
 
-        //public Visibility VisibilityForText { get; set; } = Visibility.Hidden;
+        public bool VisibilityForText { get; set; }
 
         //[Localize("ANiceText")]
         //public string AutoTranslation { get; set; }

@@ -91,20 +91,15 @@
   },
   "Enums": {
     "Visibility": {
-      "Visible": {
+      "True": {
         "en": "Visible",
         "fr": "Visible",
         "es": "Visible"
       },
-      "Hidden": {
+      "False": {
         "en": "Hidden",
         "fr": "Caché",
         "es": "Oculto"
-      },
-      "Collapsed": {
-        "en": "Collapsed",
-        "fr": "Réduit",
-        "es": "Colapsado"
       }
     }
   }
