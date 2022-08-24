@@ -6,6 +6,8 @@ namespace CodingSeb.Localization.AvaloniaExample.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
+        private string label;
+
         public Loc LanguagesManager => Loc.Instance;
 
         public List<string> Labels => Loc.Instance
@@ -15,10 +17,18 @@ namespace CodingSeb.Localization.AvaloniaExample.ViewModels
 
         public bool VisibilityForText { get; set; }
 
-        //[Localize("ANiceText")]
-        //public string AutoTranslation { get; set; }
+        [Localize("ANiceText")]
+        public string AutoTranslation { get; set; }
 
-        public string Label { get; set; }
+        public string Label
+        {
+            get
+            {
+                label ??= Labels[0];
+                return label;
+            }
+            set { label = value; }
+        }
 
         public ObservableCollection<ItemViewModel> Items { get; set; } = new ObservableCollection<ItemViewModel>()
         {

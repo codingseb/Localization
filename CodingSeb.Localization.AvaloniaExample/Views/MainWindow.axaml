@@ -60,7 +60,7 @@
 			  <ComboBox x:Name="TextComboBox"
 						HorizontalAlignment="Stretch"
                         Items="{Binding Labels}"
-                        SelectedItem="{Binding Label}" />
+                        SelectedItem="{Binding Label}"/>
             <Label BorderBrush="Black" BorderThickness="1" 
 				   HorizontalAlignment="Stretch"
                    Content="{Binding Label, Converter={TrTextIdConverter DefaultText='DefaultText'}}"/>

@@ -38,6 +38,7 @@
 	
   <ItemGroup>
     <ProjectReference Include="..\CodingSeb.Localization.Avalonia\CodingSeb.Localization.Avalonia.csproj" />
+    <ProjectReference Include="..\CodingSeb.Localization.FodyAddin\CodingSeb.Localization.FodyAddin.csproj" />
     <ProjectReference Include="..\CodingSeb.Localization.JsonFileLoader\CodingSeb.Localization.JsonFileLoader.csproj" />
   </ItemGroup>
 	
