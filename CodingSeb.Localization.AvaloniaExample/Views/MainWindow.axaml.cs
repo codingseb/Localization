@@ -1,5 +1,4 @@
 using Avalonia.Controls;
-using System.Linq;
 using Avalonia.Interactivity;
 using CodingSeb.Localization.AvaloniaExamples;
 using PropertyChanged;

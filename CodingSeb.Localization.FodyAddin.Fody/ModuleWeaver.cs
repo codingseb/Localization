@@ -254,7 +254,6 @@ namespace CodingSeb.Localization.FodyAddin.Fody
             yield return "mscorlib";
             yield return "System.Runtime";
             yield return "System.Core";
-            yield return "netstandard";
             yield return "System.Collections";
             yield return "System.ObjectModel";
             yield return "System.Threading";
