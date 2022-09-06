@@ -193,7 +193,12 @@ namespace CodingSeb.Localization
 
             return Translators
                 .Find(tr => tr.CanTranslate(textId, languageId))?
-                .Translate(textId ?? string.Empty, languageId)
+                .Translate(textId ?? string.Empty, languageId) ??
+
+                (UseFallbackLanguage ? Translators
+                .Find(tr => tr.CanTranslate(textId, FallbackLanguage))?
+                .Translate(textId ?? string.Empty, FallbackLanguage) : null)
+
                 ?? defaultText ?? string.Empty;
         }
 
