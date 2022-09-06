@@ -1,6 +1,5 @@
 ﻿using Avalonia.Utilities;
 using PropertyChanged;
-using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
