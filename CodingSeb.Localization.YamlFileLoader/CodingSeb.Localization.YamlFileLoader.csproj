@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <Authors>CodingSeb</Authors>
-    <Description>A suite to localize C# and WPF project easily base on file format you choose.</Description>
+    <Description>A suite to localize C# and (WPF/AvaloniaUI) project easily base on file format you choose.</Description>
     <Copyright>Copyright © Coding Seb 2019</Copyright>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <RepositoryUrl>https://github.com/codingseb/Localization</RepositoryUrl>

@@ -1,14 +1,32 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFrameworks>net6.0;netstandard2.0</TargetFrameworks>
     <ImplicitUsings>disable</ImplicitUsings>
     <Nullable>disable</Nullable>
+	<LangVersion>latest</LangVersion>
+	<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+	<Authors>CodingSeb</Authors>
+    <Company />
+    <Copyright>Copyright © Coding Seb 2019</Copyright>
+    <PackageLicenseExpression></PackageLicenseExpression>
+    <Description>A suite to localize C# and (WPF/AvaloniaUI) project easily base on file format you choose.</Description>
+    <RepositoryUrl>https://github.com/codingseb/Localization</RepositoryUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE.md" Link="LICENSE.md">
+      <PackagePath></PackagePath>
+      <Pack>True</Pack>
+    </None>
+  </ItemGroup>
 	
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="0.10.18" />
-    <PackageReference Include="PropertyChanged.Fody" Version="3.4.1" PrivateAssets="All"/>
+    <PackageReference Include="Avalonia" Version="11.0.0-preview1" />
+    <PackageReference Include="PropertyChanged.Fody" Version="4.0.1" PrivateAssets="All" />
   </ItemGroup>
 	
   <ItemGroup>

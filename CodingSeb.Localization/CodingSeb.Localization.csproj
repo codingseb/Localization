@@ -6,7 +6,7 @@
     <Company />
     <Copyright>Copyright © Coding Seb 2019</Copyright>
     <PackageLicenseExpression></PackageLicenseExpression>
-    <Description>A suite to localize C# and WPF project easily base on file format you choose.</Description>
+    <Description>A suite to localize C# and (WPF/AvaloniaUI) project easily base on file format you choose.</Description>
     <RepositoryUrl>https://github.com/codingseb/Localization</RepositoryUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
