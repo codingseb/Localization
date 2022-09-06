@@ -209,7 +209,7 @@ namespace CodingSeb.Localization.WPF
 
             if (IsDynamic)
             {
-                TrData trData = new TrData()
+                TrData trData = new()
                 {
                     TextId = TextId,
                     TextIdStringFormat = TextIdStringFormat,
@@ -219,7 +219,7 @@ namespace CodingSeb.Localization.WPF
                     Suffix = Suffix
                 };
 
-                Binding binding = new Binding(nameof(TrData.TranslatedText))
+                Binding binding = new(nameof(TrData.TranslatedText))
                 {
                     Source = trData
                 };
@@ -258,7 +258,7 @@ namespace CodingSeb.Localization.WPF
                         StringFormatBindings = StringFormatArgsBindings ?? new Collection<BindingBase>()
                     };
 
-                    MultiBinding multiBinding = new MultiBinding
+                    MultiBinding multiBinding = new()
                     {
                         Converter = internalConverter
                     };
@@ -379,7 +379,7 @@ namespace CodingSeb.Localization.WPF
                         offset++;
                     }
 
-                    List<object> stringFormatArgs = new List<object>();
+                    List<object> stringFormatArgs = new();
 
                     for(int i = 0; i < StringFormatBindings.Count; i++)
                     {
