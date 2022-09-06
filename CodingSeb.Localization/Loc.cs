@@ -57,7 +57,8 @@ namespace CodingSeb.Localization
         /// <summary>
         /// The language to use if a translation is missing in the <see cref="CurrentLanguage"/>.<para/>
         /// If the translation is also missing in the <see cref="FallbackLanguage"/> the defaultText if specified is then used.<para/>
-        /// To use it set <see cref="UseFallbackLanguage"/> to <c>true</c>
+        /// To use it set <see cref="UseFallbackLanguage"/> to <c>true</c><para/>
+        /// By default if not set manually is equals to "en" (English)
         /// </summary>
         public string FallbackLanguage { get; set; } = "en";
 
