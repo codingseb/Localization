@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Avalonia.Markup.Xaml;
+using Avalonia.Utilities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Dynamic;
 using System.Runtime.CompilerServices;
-using System.Windows;
-using System.Windows.Markup;
 
-namespace CodingSeb.Localization.WPF
+namespace CodingSeb.Localization.Avalonia
 {
     public class TrViewModel : MarkupExtension
     {
@@ -22,12 +22,12 @@ namespace CodingSeb.Localization.WPF
 
         public TrViewModelData()
         {
-            WeakEventManager<Loc, CurrentLanguageChangedEventArgs>.AddHandler(Loc.Instance, nameof(Loc.Instance.CurrentLanguageChanged), CurrentLanguageChanged);
+            WeakEventHandlerManager.Subscribe<Loc,CurrentLanguageChangedEventArgs,TrData>(Loc.Instance, nameof(Loc.CurrentLanguageChanged), CurrentLanguageChanged);
         }
 
         ~TrViewModelData()
         {
-            WeakEventManager<Loc, CurrentLanguageChangedEventArgs>.RemoveHandler(Loc.Instance, nameof(Loc.Instance.CurrentLanguageChanged), CurrentLanguageChanged);
+            WeakEventHandlerManager.Unsubscribe<CurrentLanguageChangedEventArgs, TrData>(Loc.Instance, nameof(Loc.CurrentLanguageChanged), CurrentLanguageChanged);
         }
 
         private void CurrentLanguageChanged(object sender, CurrentLanguageChangedEventArgs args)
@@ -51,5 +51,4 @@ namespace CodingSeb.Localization.WPF
 
             return true;
         }
-    }
-}
+    }}
