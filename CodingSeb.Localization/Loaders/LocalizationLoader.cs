@@ -64,11 +64,19 @@ namespace CodingSeb.Localization.Loaders
         /// Load all the language files of the specified directory in the languages dictionnaries
         /// </summary>
         /// <param name="path">The path of the directory to load</param>
-        public void AddDirectory(string path)
+        /// <param name="recursive">Specify if files are loaded in subdirectories or not</param>
+        public void AddDirectory(string path, bool recursive = false)
         {
             Directory.GetFiles(path)
                 .ToList()
                 .ForEach(AddFile);
+
+            if(recursive)
+            {
+                Directory.GetDirectories(path)
+                    .ToList()
+                    .ForEach(directory => AddDirectory(directory, recursive));
+            }
         }
 
         /// <summary>
