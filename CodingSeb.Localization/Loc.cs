@@ -88,7 +88,7 @@ namespace CodingSeb.Localization
         /// The list of translators that try to translate each text.
         /// first translators have higher priorities than last
         /// </summary>
-        public List<ITranslator> Translators { get; }
+        public List<ITranslator> Translators { get; } = new List<ITranslator>();
 
         /// <summary>
         /// The dictionary that contains all available translations
@@ -110,7 +110,9 @@ namespace CodingSeb.Localization
                     lock (lockObject)
                     {
                         if (instance == null)
+                        {
                             instance = new Loc();
+                        }
                     }
                 }
 
@@ -119,21 +121,35 @@ namespace CodingSeb.Localization
         }
 
         /// <summary>
-        /// Just For Testing purposes. Prefer the static property Instance
+        /// Default Constructor
+        /// Use a <see cref="FilesDictionaryTranslator"/>
         /// </summary>
         public Loc()
         {
-            Translators = new List<ITranslator>()
-            {
+            Translators.Add(
                 new FilesDictionaryTranslator()
                 {
                     Loc = this
-                }
-            };
+                });
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="translators">a collection of translators to use to translate texts</param>
+        public Loc(params ITranslator[] translators)
+        {
+            Translators.AddRange(translators);
+        }
+
+        /// <inheritdoc/>
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// To fire the event <see cref="PropertyChanged"/> for the specified property.<para/>
+        /// If no <see cref="propertyName"/> specified use the name of the calling property
+        /// </summary>
+        /// <param name="propertyName">The name of the property that have changed</param>
         public virtual void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -143,7 +159,7 @@ namespace CodingSeb.Localization
         /// To Manually raise CurrentLanguageChanging and CurrentLanguageChanged events.
         /// Force events even if the current language didn't changed.
         /// </summary>
-        public void RaiseLanguageChangeEvents()
+        public virtual void RaiseLanguageChangeEvents()
         {
             var changingArgs = new CurrentLanguageChangingEventArgs(currentLanguage, currentLanguage);
             var changedArgs = new CurrentLanguageChangedEventArgs(currentLanguage, currentLanguage);
@@ -175,9 +191,9 @@ namespace CodingSeb.Localization
         /// </summary>
         /// <param name="textId">The text to translate identifier</param>
         /// <param name="defaultText">The text to return if no text correspond to textId in the current language</param>
-        /// <param name="languageId">The language id in which to get the translation. To Specify if not CurrentLanguage</param>
+        /// <param name="languageId">The language id in which to get the translation. To Specify if not <see cref="CurrentLanguage"/></param>
         /// <returns>The translated text</returns>
-        public string Translate(string textId, string defaultText = null, string languageId = null)
+        public virtual string Translate(string textId, string defaultText = null, string languageId = null)
         {
             if (string.IsNullOrEmpty(defaultText))
             {
@@ -211,7 +227,7 @@ namespace CodingSeb.Localization
 
         public SortedDictionary<string, SortedDictionary<string, string>> MissingTranslations { get; } = new SortedDictionary<string, SortedDictionary<string, string>>();
 
-        private void CheckMissingTranslation(string textId, string defaultText)
+        protected virtual void CheckMissingTranslation(string textId, string defaultText)
         {
             if (LogOutMissingTranslations)
             {
