@@ -1,9 +1,11 @@
-﻿using Newtonsoft.Json;
+﻿using CodingSeb.Localization.JsonFileLoader;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace CodingSeb.Localization.Loaders
 {
@@ -29,6 +31,12 @@ namespace CodingSeb.Localization.Loaders
         /// By default string.Empty
         /// </summary>
         public string LabelPathSuffix { get; set; } = string.Empty;
+
+        /// <summary>
+        /// To define how is decoded the LangId of a translation.<para/>
+        /// Default value : <see cref="JsonFileLoaderLangIdDecoding.JsonNodeLeafKey"/>
+        /// </summary>
+        public JsonFileLoaderLangIdDecoding LangIdDecoding { get; set; }
 
         /// <summary>
         /// Test if the specified file is loadable by this Loader
@@ -67,7 +75,23 @@ namespace CodingSeb.Localization.Loaders
                     textId.Pop();
                     break;
                 case JTokenType.String:
-                    loader.AddTranslation(LabelPathRootPrefix + string.Join(LabelPathSeparator, textId.Reverse()) + LabelPathSuffix, property.Name, property.Value.ToString(), fileName);
+                    
+                    if(LangIdDecoding == JsonFileLoaderLangIdDecoding.InFileNameBeforeExtension)
+                    {
+                        textId.Push(property.Name);
+                        loader.AddTranslation(LabelPathRootPrefix + string.Join(LabelPathSeparator, textId.Reverse()) + LabelPathSuffix, Path.GetExtension(Regex.Replace(fileName, @"\.loc\.json", "")).Replace(".", ""), property.Value.ToString(), fileName);
+                        textId.Pop();
+                    }
+                    else if(LangIdDecoding == JsonFileLoaderLangIdDecoding.DirectoryName)
+                    {
+                        textId.Push(property.Name);
+                        loader.AddTranslation(LabelPathRootPrefix + string.Join(LabelPathSeparator, textId.Reverse()) + LabelPathSuffix, Path.GetDirectoryName(fileName), property.Value.ToString(), fileName);
+                        textId.Pop();
+                    }
+                    else
+                    {
+                        loader.AddTranslation(LabelPathRootPrefix + string.Join(LabelPathSeparator, textId.Reverse()) + LabelPathSuffix, property.Name, property.Value.ToString(), fileName);
+                    }
                     break;
                 default:
                     throw new FormatException($"Invalid format in Json language file for property [{property.Name}]");
