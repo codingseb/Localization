@@ -1,9 +1,9 @@
 using CodingSeb.Localization.Loaders;
-using CodingSeb.Localization;
+using CodingSeb.Localization.Translators;
 using NUnit.Framework;
+using Shouldly;
 using System.IO;
 using System.Reflection;
-using Shouldly;
 
 namespace CodingSeb.Localization.Tests
 {
@@ -85,6 +85,12 @@ namespace CodingSeb.Localization.Tests
             finally
             {
                 YamlMissingTranslationsLogger.DisableLogFor(loc);
+
+                try
+                {
+                    File.Delete(missingFilesFileName);
+                }
+                catch{}
             }
         }
     }
