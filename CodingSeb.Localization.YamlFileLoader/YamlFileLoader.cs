@@ -1,7 +1,9 @@
-﻿using System;
+﻿using CodingSeb.Localization.YamlFileLoader;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using YamlDotNet.RepresentationModel;
 
 namespace CodingSeb.Localization.Loaders
@@ -28,6 +30,12 @@ namespace CodingSeb.Localization.Loaders
         /// By default string.Empty
         /// </summary>
         public string LabelPathSuffix { get; set; } = string.Empty;
+
+        /// <summary>
+        /// To define how is decoded the LangId of a translation.<para/>
+        /// Default value : <see cref="YamlFileLoaderLangIdDecoding.LeafNodeKey"/>
+        /// </summary>
+        public YamlFileLoaderLangIdDecoding LangIdDecoding { get; set; }
 
         /// <summary>
         /// Test if the specified file is loadable by this Loader
@@ -68,7 +76,30 @@ namespace CodingSeb.Localization.Loaders
             }
             else
             {
-                loader.AddTranslation(LabelPathRootPrefix + string.Join(LabelPathSeparator, textId.Reverse()) + LabelPathSuffix, nodePair.Key.ToString(), nodePair.Value.ToString(), fileName);
+                if(LangIdDecoding == YamlFileLoaderLangIdDecoding.InFileNameBeforeExtension)
+                {
+                    textId.Push(nodePair.Key.ToString());
+                    loader.AddTranslation(
+                        LabelPathRootPrefix + string.Join(LabelPathSeparator, textId.Reverse()) + LabelPathSuffix,
+                        Path.GetExtension(Regex.Replace(fileName, @"\.loc\.yaml", "")).Replace(".", ""),
+                        nodePair.Value.ToString(),
+                        fileName);
+                    textId.Pop();
+                }
+                else if(LangIdDecoding == YamlFileLoaderLangIdDecoding.DirectoryName)
+                {
+                    textId.Push(nodePair.Key.ToString());
+                    loader.AddTranslation(
+                        LabelPathRootPrefix + string.Join(LabelPathSeparator, textId.Reverse()) + LabelPathSuffix,
+                        Path.GetDirectoryName(fileName),
+                        nodePair.Value.ToString(),
+                        fileName);
+                    textId.Pop();
+                }
+                else
+                {
+                    loader.AddTranslation(LabelPathRootPrefix + string.Join(LabelPathSeparator, textId.Reverse()) + LabelPathSuffix, nodePair.Key.ToString(), nodePair.Value.ToString(), fileName);
+                }
             }
         }
     }

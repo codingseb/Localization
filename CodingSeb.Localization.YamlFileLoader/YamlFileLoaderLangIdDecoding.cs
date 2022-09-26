@@ -1,19 +1,19 @@
-﻿namespace CodingSeb.Localization.JsonFileLoader
+﻿namespace CodingSeb.Localization.YamlFileLoader
 {
     /// <summary>
     /// Specify the way a <see cref="JsonFileLoader"/> decode the LangId
     /// </summary>
-    public enum JsonFileLoaderLangIdDecoding
+    public enum YamlFileLoaderLangIdDecoding
     {
         /// <summary>
-        /// Default value. The JSON leaf node is interpreted as the LangId
+        /// Default value. The YAML leaf node key is interpreted as the LangId
         /// </summary>
         LeafNodeKey,
 
         /// <summary>
-        /// Take the part of the filename just before .loc.json as the LangId
+        /// Take the part of the filename just before .loc.yaml as the LangId
         /// <para>
-        /// Example : MyTranslationFile.en.loc.json
+        /// Example : MyTranslationFile.en.loc.yaml
         /// </para>
         /// </summary>
         InFileNameBeforeExtension,

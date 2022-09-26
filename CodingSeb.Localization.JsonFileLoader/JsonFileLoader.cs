@@ -34,7 +34,7 @@ namespace CodingSeb.Localization.Loaders
 
         /// <summary>
         /// To define how is decoded the LangId of a translation.<para/>
-        /// Default value : <see cref="JsonFileLoaderLangIdDecoding.JsonNodeLeafKey"/>
+        /// Default value : <see cref="JsonFileLoaderLangIdDecoding.LeafNodeKey"/>
         /// </summary>
         public JsonFileLoaderLangIdDecoding LangIdDecoding { get; set; }
 
@@ -79,13 +79,20 @@ namespace CodingSeb.Localization.Loaders
                     if(LangIdDecoding == JsonFileLoaderLangIdDecoding.InFileNameBeforeExtension)
                     {
                         textId.Push(property.Name);
-                        loader.AddTranslation(LabelPathRootPrefix + string.Join(LabelPathSeparator, textId.Reverse()) + LabelPathSuffix, Path.GetExtension(Regex.Replace(fileName, @"\.loc\.json", "")).Replace(".", ""), property.Value.ToString(), fileName);
+                        loader.AddTranslation(
+                            LabelPathRootPrefix + string.Join(LabelPathSeparator, textId.Reverse()) + LabelPathSuffix,
+                            Path.GetExtension(Regex.Replace(fileName, @"\.loc\.json", "")).Replace(".", ""),
+                            property.Value.ToString(),
+                            fileName);
                         textId.Pop();
                     }
                     else if(LangIdDecoding == JsonFileLoaderLangIdDecoding.DirectoryName)
                     {
                         textId.Push(property.Name);
-                        loader.AddTranslation(LabelPathRootPrefix + string.Join(LabelPathSeparator, textId.Reverse()) + LabelPathSuffix, Path.GetDirectoryName(fileName), property.Value.ToString(), fileName);
+                        loader.AddTranslation(LabelPathRootPrefix + string.Join(LabelPathSeparator, textId.Reverse()) + LabelPathSuffix,
+                            Path.GetDirectoryName(fileName),
+                            property.Value.ToString(),
+                            fileName);
                         textId.Pop();
                     }
                     else
