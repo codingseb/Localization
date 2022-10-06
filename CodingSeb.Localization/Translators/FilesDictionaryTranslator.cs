@@ -27,7 +27,7 @@
         /// <param name="textId">the text id of the translation</param>
         /// <param name="languageId">the language Id of the translation</param>
         /// <returns><c>true</c> if it can translate.Otherwise <c>false</c></returns>
-        public bool CanTranslate(string textId, string languageId) => Loc.TranslationsDictionary.ContainsKey(textId ?? string.Empty)
+        public bool CanTranslate(string textId, string languageId) => languageId != null && Loc.TranslationsDictionary.ContainsKey(textId ?? string.Empty)
                 && Loc.TranslationsDictionary[textId].ContainsKey(languageId);
 
         /// <summary>
