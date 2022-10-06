@@ -36,6 +36,7 @@ namespace CodingSeb.Localization.WPF
         /// <summary>
         /// The text to return if no text correspond to textId in the current language
         /// </summary>
+        [DoNotNotify]
         public string DefaultText { get; set; }
 
         /// <summary>
@@ -60,6 +61,13 @@ namespace CodingSeb.Localization.WPF
         public object Data { get; set; }
 
         /// <summary>
+        /// An optional object use as model for Formatting the translated string
+        /// (Example used for Pluralisation, Injection, Tenary)
+        /// </summary>
+        [DoNotNotify]
+        public object Model { get; set; }
+
+        /// <summary>
         /// When the current Language changed update the binding (Call OnPropertyChanged)
         /// </summary>
         /// <param name="sender"></param>
@@ -69,7 +77,26 @@ namespace CodingSeb.Localization.WPF
             OnPropertyChanged(nameof(TranslatedText));
         }
 
-        public string TranslatedText => Prefix + Loc.Tr(string.Format(TextIdStringFormat, TextId), DefaultText, LanguageId) + Suffix;
+        /// <summary>
+        /// Get final translated text
+        /// </summary>
+        public string TranslatedText
+        {
+            get
+            {
+                string translatedText;
+                if (Model != null)
+                {
+                    translatedText = Loc.Tr(string.Format(TextIdStringFormat, TextId), Model, DefaultText, LanguageId);
+                }
+                else
+                {
+                    translatedText = Loc.Tr(string.Format(TextIdStringFormat, TextId), DefaultText, LanguageId);
+                }
+
+                return Prefix + translatedText + Suffix;
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

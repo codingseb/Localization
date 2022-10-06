@@ -113,9 +113,24 @@ namespace CodingSeb.Localization.WPF
         }
 
         /// <summary>
-        /// The language id in which to get the translation. If not Specify -> CurrentLanguage
+        /// To Specify a DefaultText by binding
+        /// </summary>
+        public BindingBase DefaultTextBinding { get; set; }
+
+        /// <summary>
+        /// The language id in which to get the translation. To Specify if not CurrentLanguage
         /// </summary>
         public string LanguageId { get; set; }
+
+        /// <summary>
+        /// An model object to format string
+        /// </summary>
+        public object Model { get; set; }
+
+        /// <summary>
+        /// A Binding for the model object.
+        /// </summary>
+        public BindingBase ModelBinding { get; set; }
 
         /// <summary>
         /// If set to true, The text will automatically be update when Current Language Change. (use Binding)
@@ -207,17 +222,19 @@ namespace CodingSeb.Localization.WPF
                 TextId = Guid.NewGuid().ToString();
             }
 
+            TrData trData = new TrData()
+            {
+                TextId = TextId,
+                TextIdStringFormat = TextIdStringFormat,
+                DefaultText = DefaultText,
+                LanguageId = LanguageId,
+                Prefix = Prefix,
+                Suffix = Suffix,
+                Model = Model,
+            };
+
             if (IsDynamic)
             {
-                TrData trData = new()
-                {
-                    TextId = TextId,
-                    TextIdStringFormat = TextIdStringFormat,
-                    DefaultText = DefaultText,
-                    LanguageId = LanguageId,
-                    Prefix = Prefix,
-                    Suffix = Suffix
-                };
 
                 Binding binding = new(nameof(TrData.TranslatedText))
                 {
@@ -226,7 +243,7 @@ namespace CodingSeb.Localization.WPF
 
                 SetDependanciesInTrConverterBase(Converter, targetObject, targetProperty);
 
-                if (StringFormatArgBinding == null && StringFormatArgsBindings.Count == 0 && TextIdBinding == null)
+                if (StringFormatArgBinding == null && StringFormatArgsBindings.Count == 0 && TextIdBinding == null && ModelBinding == null && DefaultTextBinding == null)
                 {
                     if (Converter != null)
                     {
@@ -252,6 +269,8 @@ namespace CodingSeb.Localization.WPF
                     {
                         Data = trData,
                         TextIdBindingBase = TextIdBinding,
+                        ModelBinding = ModelBinding,
+                        DefaultTextBinding = DefaultTextBinding,
                         TrConverter = Converter,
                         TrConverterParameter = ConverterParameter,
                         TrConverterCulture = ConverterCulture,
@@ -274,6 +293,34 @@ namespace CodingSeb.Localization.WPF
                         else
                         {
                             multiBinding.Bindings.Add(TextIdBinding);
+                        }
+                    }
+
+                    if (ModelBinding != null)
+                    {
+                        SetDependanciesInTrConverterBase(ModelBinding, targetObject, targetProperty);
+
+                        if (ModelBinding is MultiBinding modelMultiBinding)
+                        {
+                            modelMultiBinding.Bindings.ToList().ForEach(multiBinding.Bindings.Add);
+                        }
+                        else
+                        {
+                            multiBinding.Bindings.Add(ModelBinding);
+                        }
+                    }
+
+                    if (DefaultTextBinding != null)
+                    {
+                        SetDependanciesInTrConverterBase(DefaultTextBinding, targetObject, targetProperty);
+
+                        if (DefaultTextBinding is MultiBinding defaultTextMultiBinding)
+                        {
+                            defaultTextMultiBinding.Bindings.ToList().ForEach(multiBinding.Bindings.Add);
+                        }
+                        else
+                        {
+                            multiBinding.Bindings.Add(DefaultTextBinding);
                         }
                     }
 
@@ -303,7 +350,7 @@ namespace CodingSeb.Localization.WPF
             }
             else
             {
-                object result = Prefix + Loc.Tr(TextId, DefaultText, LanguageId) + Suffix;
+                object result = trData.TranslatedText;
 
                 if(Converter != null)
                 {
@@ -358,32 +405,65 @@ namespace CodingSeb.Localization.WPF
             internal object TrConverterParameter { get; set; }
             internal CultureInfo TrConverterCulture { get; set; }
             internal Collection<BindingBase> StringFormatBindings { get; set; }
+            internal BindingBase ModelBinding { get; set; }
+            internal BindingBase DefaultTextBinding { get; set; }
 
+            /// <inheritdoc/>
             public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
             {
                 try
                 {
-                    int offset = 1;
+                    int offset = 0;
 
                     if (TextIdBindingBase is MultiBinding textIdMultiBinding)
                     {
                         Data.TextId = textIdMultiBinding.Converter.Convert(values.Take(textIdMultiBinding.Bindings.Count).ToArray(), null, textIdMultiBinding.ConverterParameter, textIdMultiBinding.ConverterCulture).ToString();
-                        offset = textIdMultiBinding.Bindings.Count;
+                        offset += textIdMultiBinding.Bindings.Count;
                     }
-                    else if(TextIdBindingBase is Binding)
+                    else if (TextIdBindingBase is Binding)
                     {
-                        if (values.Length > 0)
-                            Data.TextId = values[0]?.ToString() ?? string.Empty;
+                        if (values.Length > offset)
+                            Data.TextId = values[offset]?.ToString() ?? string.Empty;
                         else
                             Data.TextId = string.Empty;
                         offset++;
                     }
 
-                    List<object> stringFormatArgs = new();
-
-                    for(int i = 0; i < StringFormatBindings.Count; i++)
+                    if (ModelBinding is MultiBinding modelBinding)
                     {
-                        if(StringFormatBindings[i] is MultiBinding stringFormatMultiBinding)
+                        Data.Model = modelBinding.Converter.Convert(values.Skip(offset).Take(modelBinding.Bindings.Count).ToArray(), null, modelBinding.ConverterParameter, modelBinding.ConverterCulture).ToString();
+                        offset += modelBinding.Bindings.Count;
+                    }
+                    else if (ModelBinding is Binding)
+                    {
+                        if (values.Length > offset)
+                            Data.Model = values[offset];
+                        else
+                            Data.Model = null;
+                        offset++;
+                    }
+
+                    if (DefaultTextBinding is MultiBinding defaultTextMultiBinding)
+                    {
+                        Data.DefaultText = defaultTextMultiBinding.Converter.Convert(values.Skip(offset).Take(defaultTextMultiBinding.Bindings.Count).ToArray(), null, defaultTextMultiBinding.ConverterParameter, defaultTextMultiBinding.ConverterCulture).ToString();
+                        offset += defaultTextMultiBinding.Bindings.Count;
+                    }
+                    else if (DefaultTextBinding is Binding)
+                    {
+                        if (values.Length > offset)
+                            Data.DefaultText = values[offset]?.ToString() ?? string.Empty;
+                        else
+                            Data.DefaultText = null;
+                        offset++;
+                    }
+
+                    offset++;
+
+                    List<object> stringFormatArgs = new List<object>();
+
+                    for (int i = 0; i < StringFormatBindings.Count; i++)
+                    {
+                        if (StringFormatBindings[i] is MultiBinding stringFormatMultiBinding)
                         {
                             int bindingsCount = stringFormatMultiBinding.Bindings.Count;
                             stringFormatArgs.Add(stringFormatMultiBinding.Converter.Convert(values.Skip(offset).Take(bindingsCount).ToArray(), null, stringFormatMultiBinding.ConverterParameter, stringFormatMultiBinding.ConverterCulture));
@@ -407,6 +487,7 @@ namespace CodingSeb.Localization.WPF
                 }
             }
 
+            /// <inheritdoc/>
             public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture) => throw new NotImplementedException();
         }
     }

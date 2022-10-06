@@ -6,17 +6,14 @@ namespace CodingSeb.Localization.WPF.Tests
 {
     public sealed class TestsServiceProvider : IServiceProvider, IProvideValueTarget
     {
-        private readonly DependencyObject targetObject;
-        private readonly DependencyProperty targetProperty;
-
         public TestsServiceProvider(DependencyObject targetObject, DependencyProperty targetProperty)
         {
-            this.targetObject = targetObject;
-            this.targetProperty = targetProperty;
+            TargetObject = targetObject;
+            TargetProperty = targetProperty;
         }
 
-        object IProvideValueTarget.TargetObject { get { return targetObject; } }
-        object IProvideValueTarget.TargetProperty { get { return targetProperty; } }
+        public object TargetObject { get; }
+        public object TargetProperty { get; }
 
         public object GetService(Type serviceType)
         {
