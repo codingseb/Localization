@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using CodingSeb.Localization.Formatters;
 
 namespace CodingSeb.Localization
 {
@@ -64,7 +65,8 @@ namespace CodingSeb.Localization
 
         /// <summary>
         /// if set to <c>true</c> use <see cref="FallbackLanguage"/> when a translation is missing.<para/>
-        /// if set to <c>false</c> <see cref="FallbackLanguage"/> is not used and the defaultText if specified is directly used.
+        /// if set to <c>false</c> <see cref="FallbackLanguage"/> is not used and the defaultText if specified is directly used.<para/>
+        /// Default value is  : <c>false</c>
         /// </summary>
         public bool UseFallbackLanguage { get; set; }
 
@@ -89,6 +91,13 @@ namespace CodingSeb.Localization
         /// first translators have higher priorities than last
         /// </summary>
         public List<ITranslator> Translators { get; } = new List<ITranslator>();
+
+        public List<IFormatter> Formatters { get; set; } = new List<IFormatter>
+        {
+            new PluralizationFormatter(),
+            new TernaryFormatter(),
+            new InjectionFormatter(),
+        };
 
         /// <summary>
         /// The dictionary that contains all available translations
@@ -187,6 +196,20 @@ namespace CodingSeb.Localization
         }
 
         /// <summary>
+        /// Translate the given textId in current language and format it with <see cref="model"/> data.
+        /// This method is a shortcut to Instance.Translate
+        /// </summary>
+        /// <param name="textId">The text to translate identifier</param>
+        /// <param name="model">Data to use for formatting</param>
+        /// <param name="defaultText">The text to return if no text correspond to textId in the current language</param>
+        /// <param name="languageId">The language id in which to get the translation. To Specify it if not CurrentLanguage</param>
+        /// <returns>The translated text</returns>
+        public static string Tr(string textId, object model, string defaultText = null, string languageId = null)
+        {
+            return Instance.Translate(textId, model, defaultText, languageId);
+        }
+
+        /// <summary>
         /// Translate the given textId in current language.
         /// </summary>
         /// <param name="textId">The text to translate identifier</param>
@@ -216,6 +239,27 @@ namespace CodingSeb.Localization
                 .Translate(textId ?? string.Empty, FallbackLanguage) : null)
 
                 ?? defaultText ?? string.Empty;
+        }
+
+        /// <summary>
+        /// Translate the given textId in current language and format it with <see cref="model"/> data.
+        /// </summary>
+        /// <param name="textId">The text to translate identifier</param>
+        /// <param name="model">A Model to inject in translated text</param>
+        /// <param name="defaultText">The text to return if no text correspond to textId in the current language</param>
+        /// <param name="languageId">The language id in which to get the translation. To Specify if not CurrentLanguage</param>
+        /// <returns>The translated text</returns>
+        public string Translate(
+            string textId,
+            object model,
+            string defaultText = null,
+            string languageId = null)
+        {
+            var format = Translate(textId, defaultText, languageId);
+
+            Formatters.ForEach(formatter => format = formatter.Format(format, model));
+
+            return format;
         }
 
         /// <summary>
