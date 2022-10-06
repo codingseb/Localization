@@ -109,7 +109,7 @@ namespace CodingSeb.Localization.Tests
         [TestCase("Valide | Invalide", true, "Valide")]
         [TestCase("Fertig | Unfertig", false, "Unfertig")]
         [TestCase("Fertig | Unfertig", true, "Fertig")]
-        public void TenaryFormatterTests(string format, object model, string result)
+        public void TernaryFormatterTests(string format, object model, string result)
         {
             TernaryFormatter.Format(format, model).ShouldBe(result);
         }
