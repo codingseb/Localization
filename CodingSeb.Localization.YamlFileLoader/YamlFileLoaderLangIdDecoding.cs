@@ -1,4 +1,4 @@
-﻿namespace CodingSeb.Localization.YamlFileLoader
+﻿namespace CodingSeb.Localization.Loaders
 {
     /// <summary>
     /// Specify the way a <see cref="JsonFileLoader"/> decode the LangId
