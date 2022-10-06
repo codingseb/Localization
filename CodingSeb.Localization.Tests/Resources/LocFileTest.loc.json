@@ -8,5 +8,21 @@
     "en": "Hello in the current language",
     "es": "Hola en la lengua actual",
     "fr": "Bonjour dans la langue actuelle"
+  },
+  "TenaryTest": {
+    "en": "Accepted | Denied",
+    "fr": "Accepté | Refusé"
+  },
+  "PluralizeTest1": {
+    "en": "No customer found | One customer found | {m} customers found",
+    "fr": "Aucun client trouvé | Un client trouvé | {m} clients trouvés"
+  },
+  "PluralizeTest2": {
+    "en": "Alarm | Alarms",
+    "fr": "Alarme | Alarmes"
+  },
+  "InjectionTest1": {
+    "en": "Age {m.IntProperty}, Length : {m.DoubleProperty}, Name: {m.StringProperty}\nAge {m.FakeModelProperty.IntProperty}, Length : {m.FakeModelProperty.DoubleProperty}, Name: {m.FakeModelProperty.StringProperty}",
+    "fr": "Age {m.IntProperty}, Longueur : {m.DoubleProperty}, Nom: {m.StringProperty}\nAge {m.FakeModelProperty.IntProperty}, Longueur : {m.FakeModelProperty.DoubleProperty}, Nom: {m.FakeModelProperty.StringProperty}"
   }
 }

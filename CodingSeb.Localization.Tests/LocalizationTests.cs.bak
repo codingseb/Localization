@@ -219,15 +219,15 @@ namespace CodingSeb.Localization.Tests
 
             yield return new TestCaseData("TenaryTest", null, "Accepted | Denied", "es");
 
-            yield return new TestCaseData("PluralizeTest1", 0, "No customer found", "en");
-            yield return new TestCaseData("PluralizeTest1", 1, "One customer found", "en");
-            yield return new TestCaseData("PluralizeTest1", 2, "2 customers found", "en");
-            yield return new TestCaseData("PluralizeTest1", 142, "142 customers found", "en");
+            yield return new TestCaseData("PluralizeTest1", 0, "No tool found", "en");
+            yield return new TestCaseData("PluralizeTest1", 1, "One tool found", "en");
+            yield return new TestCaseData("PluralizeTest1", 2, "2 tools found", "en");
+            yield return new TestCaseData("PluralizeTest1", 142, "142 tools found", "en");
 
-            yield return new TestCaseData("PluralizeTest1", 0, "Aucun client trouvé", "fr");
-            yield return new TestCaseData("PluralizeTest1", 1, "Un client trouvé", "fr");
-            yield return new TestCaseData("PluralizeTest1", 2, "2 clients trouvés", "fr");
-            yield return new TestCaseData("PluralizeTest1", 142, "142 clients trouvés", "fr");
+            yield return new TestCaseData("PluralizeTest1", 0, "Aucun outil trouvé", "fr");
+            yield return new TestCaseData("PluralizeTest1", 1, "Un outil trouvé", "fr");
+            yield return new TestCaseData("PluralizeTest1", 2, "2 outils trouvés", "fr");
+            yield return new TestCaseData("PluralizeTest1", 142, "142 outils trouvés", "fr");
 
             yield return new TestCaseData("PluralizeTest2", 0, "Alarm", "en");
             yield return new TestCaseData("PluralizeTest2", 1, "Alarm", "en");
@@ -244,13 +244,13 @@ namespace CodingSeb.Localization.Tests
             yield return new TestCaseData("PluralizeTest2", 2, "Alarms", "es");
             yield return new TestCaseData("PluralizeTest2", 142, "Alarms", "es");
 
-            yield return new TestCaseData("InjectionTest1", fakeModel1, "Age 12, Longueur : 3.5, Nom: Test\nAge 34, Longueur : 3.4, Nom: Fake", "fr");
-            yield return new TestCaseData("InjectionTest1", fakeModel1, "Age 12, Length : 3.5, Name: Test\nAge 34, Length : 3.4, Name: Fake", "en");
+            yield return new TestCaseData("InjectionTest1", fakeModel1, "Outil 12, Longueur : 3.5, Nom: Test\nOutil 34, Longueur : 3.4, Nom: Fake", "fr");
+            yield return new TestCaseData("InjectionTest1", fakeModel1, "Tool 12, Length : 3.5, Name: Test\nTool 34, Length : 3.4, Name: Fake", "en");
 
-            yield return new TestCaseData("InjectionTest1", null, "Age {m.IntProperty}, Length : {m.DoubleProperty}, Name: {m.StringProperty}\nAge {m.FakeModelProperty.IntProperty}, Length : {m.FakeModelProperty.DoubleProperty}, Name: {m.FakeModelProperty.StringProperty}", "en");
+            yield return new TestCaseData("InjectionTest1", null, "Tool {m.IntProperty}, Length : {m.DoubleProperty}, Name: {m.StringProperty}\nTool {m.FakeModelProperty.IntProperty}, Length : {m.FakeModelProperty.DoubleProperty}, Name: {m.FakeModelProperty.StringProperty}", "en");
             yield return new TestCaseData("UnknownLabel", fakeModel1, "UnknownLabel", "en");
 
-            yield return new TestCaseData("InjectionTest1", fakeModel2, "Age 12, Length : 3.5, Name: Test\nAge {m.FakeModelProperty.IntProperty}, Length : {m.FakeModelProperty.DoubleProperty}, Name: {m.FakeModelProperty.StringProperty}", "en");
+            yield return new TestCaseData("InjectionTest1", fakeModel2, "Tool 12, Length : 3.5, Name: Test\nTool {m.FakeModelProperty.IntProperty}, Length : {m.FakeModelProperty.DoubleProperty}, Name: {m.FakeModelProperty.StringProperty}", "en");
 
         }
 
