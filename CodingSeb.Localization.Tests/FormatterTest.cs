@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Localization.Formatters;
+using CodingSeb.Localization.Formatters;
 using NUnit.Framework;
 using Shouldly;
 
