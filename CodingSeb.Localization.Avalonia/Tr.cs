@@ -178,19 +178,17 @@ namespace CodingSeb.Localization.Avalonia
         /// <returns></returns>
         public object ProvideValue(IServiceProvider serviceProvider, bool InMultiTr)
         {
-            if (serviceProvider.GetService(typeof(IProvideValueTarget)) is not IProvideValueTarget service
-                || (service.TargetObject is not AvaloniaObject targetObject
-                    && !((service.TargetObject is ReflectionBindingExtension || service.TargetObject is Tr)
-                        && serviceProvider.GetService(typeof(IAvaloniaXamlIlParentStackProvider)) is IAvaloniaXamlIlParentStackProvider parentStackProvider
-                        && (targetObject = parentStackProvider.Parents.FirstOrDefault(p => p is AvaloniaObject) as AvaloniaObject) is not null))
-                || service.TargetProperty is not AvaloniaProperty targetProperty)
+            if (serviceProvider.GetService(typeof(IProvideValueTarget)) is not IProvideValueTarget service)
             {
                 return this;
             }
 
+            AvaloniaObject targetObject = service.TargetObject as AvaloniaObject;
+            AvaloniaProperty targetProperty = service.TargetProperty as AvaloniaProperty;
+
             try
             {
-                if (string.IsNullOrEmpty(TextId) && TextIdBinding == null)
+                if (string.IsNullOrEmpty(TextId) && TextIdBinding == null && targetObject != null && targetProperty != null)
                 {
                     if (serviceProvider is IRootObjectProvider rootObjectProvider)
                     {
@@ -241,7 +239,7 @@ namespace CodingSeb.Localization.Avalonia
                         binding.ConverterParameter = ConverterParameter;
                     }
 
-                    if (InMultiTr)
+                    if (InMultiTr || targetObject == null || targetProperty == null)
                     {
                         return binding;
                     }
@@ -295,7 +293,7 @@ namespace CodingSeb.Localization.Avalonia
                         StringFormatArgsBindings.ToList().ForEach(binding => ManageStringFormatArgs(multiBinding, binding));
                     }
 
-                    if (InMultiTr)
+                    if (InMultiTr|| targetObject == null || targetProperty == null)
                     {
                         return multiBinding;
                     }

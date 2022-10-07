@@ -102,7 +102,14 @@
             </ListBox>
             <TextBlock Text="{Binding AutoTranslation}" />
             <CheckBox IsChecked="{Binding VisibilityForText}" Content="{Tr {Binding VisibilityForText}, TextIdStringFormat='Enums.Visibility.{0}'}"/>
-
+			 <StackPanel Orientation="Vertical">
+				 <StackPanel.Styles>
+					 <Style Selector="TextBlock" >
+						 <Setter Property="Text" Value="{Tr ANiceText}" />
+					 </Style>
+				 </StackPanel.Styles>
+				 <TextBlock />
+			 </StackPanel>
 	    </StackPanel>
 	</DockPanel>
 	
