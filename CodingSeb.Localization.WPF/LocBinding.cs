@@ -85,12 +85,12 @@ namespace CodingSeb.Localization.WPF
         /// <summary>
         /// The DependencyObject on which the binding is linked
         /// </summary>
-        public DependencyObject TargetObject { get; private set; }
+        public DependencyObject DependencyObject { get; private set; }
 
         /// <summary>
         /// The DependencyProperty on which the binding is linked
         /// </summary>
-        public DependencyProperty TargetProperty { get; private set; }
+        public DependencyProperty DependencyProperty { get; private set; }
 
         /// <summary>
         /// The internally created binding.
@@ -102,9 +102,9 @@ namespace CodingSeb.Localization.WPF
             if (!(serviceProvider.GetService(typeof(IProvideValueTarget)) is IProvideValueTarget service))
                 return this;
 
-            TargetProperty = service.TargetProperty as DependencyProperty;
-            TargetObject = service.TargetObject as DependencyObject;
-            if (TargetObject == null || TargetProperty == null)
+            DependencyProperty = service.TargetProperty as DependencyProperty;
+            DependencyObject = service.TargetObject as DependencyObject;
+            if (DependencyObject == null || DependencyProperty == null)
             {
                 return this;
             }
@@ -125,7 +125,7 @@ namespace CodingSeb.Localization.WPF
                 Binding.ValidatesOnDataErrors = ValidatesOnDataErrors;
                 Binding.ValidatesOnExceptions = ValidatesOnExceptions;
 
-                BindingOperations.SetBinding(TargetObject, TargetProperty, Binding);
+                BindingOperations.SetBinding(DependencyObject, DependencyProperty, Binding);
             }
 
             return Binding.ProvideValue(serviceProvider);
@@ -133,9 +133,9 @@ namespace CodingSeb.Localization.WPF
 
         private void CurrentLanguageChanged(object sender, CurrentLanguageChangedEventArgs e)
         {
-            if (TargetObject != null && TargetProperty != null)
+            if (DependencyObject != null && DependencyProperty != null)
             {
-                BindingOperations.GetBindingExpression(TargetObject, TargetProperty)?.UpdateTarget();
+                BindingOperations.GetBindingExpression(DependencyObject, DependencyProperty)?.UpdateTarget();
             }
         }
     }
