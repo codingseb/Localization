@@ -103,14 +103,11 @@ namespace CodingSeb.Localization.WPF
 
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
-            if (!(serviceProvider.GetService(typeof(IProvideValueTarget)) is IProvideValueTarget service))
+            if (serviceProvider.GetService(typeof(IProvideValueTarget)) is not IProvideValueTarget service)
                 return this;
 
-            if (!(service.TargetObject is DependencyObject targetObject)
-                || !(service.TargetProperty is DependencyProperty targetProperty))
-            {
-                return this;
-            }
+            DependencyProperty dependencyProperty = service.TargetProperty as DependencyProperty;
+            DependencyObject dependencyObject = service.TargetObject as DependencyObject;
 
             IEnumerable<object> providedValues = Collection.Select(tr => tr.ProvideValue(serviceProvider, true) as BindingBase ?? (object)tr);
 
@@ -145,9 +142,16 @@ namespace CodingSeb.Localization.WPF
                     internalConverter.StringFormatBindings.Add(bindingBase);
                 });
 
-                BindingOperations.SetBinding(targetObject, targetProperty, multiBinding);
+                if (dependencyObject == null || dependencyProperty == null)
+                {
+                    return multiBinding;
+                }
+                else
+                {
+                    BindingOperations.SetBinding(dependencyObject, dependencyProperty, multiBinding);
 
-                return multiBinding.ProvideValue(serviceProvider);
+                    return multiBinding.ProvideValue(serviceProvider);
+                }
             }
             else
             {

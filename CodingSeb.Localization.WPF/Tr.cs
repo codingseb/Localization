@@ -118,7 +118,7 @@ namespace CodingSeb.Localization.WPF
         public BindingBase DefaultTextBinding { get; set; }
 
         /// <summary>
-        /// The language id in which to get the translation. To Specify if not CurrentLanguage
+        /// The language id in which to get the translation. If not Specify -> CurrentLanguage
         /// </summary>
         public string LanguageId { get; set; }
 
@@ -191,7 +191,7 @@ namespace CodingSeb.Localization.WPF
         /// <returns></returns>
         public object ProvideValue(IServiceProvider serviceProvider, bool InMultiTr)
         {
-            if (!(serviceProvider.GetService(typeof(IProvideValueTarget)) is IProvideValueTarget service))
+            if (serviceProvider.GetService(typeof(IProvideValueTarget)) is not IProvideValueTarget service)
                 return this;
 
             DependencyProperty dependencyProperty = service.TargetProperty as DependencyProperty;
@@ -266,7 +266,7 @@ namespace CodingSeb.Localization.WPF
                     var internalConverter = new ForTrMarkupInternalStringFormatMultiValuesConverter()
                     {
                         Data = trData,
-                        TextIdBindingBase = TextIdBinding,
+                        TextIdBinding = TextIdBinding,
                         ModelBinding = ModelBinding,
                         DefaultTextBinding = DefaultTextBinding,
                         TrConverter = Converter,
@@ -401,7 +401,7 @@ namespace CodingSeb.Localization.WPF
         protected class ForTrMarkupInternalStringFormatMultiValuesConverter : IMultiValueConverter
         {
             internal TrData Data { get; set; }
-            internal BindingBase TextIdBindingBase { get; set; }
+            internal BindingBase TextIdBinding { get; set; }
             internal IValueConverter TrConverter { get; set; }
             internal object TrConverterParameter { get; set; }
             internal CultureInfo TrConverterCulture { get; set; }
@@ -416,12 +416,12 @@ namespace CodingSeb.Localization.WPF
                 {
                     int offset = 0;
 
-                    if (TextIdBindingBase is MultiBinding textIdMultiBinding)
+                    if (TextIdBinding is MultiBinding textIdMultiBinding)
                     {
                         Data.TextId = textIdMultiBinding.Converter.Convert(values.Take(textIdMultiBinding.Bindings.Count).ToArray(), null, textIdMultiBinding.ConverterParameter, textIdMultiBinding.ConverterCulture).ToString();
                         offset += textIdMultiBinding.Bindings.Count;
                     }
-                    else if (TextIdBindingBase is Binding)
+                    else if (TextIdBinding is Binding)
                     {
                         if (values.Length > offset)
                             Data.TextId = values[offset]?.ToString() ?? string.Empty;

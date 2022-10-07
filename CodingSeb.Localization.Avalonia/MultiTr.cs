@@ -103,15 +103,13 @@ namespace CodingSeb.Localization.Avalonia
 
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
-            if (serviceProvider.GetService(typeof(IProvideValueTarget)) is not IProvideValueTarget service
-                || (service.TargetObject is not AvaloniaObject targetObject
-                    && !((service.TargetObject is ReflectionBindingExtension || service.TargetObject is MultiTr)
-                        && serviceProvider.GetService(typeof(IAvaloniaXamlIlParentStackProvider)) is IAvaloniaXamlIlParentStackProvider parentStackProvider
-                        && (targetObject = parentStackProvider.Parents.FirstOrDefault(p => p is AvaloniaObject) as AvaloniaObject) is not null))
-                || service.TargetProperty is not AvaloniaProperty targetProperty)
+            if (serviceProvider.GetService(typeof(IProvideValueTarget)) is not IProvideValueTarget service)
             {
                 return this;
             }
+
+            AvaloniaObject dependencyObject = service.TargetObject as AvaloniaObject;
+            AvaloniaProperty dependencyProperty = service.TargetProperty as AvaloniaProperty;
 
             IEnumerable<object> providedValues = Collection.Select(tr => tr.ProvideValue(serviceProvider, true) as IBinding ?? (object)tr);
 
@@ -146,9 +144,16 @@ namespace CodingSeb.Localization.Avalonia
                     internalConverter.StringFormatBindings.Add(bindingBase);
                 });
 
-                targetObject.Bind(targetProperty, multiBinding, targetObject);
+                if (dependencyObject == null || dependencyProperty == null)
+                {
+                    return multiBinding;
+                }
+                else
+                {
+                    dependencyObject.Bind(dependencyProperty, multiBinding, dependencyObject);
 
-                return "";
+                    return "";
+                }
             }
             else
             {
