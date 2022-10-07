@@ -191,9 +191,13 @@ namespace CodingSeb.Localization.WPF
         /// <returns></returns>
         public object ProvideValue(IServiceProvider serviceProvider, bool InMultiTr)
         {
-            if (serviceProvider.GetService(typeof(IProvideValueTarget)) is not IProvideValueTarget service
-                || service.TargetObject is not DependencyObject targetObject
-                || service.TargetProperty is not DependencyProperty targetProperty)
+            if (!(serviceProvider.GetService(typeof(IProvideValueTarget)) is IProvideValueTarget service))
+                return this;
+
+            DependencyProperty targetProperty = service.TargetProperty as DependencyProperty;
+            DependencyObject targetObject = service.TargetObject as DependencyObject;
+
+            if ((targetObject == null || targetProperty == null) && IsDynamic)
             {
                 return this;
             }
