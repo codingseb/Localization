@@ -43,7 +43,7 @@ namespace CodingSeb.Localization.WPF
         /// <summary>
         /// Gets or sets the parameter to pass to the Converter.
         /// </summary>
-        public object ConverterParamter { get; set; }
+        public object ConverterParameter { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the element to use as the binding source object.
@@ -116,7 +116,7 @@ namespace CodingSeb.Localization.WPF
                     Path = Path,
                     Converter = Converter,
                     ConverterCulture = ConverterCulture,
-                    ConverterParameter = ConverterParamter
+                    ConverterParameter = ConverterParameter
                 };
 
                 if (ElementName != null) Binding.ElementName = ElementName;
