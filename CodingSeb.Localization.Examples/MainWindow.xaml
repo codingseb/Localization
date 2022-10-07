@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         d:DataContext="{d:DesignData Type=local:MainViewModel, IsDesignTimeCreatable=False}"
         DataContext="{x:Static local:MainViewModel.Instance}"
-        Title="Localization Examples" Height="500" Width="700">
+        Title="Localization Examples" Height="600" Width="700">
     <Window.Resources>
         <ObjectDataProvider x:Key="dataFromVisibilityEnum" MethodName="GetValues"
                             ObjectType="{x:Type sys:Enum}">
@@ -22,7 +22,7 @@
             <Label x:Name="lblCurrentLanguage" 
                    DockPanel.Dock="Left"
                    Margin="0,0,10,0"
-                   Content="{Tr}" />
+                   Content="{Tr DefaultText='Current Language'}" />
             <Button x:Name="LanguageChangedRefreshButton" 
                     DockPanel.Dock="Right"
                     Content="Refresh"
@@ -102,6 +102,18 @@
             <ComboBox ItemsSource="{Binding Source={StaticResource dataFromVisibilityEnum}}"
                       SelectedValue="{Binding VisibilityForText}" />
             <TextBlock Text="{Tr {Binding VisibilityForText}, TextIdStringFormat='Enums.Visibility.{0}'}"/>
+            <TextBlock local:AttachTest.AttachedText="{Tr HelloInCurrentLanguage}" />
+            <TextBlock local:AttachTest.AttachedText="{Binding Label, Converter={TrTextIdConverter DefaultText='DefaultText'}}" />
+            <TextBlock local:AttachTest.AttachedText="{Tr TextIdBinding={Binding Label}, DefaultText='DefaultText'}" />
+            <StackPanel Orientation="Vertical">
+                <StackPanel.Resources>
+                    <Style TargetType="TextBlock" >
+                        <Setter Property="Text" Value="{Tr ANiceText}" />
+                        <Setter Property="ToolTip" Value="{Tr ANiceText}" />
+                    </Style>
+                </StackPanel.Resources>
+                <TextBlock />
+            </StackPanel>
         </StackPanel>
     </DockPanel>
 </Window>

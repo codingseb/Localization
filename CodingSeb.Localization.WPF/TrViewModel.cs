@@ -20,11 +20,17 @@ namespace CodingSeb.Localization.WPF
     {
         private readonly List<string> textIdsList = new();
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public TrViewModelData()
         {
             WeakEventManager<Loc, CurrentLanguageChangedEventArgs>.AddHandler(Loc.Instance, nameof(Loc.Instance.CurrentLanguageChanged), CurrentLanguageChanged);
         }
 
+        /// <summary>
+        /// Destructor
+        /// </summary>
         ~TrViewModelData()
         {
             WeakEventManager<Loc, CurrentLanguageChangedEventArgs>.RemoveHandler(Loc.Instance, nameof(Loc.Instance.CurrentLanguageChanged), CurrentLanguageChanged);

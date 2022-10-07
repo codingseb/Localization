@@ -194,23 +194,18 @@ namespace CodingSeb.Localization.WPF
             if (!(serviceProvider.GetService(typeof(IProvideValueTarget)) is IProvideValueTarget service))
                 return this;
 
-            DependencyProperty targetProperty = service.TargetProperty as DependencyProperty;
-            DependencyObject targetObject = service.TargetObject as DependencyObject;
-
-            if ((targetObject == null || targetProperty == null) && IsDynamic)
-            {
-                return this;
-            }
+            DependencyProperty dependencyProperty = service.TargetProperty as DependencyProperty;
+            DependencyObject dependencyObject = service.TargetObject as DependencyObject;
 
             try
             {
                 if (string.IsNullOrEmpty(TextId) && TextIdBinding == null)
                 {
-                    if (targetObject != null && targetProperty != null)
+                    if (dependencyObject != null && dependencyProperty != null)
                     {
-                        string context = targetObject.GetContextByName();
-                        string obj = targetObject.FormatForTextId();
-                        string property = targetProperty.ToString();
+                        string context = dependencyObject.GetContextByName();
+                        string obj = dependencyObject.FormatForTextId();
+                        string property = dependencyProperty.ToString();
 
                         TextId = $"{context}.{obj}.{property}";
                     }
@@ -226,7 +221,7 @@ namespace CodingSeb.Localization.WPF
                 TextId = Guid.NewGuid().ToString();
             }
 
-            TrData trData = new TrData()
+            TrData trData = new()
             {
                 TextId = TextId,
                 TextIdStringFormat = TextIdStringFormat,
@@ -239,13 +234,12 @@ namespace CodingSeb.Localization.WPF
 
             if (IsDynamic)
             {
-
                 Binding binding = new(nameof(TrData.TranslatedText))
                 {
                     Source = trData
                 };
 
-                SetDependanciesInTrConverterBase(Converter, targetObject, targetProperty);
+                SetDependenciesInTrConverterBase(Converter, dependencyObject, dependencyProperty);
 
                 if (StringFormatArgBinding == null && StringFormatArgsBindings.Count == 0 && TextIdBinding == null && ModelBinding == null && DefaultTextBinding == null)
                 {
@@ -256,13 +250,13 @@ namespace CodingSeb.Localization.WPF
                         binding.ConverterCulture = ConverterCulture;
                     }
 
-                    if (InMultiTr)
+                    if (InMultiTr || dependencyObject == null || dependencyProperty == null)
                     {
                         return binding;
                     }
                     else
                     {
-                        BindingOperations.SetBinding(targetObject, targetProperty, binding);
+                        BindingOperations.SetBinding(dependencyObject, dependencyProperty, binding);
 
                         return binding.ProvideValue(serviceProvider);
                     }
@@ -288,7 +282,7 @@ namespace CodingSeb.Localization.WPF
 
                     if (TextIdBinding != null)
                     {
-                        SetDependanciesInTrConverterBase(TextIdBinding, targetObject, targetProperty);
+                        SetDependenciesInTrConverterBase(TextIdBinding, dependencyObject, dependencyProperty);
 
                         if (TextIdBinding is MultiBinding textIdMultiBinding)
                         {
@@ -302,7 +296,7 @@ namespace CodingSeb.Localization.WPF
 
                     if (ModelBinding != null)
                     {
-                        SetDependanciesInTrConverterBase(ModelBinding, targetObject, targetProperty);
+                        SetDependenciesInTrConverterBase(ModelBinding, dependencyObject, dependencyProperty);
 
                         if (ModelBinding is MultiBinding modelMultiBinding)
                         {
@@ -316,7 +310,7 @@ namespace CodingSeb.Localization.WPF
 
                     if (DefaultTextBinding != null)
                     {
-                        SetDependanciesInTrConverterBase(DefaultTextBinding, targetObject, targetProperty);
+                        SetDependenciesInTrConverterBase(DefaultTextBinding, dependencyObject, dependencyProperty);
 
                         if (DefaultTextBinding is MultiBinding defaultTextMultiBinding)
                         {
@@ -333,20 +327,20 @@ namespace CodingSeb.Localization.WPF
                     if (StringFormatArgBinding != null)
                     {
                         internalConverter.StringFormatBindings.Insert(0, StringFormatArgBinding);
-                        ManageStringFormatArgs(multiBinding, StringFormatArgBinding, targetObject, targetProperty);
+                        ManageStringFormatArgs(multiBinding, StringFormatArgBinding, dependencyObject, dependencyProperty);
                     }
                     if (StringFormatArgsBindings.Count > 0)
                     {
-                        StringFormatArgsBindings.ToList().ForEach(binding => ManageStringFormatArgs(multiBinding, binding, targetObject, targetProperty));
+                        StringFormatArgsBindings.ToList().ForEach(binding => ManageStringFormatArgs(multiBinding, binding, dependencyObject, dependencyProperty));
                     }
 
-                    if (InMultiTr)
+                    if (InMultiTr || dependencyObject == null || dependencyProperty == null)
                     {
                         return multiBinding;
                     }
                     else
                     {
-                        BindingOperations.SetBinding(targetObject, targetProperty, multiBinding);
+                        BindingOperations.SetBinding(dependencyObject, dependencyProperty, multiBinding);
 
                         return multiBinding.ProvideValue(serviceProvider);
                     }
@@ -358,7 +352,7 @@ namespace CodingSeb.Localization.WPF
 
                 if(Converter != null)
                 {
-                    result = Converter.Convert(result, targetProperty?.PropertyType, ConverterParameter, ConverterCulture);
+                    result = Converter.Convert(result, dependencyProperty?.PropertyType, ConverterParameter, ConverterCulture);
                 }
 
                 return result;
@@ -370,7 +364,7 @@ namespace CodingSeb.Localization.WPF
             if (stringFormatBinding == null)
                 return;
 
-            SetDependanciesInTrConverterBase(stringFormatBinding, dependencyObject, dependencyProperty);
+            SetDependenciesInTrConverterBase(stringFormatBinding, dependencyObject, dependencyProperty);
 
             if (stringFormatBinding is Binding)
             {
@@ -382,8 +376,11 @@ namespace CodingSeb.Localization.WPF
             }
         }
 
-        private void SetDependanciesInTrConverterBase(object converterContainer, DependencyObject dependencyObject, DependencyProperty dependencyProperty)
+        private void SetDependenciesInTrConverterBase(object converterContainer, DependencyObject dependencyObject, DependencyProperty dependencyProperty)
         {
+            if (dependencyObject == null || dependencyProperty == null)
+                return;
+
             if(converterContainer is Binding binding)
             {
                 converterContainer = binding.Converter;
