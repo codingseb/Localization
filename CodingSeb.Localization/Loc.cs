@@ -12,7 +12,7 @@ namespace CodingSeb.Localization
 {
     /// <summary>
     /// The base class of the localization system
-    /// To Translate a text use Loc.Tr()
+    /// To Translate a text use <c>Loc.Tr()</c> or <c>yourInstanceOfLoc.Translate</c>
     /// </summary>
     public class Loc : INotifyPropertyChanged
     {
@@ -84,7 +84,7 @@ namespace CodingSeb.Localization
         /// <summary>
         /// The List of all availables languages where at least one translation is present.
         /// </summary>
-        public ObservableCollection<string> AvailableLanguages { get; } = new ObservableCollection<string>();
+        public static ObservableCollection<string> AvailableLanguages { get; } = new ObservableCollection<string>();
 
         /// <summary>
         /// The list of translators that try to translate each text.
@@ -103,7 +103,7 @@ namespace CodingSeb.Localization
         /// The dictionary that contains all available translations
         /// (TranslationsDictionary[TextId][LanguageId])
         /// </summary>
-        public SortedDictionary<string, SortedDictionary<string, LocTranslation>> TranslationsDictionary { get; set; } = new SortedDictionary<string, SortedDictionary<string, LocTranslation>>();
+        public static SortedDictionary<string, SortedDictionary<string, LocTranslation>> TranslationsDictionary { get; set; } = new SortedDictionary<string, SortedDictionary<string, LocTranslation>>();
 
         private static Loc instance;
 
@@ -136,10 +136,7 @@ namespace CodingSeb.Localization
         public Loc()
         {
             Translators.Add(
-                new FilesDictionaryTranslator()
-                {
-                    Loc = this
-                });
+                new FilesDictionaryTranslator());
         }
 
         /// <summary>
@@ -265,11 +262,11 @@ namespace CodingSeb.Localization
         /// <summary>
         /// For developpers, for developement and/or debug time.
         /// If set to <c>True</c> Log Out textId asked to be translate but missing in the specified languageId.
-        /// Fill the MissingTranslations Dictionary
+        /// Fill the <see cref="MissingTranslations"/> Dictionary
         /// </summary>
-        public bool LogOutMissingTranslations { get; set; }
+        public static bool LogOutMissingTranslations { get; set; }
 
-        public SortedDictionary<string, SortedDictionary<string, string>> MissingTranslations { get; } = new SortedDictionary<string, SortedDictionary<string, string>>();
+        public static SortedDictionary<string, SortedDictionary<string, string>> MissingTranslations { get; } = new SortedDictionary<string, SortedDictionary<string, string>>();
 
         protected virtual void CheckMissingTranslation(string textId, string defaultText)
         {
@@ -302,6 +299,6 @@ namespace CodingSeb.Localization
         /// Fired to inform some translation are missing.
         /// LogOutMissingTranslations must be set to true
         /// </summary>
-        public event EventHandler<LocalizationMissingTranslationEventArgs> MissingTranslationFound;
+        public static event EventHandler<LocalizationMissingTranslationEventArgs> MissingTranslationFound;
     }
 }

@@ -22,15 +22,15 @@ namespace CodingSeb.Localization
     /// </summary>
     public static class YamlMissingTranslationsLogger
     {
-        public static void EnableLogFor(Loc loc)
+        public static void EnableLog()
         {
-            loc.LogOutMissingTranslations = true;
-            loc.MissingTranslationFound += Loc_MissingTranslationFound;
+            Loc.LogOutMissingTranslations = true;
+            Loc.MissingTranslationFound += Loc_MissingTranslationFound;
         }
 
         public static void DisableLogFor(Loc loc)
         {
-            loc.MissingTranslationFound -= Loc_MissingTranslationFound;
+            Loc.MissingTranslationFound -= Loc_MissingTranslationFound;
         }
 
         public static string MissingTranslationsFileName { get; set; } = Path.Combine(

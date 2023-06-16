@@ -9,20 +9,13 @@ namespace CodingSeb.Localization.Loaders
     /// </summary>
     public class LocalizationLoader
     {
-        private readonly Loc localization;
-
-        public LocalizationLoader(Loc localization)
-        {
-            this.localization = localization;
-        }
-
         private static LocalizationLoader instance;
 
         public static LocalizationLoader Instance
         {
             get
             {
-                return instance ?? (instance = new LocalizationLoader(Loc.Instance));
+                return instance ?? (instance = new LocalizationLoader());
             }
         }
 
@@ -36,13 +29,13 @@ namespace CodingSeb.Localization.Loaders
         /// <param name="value">The value of the translated text</param>
         public void AddTranslation(string textId, string languageId, string value, string source = "")
         {
-            if (!localization.TranslationsDictionary.ContainsKey(textId))
-                localization.TranslationsDictionary[textId] = new SortedDictionary<string, LocTranslation>();
+            if (!Loc.TranslationsDictionary.ContainsKey(textId))
+                Loc.TranslationsDictionary[textId] = new SortedDictionary<string, LocTranslation>();
 
-            if (!localization.AvailableLanguages.Contains(languageId))
-                localization.AvailableLanguages.Add(languageId);
+            if (!Loc.AvailableLanguages.Contains(languageId))
+                Loc.AvailableLanguages.Add(languageId);
 
-            localization.TranslationsDictionary[textId][languageId] = new LocTranslation()
+            Loc.TranslationsDictionary[textId][languageId] = new LocTranslation()
             {
                 TextId = textId,
                 LanguageId = languageId,
@@ -85,19 +78,19 @@ namespace CodingSeb.Localization.Loaders
         /// <param name="source">The fileName or source of the translation</param>
         public void RemoveAllFromSource(string source)
         {
-            localization.TranslationsDictionary.Keys.ToList().ForEach(textId =>
+            Loc.TranslationsDictionary.Keys.ToList().ForEach(textId =>
             {
-                localization.TranslationsDictionary[textId].Values.ToList().ForEach(translation =>
+                Loc.TranslationsDictionary[textId].Values.ToList().ForEach(translation =>
                 {
                     if (translation.Source.Equals(source))
                     {
-                        localization.TranslationsDictionary[textId].Remove(translation.LanguageId);
+                        Loc.TranslationsDictionary[textId].Remove(translation.LanguageId);
                     }
                 });
 
-                if (localization.TranslationsDictionary[textId].Count == 0)
+                if (Loc.TranslationsDictionary[textId].Count == 0)
                 {
-                    localization.TranslationsDictionary.Remove(textId);
+                    Loc.TranslationsDictionary.Remove(textId);
                 }
             });
         }
@@ -107,10 +100,10 @@ namespace CodingSeb.Localization.Loaders
         /// </summary>
         public void ClearAllTranslations(bool clearAlsoAvailableLanguages = false)
         {
-            localization.TranslationsDictionary.Clear();
+            Loc.TranslationsDictionary.Clear();
             if(clearAlsoAvailableLanguages)
-                localization.AvailableLanguages.Clear();
-            localization.MissingTranslations.Clear();
+                Loc.AvailableLanguages.Clear();
+            Loc.MissingTranslations.Clear();
         }
     }
 }

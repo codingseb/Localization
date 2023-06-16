@@ -12,7 +12,13 @@
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
 	  <AssemblyVersion>1.2.0.0</AssemblyVersion>
 	  <FileVersion>1.2.0.0</FileVersion>
-	  <PackageReleaseNotes>* Some .net framework breaking changes in dependencies</PackageReleaseNotes>
+	  <PackageReleaseNotes> !!! Warning breaking changes !!!
+* Allow multi users localization
+* Loc.AvailableLanguages is now static
+* Loc.TranslationsDictionary is now static
+* Loc.LogOutMissingTranslations is now static
+* Loc.MissingTranslations is now static
+	  </PackageReleaseNotes>
 	  <Version>1.2.0</Version>
   </PropertyGroup>
 
@@ -25,7 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="PropertyChanged.Fody" Version="3.4.0" PrivateAssets="All"/>
+    <PackageReference Include="PropertyChanged.Fody" Version="4.1.0" PrivateAssets="All" />
   </ItemGroup>
 
 </Project>
