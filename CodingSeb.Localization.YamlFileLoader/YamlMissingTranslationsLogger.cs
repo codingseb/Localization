@@ -28,7 +28,7 @@ namespace CodingSeb.Localization
             Loc.MissingTranslationFound += Loc_MissingTranslationFound;
         }
 
-        public static void DisableLogFor(Loc loc)
+        public static void DisableLog()
         {
             Loc.MissingTranslationFound -= Loc_MissingTranslationFound;
         }

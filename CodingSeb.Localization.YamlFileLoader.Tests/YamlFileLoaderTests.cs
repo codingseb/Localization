@@ -84,7 +84,7 @@ namespace CodingSeb.Localization.Tests
             }
             finally
             {
-                YamlMissingTranslationsLogger.DisableLogFor(loc);
+                YamlMissingTranslationsLogger.DisableLog();
 
                 try
                 {

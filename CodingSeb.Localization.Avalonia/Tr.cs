@@ -436,8 +436,6 @@ namespace CodingSeb.Localization.Avalonia
 			internal IBinding ModelBinding { get; set; }
             internal IBinding DefaultTextBinding { get; set; }
             internal IBinding LocInstanceBinding { get; set; }
-
-
             /// <inheritdoc/>
             public object Convert(IList<object> values, Type targetType, object parameter, CultureInfo culture)
             {
