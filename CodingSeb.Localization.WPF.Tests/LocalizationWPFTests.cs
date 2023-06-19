@@ -27,6 +27,7 @@ namespace CodingSeb.Localization.WPF.Tests
 
             loader.AddTranslation("SayHelloFirstName", "en", "Hello {0}");
             loader.AddTranslation("SayHelloFirstName", "fr", "Bonjour {0}");
+            loader.AddTranslation("SayHelloFirstName", "de", "Gutentag {0}");
 
             loader.AddTranslation("SayHi", "en", "Hi");
             loader.AddTranslation("SayHi", "fr", "Salut");
@@ -105,6 +106,40 @@ namespace CodingSeb.Localization.WPF.Tests
             Loc.Instance.CurrentLanguage = "fr";
 
             textBlock.Text.ShouldBe("Bonjour!");
+        }
+
+        [Test]
+        public void TrWithSpecificLocInstance()
+        {
+            Loc.Instance.CurrentLanguage = "fr";
+
+            User user = new User()
+            {
+                UserName=  "John"
+            };
+
+            Loc.Tr("SayHello").ShouldBe("Bonjour");
+            user.Loc.Translate("SayHello").ShouldBe("Hello");
+
+            Tr tr = new Tr("SayHelloFirstName")
+            {
+                LocInstanceBinding = new Binding(nameof(User.Loc)) { Source = user },
+                StringFormatArgBinding = new Binding(nameof(User.UserName)) { Source = user },
+            };
+
+            TextBlock textBlock = new TextBlock();
+
+            tr.ProvideValue(new TestsServiceProvider(textBlock, TextBlock.TextProperty));
+
+            textBlock.Text.ShouldBe("Hello John");
+
+            user.Loc.CurrentLanguage = "de";
+
+            textBlock.Text.ShouldBe("Gutentag John");
+
+            user.UserName = "Frank";
+
+            textBlock.Text.ShouldBe("Gutentag Frank");
         }
 
         [Test]
@@ -204,8 +239,10 @@ namespace CodingSeb.Localization.WPF.Tests
         {
             Loc.Instance.CurrentLanguage = "en";
 
-            var model = new Person();
-            model.Label = "SayHello";
+            var model = new Person
+            {
+                Label = "SayHello"
+            };
 
             Tr tr = new Tr()
             {

@@ -121,7 +121,7 @@ namespace CodingSeb.Localization.WPF
                     MultiTrConverterCulture = ConverterCulture,
                 };
 
-                MultiBinding multiBinding = new MultiBinding()
+                MultiBinding multiBinding = new()
                 {
                     Converter = internalConverter
                 };
@@ -169,7 +169,7 @@ namespace CodingSeb.Localization.WPF
 
             public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
             {
-                List<object> stringFormatValues = new List<object>();
+                List<object> stringFormatValues = new();
 
                 int offset = 0;
 

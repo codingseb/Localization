@@ -12,7 +12,13 @@
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
 	  <AssemblyVersion>1.2.0.0</AssemblyVersion>
 	  <FileVersion>1.2.0.0</FileVersion>
-	  <PackageReleaseNotes>* Some .net framework breaking changes in dependencies</PackageReleaseNotes>
+	  <PackageReleaseNotes> !!! Warning breaking changes !!!
+* Allow multi users localization
+* Loc.AvailableLanguages is now static
+* Loc.TranslationsDictionary is now static
+* Loc.LogOutMissingTranslations is now static
+* Loc.MissingTranslations is now static
+* Add Loc.GetInstance Property of type Func&lt;Loc&gt; to redefine how to resolve the Loc.Instance for Loc.Tr</PackageReleaseNotes>
 	  <Version>1.2.0</Version>
   </PropertyGroup>
 
