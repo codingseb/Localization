@@ -18,7 +18,7 @@ namespace CodingSeb.Localization.Formatters
         /// <returns>The formated string if the formatter know how to format the string with the model, otherwise should return unchanged <see cref="format"/></returns>
         public string Format(string format, object model)
         {
-            if (!(model is SByte || model is Int16 || model is Int32 || model is Int64 || 
+            if (!(model is SByte || model is Int16 || model is Int32 || model is Int64 ||
                 model is Byte || model is UInt16 || model is UInt32 || model is UInt64))
                 return format;
 

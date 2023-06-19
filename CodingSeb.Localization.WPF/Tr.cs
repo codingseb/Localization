@@ -21,7 +21,7 @@ namespace CodingSeb.Localization.WPF
         /// The Default TextId is "CurrentNamespace.CurrentClass.CurrentProperty"
         /// </summary>
         public Tr()
-        {}
+        { }
 
         /// <summary>
         /// Translate the current Property in the current language
@@ -30,7 +30,7 @@ namespace CodingSeb.Localization.WPF
         /// <param name="textId">To force the use of a specific identifier</param>
         public Tr(object textId)
         {
-			if (textId is BindingBase textIdBinding)
+            if (textId is BindingBase textIdBinding)
                 TextIdBinding = textIdBinding;
             else
                 TextId = textId.ToString();
@@ -376,7 +376,7 @@ namespace CodingSeb.Localization.WPF
             {
                 object result = trData.TranslatedText;
 
-                if(Converter != null)
+                if (Converter != null)
                 {
                     result = Converter.Convert(result, dependencyProperty?.PropertyType, ConverterParameter, ConverterCulture);
                 }
@@ -396,7 +396,7 @@ namespace CodingSeb.Localization.WPF
             {
                 multiBinding.Bindings.Add(stringFormatBinding);
             }
-            else if(stringFormatBinding is MultiBinding stringFormatMultiBinding)
+            else if (stringFormatBinding is MultiBinding stringFormatMultiBinding)
             {
                 stringFormatMultiBinding.Bindings.ToList().ForEach(multiBinding.Bindings.Add);
             }
@@ -407,16 +407,16 @@ namespace CodingSeb.Localization.WPF
             if (dependencyObject == null || dependencyProperty == null)
                 return;
 
-            if(converterContainer is Binding binding)
+            if (converterContainer is Binding binding)
             {
                 converterContainer = binding.Converter;
             }
-            else if(converterContainer is MultiBinding multiBinding)
+            else if (converterContainer is MultiBinding multiBinding)
             {
                 converterContainer = multiBinding.Converter;
             }
 
-            if(converterContainer is TrConverterBase trConverterBase)
+            if (converterContainer is TrConverterBase trConverterBase)
             {
                 trConverterBase.xamlTargetObject = dependencyObject;
                 trConverterBase.xamlDependencyProperty = dependencyProperty;

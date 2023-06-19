@@ -72,7 +72,7 @@ namespace CodingSeb.Localization.WPF
         {
             if (xamlTargetObject != null && xamlDependencyProperty != null)
             {
-                if(IsInAMultiBinding)
+                if (IsInAMultiBinding)
                     BindingOperations.GetMultiBindingExpression(xamlTargetObject, xamlDependencyProperty)?.UpdateTarget();
                 else
                     BindingOperations.GetBindingExpression(xamlTargetObject, xamlDependencyProperty)?.UpdateTarget();

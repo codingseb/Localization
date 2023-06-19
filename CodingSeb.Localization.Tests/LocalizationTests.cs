@@ -233,7 +233,7 @@ namespace CodingSeb.Localization.Tests
             yield return new TestCaseData("PluralizeTest2", 1, "Alarm", "en");
             yield return new TestCaseData("PluralizeTest2", 2, "Alarms", "en");
             yield return new TestCaseData("PluralizeTest2", 142, "Alarms", "en");
-                                                        
+
             yield return new TestCaseData("PluralizeTest2", 0, "Alarme", "fr");
             yield return new TestCaseData("PluralizeTest2", 1, "Alarme", "fr");
             yield return new TestCaseData("PluralizeTest2", 2, "Alarmes", "fr");

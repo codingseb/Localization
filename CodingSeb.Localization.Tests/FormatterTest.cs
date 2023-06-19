@@ -48,7 +48,7 @@ namespace CodingSeb.Localization.Tests
             yield return new TestCaseData("m = {m.StringProperty}, m2 = {m.DoubleProperty}", fakeObject1,
                 "m = QWERTZERTY, m2 = 2");
 
-            yield return new TestCaseData("Tool = {tool}, Event = {event}", new Dictionary<string,object>()
+            yield return new TestCaseData("Tool = {tool}, Event = {event}", new Dictionary<string, object>()
                 {
                     {"tool" , 1},
                     {"event", "CreateTool"}

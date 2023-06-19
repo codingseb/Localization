@@ -22,7 +22,7 @@ namespace CodingSeb.Localization.Avalonia
 
         public TrViewModelData()
         {
-            WeakEventHandlerManager.Subscribe<Loc,CurrentLanguageChangedEventArgs,TrData>(Loc.Instance, nameof(Loc.CurrentLanguageChanged), CurrentLanguageChanged);
+            WeakEventHandlerManager.Subscribe<Loc, CurrentLanguageChangedEventArgs, TrData>(Loc.Instance, nameof(Loc.CurrentLanguageChanged), CurrentLanguageChanged);
         }
 
         ~TrViewModelData()
@@ -44,11 +44,12 @@ namespace CodingSeb.Localization.Avalonia
 
         public override bool TryGetMember(GetMemberBinder binder, out object result)
         {
-            if(!textIdsList.Contains(binder.Name))
+            if (!textIdsList.Contains(binder.Name))
                 textIdsList.Add(binder.Name);
 
             result = Loc.Tr(binder.Name);
 
             return true;
         }
-    }}
+    }
+}

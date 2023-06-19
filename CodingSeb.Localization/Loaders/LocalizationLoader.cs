@@ -64,7 +64,7 @@ namespace CodingSeb.Localization.Loaders
                 .ToList()
                 .ForEach(AddFile);
 
-            if(recursive)
+            if (recursive)
             {
                 Directory.GetDirectories(path)
                     .ToList()
@@ -101,7 +101,7 @@ namespace CodingSeb.Localization.Loaders
         public void ClearAllTranslations(bool clearAlsoAvailableLanguages = false)
         {
             Loc.TranslationsDictionary.Clear();
-            if(clearAlsoAvailableLanguages)
+            if (clearAlsoAvailableLanguages)
                 Loc.AvailableLanguages.Clear();
             Loc.MissingTranslations.Clear();
         }

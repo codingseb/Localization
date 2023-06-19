@@ -14,6 +14,6 @@ namespace CodingSeb.Localization
         /// </summary>
         /// <param name="methodName">The name of the method that trigger the PropertyChanged event</param>
         public PropertyChangedTriggerMethodNameForLocalization(string methodName)
-        {}
+        { }
     }
 }

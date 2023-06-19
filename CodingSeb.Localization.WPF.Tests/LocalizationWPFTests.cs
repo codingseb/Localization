@@ -188,7 +188,7 @@ namespace CodingSeb.Localization.WPF.Tests
 
             Tr tr = new Tr("Handy")
             {
-                ModelBinding = new Binding(nameof(Person.NumberOfHands)){ Source = model },
+                ModelBinding = new Binding(nameof(Person.NumberOfHands)) { Source = model },
             };
 
             TextBlock textBlock = new TextBlock();

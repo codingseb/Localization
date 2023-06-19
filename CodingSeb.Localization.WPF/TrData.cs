@@ -77,7 +77,7 @@ namespace CodingSeb.Localization.WPF
         public Loc LocInstance
         {
             get => locInstance;
-            
+
             set
             {
                 UnsubscribeFromCurrentLanguageChanged();

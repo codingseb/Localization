@@ -49,7 +49,7 @@ namespace CodingSeb.Localization.Avalonia.Converters
         [ConstructorArgument("textId")]
         public string TextId { get; set; }
 
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => 
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) =>
             Prefix + string.Format(string.IsNullOrEmpty(TextId) ? "" : Loc.Tr(TextId, DefaultText?.Replace("[apos]", "'"), LanguageId), value) + Suffix;
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();

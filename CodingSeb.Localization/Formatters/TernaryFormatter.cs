@@ -8,7 +8,7 @@ namespace CodingSeb.Localization.Formatters
     /// <summary>
     /// Formatter to select the string with a boolean value
     /// </summary>
-    public class TernaryFormatter:IFormatter
+    public class TernaryFormatter : IFormatter
     {
         /// <summary>
         /// Format a string from <see cref="model"/> as a Boolean value
@@ -24,7 +24,7 @@ namespace CodingSeb.Localization.Formatters
             var conditionFormat = Regex.Split(format, @"\s\|\s");
             if (conditionFormat.Length > 1)
             {
-                return conditionFormat[(bool) model ? 0 : 1];
+                return conditionFormat[(bool)model ? 0 : 1];
             }
             else
             {

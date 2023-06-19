@@ -106,9 +106,6 @@ namespace CodingSeb.Localization.WPF
             if (serviceProvider.GetService(typeof(IProvideValueTarget)) is not IProvideValueTarget service)
                 return this;
 
-            DependencyProperty dependencyProperty = service.TargetProperty as DependencyProperty;
-            DependencyObject dependencyObject = service.TargetObject as DependencyObject;
-
             IEnumerable<object> providedValues = Collection.Select(tr => tr.ProvideValue(serviceProvider, true) as BindingBase ?? (object)tr);
 
             if (providedValues.All(p => p is BindingBase))
@@ -142,7 +139,7 @@ namespace CodingSeb.Localization.WPF
                     internalConverter.StringFormatBindings.Add(bindingBase);
                 });
 
-                if (dependencyObject == null || dependencyProperty == null)
+                if (service.TargetObject is not DependencyObject dependencyObject || service.TargetProperty is not DependencyProperty dependencyProperty)
                 {
                     return multiBinding;
                 }

@@ -389,7 +389,7 @@ namespace CodingSeb.Localization.Avalonia
             {
                 object result = trData.TranslatedText;
 
-                if(Converter != null)
+                if (Converter != null)
                 {
                     result = Converter.Convert(result, dependencyProperty?.PropertyType, ConverterParameter, ConverterCulture);
                 }
@@ -433,7 +433,7 @@ namespace CodingSeb.Localization.Avalonia
             internal object TrConverterParameter { get; set; }
             internal CultureInfo TrConverterCulture { get; set; }
             internal IList<IBinding> StringFormatBindings { get; set; }
-			internal IBinding ModelBinding { get; set; }
+            internal IBinding ModelBinding { get; set; }
             internal IBinding DefaultTextBinding { get; set; }
             internal IBinding LocInstanceBinding { get; set; }
             /// <inheritdoc/>

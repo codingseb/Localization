@@ -90,7 +90,7 @@ namespace CodingSeb.Localization.Tests
                 {
                     File.Delete(missingFilesFileName);
                 }
-                catch{}
+                catch { }
             }
         }
     }

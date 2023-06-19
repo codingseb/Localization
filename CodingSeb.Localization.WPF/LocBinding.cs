@@ -99,7 +99,7 @@ namespace CodingSeb.Localization.WPF
 
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
-            if (!(serviceProvider.GetService(typeof(IProvideValueTarget)) is IProvideValueTarget service))
+            if (serviceProvider.GetService(typeof(IProvideValueTarget)) is not IProvideValueTarget service)
                 return this;
 
             DependencyProperty = service.TargetProperty as DependencyProperty;

@@ -22,7 +22,7 @@ namespace CodingSeb.Localization.Formatters
         /// <returns>The formated string if the formatter know how to format the string with the model, otherwise should return unchanged <see cref="format"/></returns>
         public string Format(string format, object model)
         {
-            if(model == null)
+            if (model == null)
                 return format;
 
             var matches = propertyMustachesRegex.Matches(format);
@@ -48,12 +48,12 @@ namespace CodingSeb.Localization.Formatters
                 foreach (Capture capture in match.Groups["property"].Captures)
                 {
                     var property = value.GetType().GetProperty(capture.Value);
-                    if(property != null) value = property.GetValue(value);
+                    if (property != null) value = property.GetValue(value);
                     else
                     {
                         value = null;
                     }
-                    if(value == null) break;
+                    if (value == null) break;
                 }
 
                 format = format.Replace(match.Value, value?.ToString() ?? match.Value);

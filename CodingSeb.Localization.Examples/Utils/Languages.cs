@@ -13,7 +13,7 @@ namespace CodingSeb.Localization.Examples
         public static void Init()
         {
             Loc.LogOutMissingTranslations = true;
-            
+
             LocalizationLoader.Instance.FileLanguageLoaders.Add(new JsonFileLoader());
 
             ReloadFiles();
