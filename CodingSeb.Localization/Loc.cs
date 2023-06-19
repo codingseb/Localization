@@ -105,6 +105,11 @@ namespace CodingSeb.Localization
         /// </summary>
         public static SortedDictionary<string, SortedDictionary<string, LocTranslation>> TranslationsDictionary { get; set; } = new SortedDictionary<string, SortedDictionary<string, LocTranslation>>();
 
+        /// <summary>
+        /// To redefine how to resolve the <see cref="Loc.Instance"/>
+        /// </summary>
+        public static Func<Loc> GetInstance { get; set; }
+
         private static Loc instance;
 
         /// <summary>
@@ -114,6 +119,9 @@ namespace CodingSeb.Localization
         {
             get
             {
+                if (GetInstance != null)
+                    return GetInstance();
+
                 if (instance == null)
                 {
                     lock (lockObject)
