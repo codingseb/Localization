@@ -351,14 +351,13 @@ namespace CodingSeb.Localization.WPF
 
                     multiBinding.Bindings.Add(binding);
 
-                    if (StringFormatArgsBindings.Count > 0)
-                    {
-                        StringFormatArgsBindings.ToList().ForEach(binding => ManageStringFormatArgs(multiBinding, binding, dependencyObject, dependencyProperty));
-                    }
                     if (StringFormatArgBinding != null)
                     {
                         internalConverter.StringFormatBindings.Insert(0, StringFormatArgBinding);
-                        ManageStringFormatArgs(multiBinding, StringFormatArgBinding, dependencyObject, dependencyProperty);
+                    }
+                    if (StringFormatArgsBindings.Count > 0)
+                    {
+                        StringFormatArgsBindings.ToList().ForEach(binding => ManageStringFormatArgs(multiBinding, binding, dependencyObject, dependencyProperty));
                     }
 
                     if (InMultiTr || dependencyObject == null || dependencyProperty == null)
