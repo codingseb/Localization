@@ -20,7 +20,8 @@
 * Loc.MissingTranslations is now static
 * Add Loc.GetInstance Property of type Func&lt;Loc&gt; to redefine how to resolve the Loc.Instance for Loc.Tr
 * JsonMissingTranslationsLogger and YamlMissingTranslationsLogger method EnableLogFor(Loc) and DisableLocFor(Loc) are now EnableLog() and DisableLog()
-* Can now Binding a custom instance of Loc in Tr xaml markup With Property LocInstanceBinding	  </PackageReleaseNotes>
+* Can now Binding a custom instance of Loc in Tr xaml markup With Property LocInstanceBinding
+* Add LocFieldAttribute and LocPropertyAttribute to specify custom Loc Instance in Fody packages</PackageReleaseNotes>
 	  <Version>1.2.0</Version>
   </PropertyGroup>
 
