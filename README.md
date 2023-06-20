@@ -184,7 +184,7 @@ __To Change the current language from the xaml__
 ```xml
 <!-- to add in the root tag of the xaml file  : 
 xmlns:loc="clr-namespace:Localization;assembly=Localization" -->
-<ComboBox ItemsSource="{Binding AvailableLanguages, Source={x:Static loc:Loc.Instance}}"
+<ComboBox ItemsSource="{Binding Source={x:Static loc:Loc.AvailableLanguages}}"
           SelectedItem="{Binding CurrentLanguage, Source={x:Static loc:Loc.Instance}}"/>
 
 ```
