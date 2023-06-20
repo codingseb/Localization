@@ -352,14 +352,14 @@ You can activate an option to be notify when a translation is missing.
 
 ```csharp
 // with all TextId and LanguageId that are missing when you trying to translate them.
-Loc.Instance.LogOutMissingTranslations = true;
-Loc.Instance.MissingTranslationFound += Loc_MissingTranslationFound;
+Loc.LogOutMissingTranslations = true;
+Loc.MissingTranslationFound += Loc_MissingTranslationFound;
 ```
 
 If you want to log it automatically in a json file you can also use the class `JsonMissingTranslationsLogger` in the "CodingSeb.Localization.JsonFileLoader" package.
 
 ```csharp
-JsonMissingTranslationsLogger.EnableLogFor(Loc.Instance);
+JsonMissingTranslationsLogger.EnableLog();
 ```
 
 ## Tr and WPF Styles
