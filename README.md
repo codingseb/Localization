@@ -77,7 +77,7 @@ Loc.Instance.CurrentLanguage = "fr";
 Loc.Instance.CurrentLanguage = "es";
 // ...
 // To get availables languages
-Collection<string> languages = Loc.Instance.AvailableLanguages;
+Collection<string> languages = Loc.AvailableLanguages;
 ```
 
 ### Use it In XAML (WPF) :
