@@ -35,7 +35,7 @@ namespace CodingSeb.Localization.Avalonia
 
         private void OnKeyDrop(WeakReference weakKeyRef)
         {
-            lock(locker)
+            lock (locker)
             {
                 if (!bAlive)
                     return;
@@ -54,10 +54,10 @@ namespace CodingSeb.Localization.Avalonia
         {
             get
             {
-                lock(locker)
+                lock (locker)
                 {
                     ManualShrink();
-                    return valueMap.ToDictionary(p => (TKey) p.Key.Target, p => p.Value);
+                    return valueMap.ToDictionary(p => (TKey)p.Key.Target, p => p.Value);
                 }
             }
         }
@@ -104,10 +104,10 @@ namespace CodingSeb.Localization.Avalonia
         {
             get
             {
-                lock(locker)
+                lock (locker)
                 {
                     ManualShrink();
-                    return valueMap.Keys.Select(k => (TKey) k.Target).ToList();
+                    return valueMap.Keys.Select(k => (TKey)k.Target).ToList();
                 }
             }
         }
@@ -151,7 +151,7 @@ namespace CodingSeb.Localization.Avalonia
 
         public void Clear()
         {
-            lock(locker)
+            lock (locker)
             {
                 keyHolderMap = new ConditionalWeakTable<TKey, WeakKeyHolder>();
                 valueMap.Clear();
@@ -183,7 +183,7 @@ namespace CodingSeb.Localization.Avalonia
 
         public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
         {
-            ((IDictionary<TKey, TValue>) CurrentDictionary).CopyTo(array, arrayIndex);
+            ((IDictionary<TKey, TValue>)CurrentDictionary).CopyTo(array, arrayIndex);
         }
 
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()

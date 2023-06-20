@@ -31,8 +31,7 @@ namespace CodingSeb.Localization.Examples
         {
             get
             {
-                return Loc.Instance
-                    .TranslationsDictionary
+                return Loc.TranslationsDictionary
                     .Keys.ToList()
                     .FindAll(k => k.StartsWith("Text:"));
             }

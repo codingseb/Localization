@@ -11,14 +11,16 @@ namespace CodingSeb.Localization.WPF
     /// </summary>
     internal class TrData : INotifyPropertyChanged
     {
+        private Loc locInstance;
+
         public TrData()
         {
-            WeakEventManager<Loc, CurrentLanguageChangedEventArgs>.AddHandler(Loc.Instance, nameof(Loc.Instance.CurrentLanguageChanged), CurrentLanguageChanged);
+            SubscribeToCurrentLanguageChanged();
         }
 
         ~TrData()
         {
-            WeakEventManager<Loc, CurrentLanguageChangedEventArgs>.RemoveHandler(Loc.Instance, nameof(Loc.Instance.CurrentLanguageChanged), CurrentLanguageChanged);
+            UnsubscribeFromCurrentLanguageChanged();
         }
 
         /// <summary>
@@ -68,6 +70,23 @@ namespace CodingSeb.Localization.WPF
         public object Model { get; set; }
 
         /// <summary>
+        /// The Loc instance to use to perform the translation.
+        /// if null it will use Loc.Instance
+        /// </summary>
+        [DoNotNotify]
+        public Loc LocInstance
+        {
+            get => locInstance;
+
+            set
+            {
+                UnsubscribeFromCurrentLanguageChanged();
+                locInstance=value;
+                SubscribeToCurrentLanguageChanged();
+            }
+        }
+
+        /// <summary>
         /// When the current Language changed update the binding (Call OnPropertyChanged)
         /// </summary>
         /// <param name="sender"></param>
@@ -87,15 +106,25 @@ namespace CodingSeb.Localization.WPF
                 string translatedText;
                 if (Model != null)
                 {
-                    translatedText = Loc.Tr(string.Format(TextIdStringFormat, TextId), Model, DefaultText, LanguageId);
+                    translatedText = (locInstance ?? Loc.Instance).Translate(string.Format(TextIdStringFormat, TextId), Model, DefaultText, LanguageId);
                 }
                 else
                 {
-                    translatedText = Loc.Tr(string.Format(TextIdStringFormat, TextId), DefaultText, LanguageId);
+                    translatedText = (locInstance ?? Loc.Instance).Translate(string.Format(TextIdStringFormat, TextId), DefaultText, LanguageId);
                 }
 
                 return Prefix + translatedText + Suffix;
             }
+        }
+
+        private void SubscribeToCurrentLanguageChanged()
+        {
+            WeakEventManager<Loc, CurrentLanguageChangedEventArgs>.AddHandler(locInstance ?? Loc.Instance, nameof(Loc.CurrentLanguageChanged), CurrentLanguageChanged);
+        }
+
+        private void UnsubscribeFromCurrentLanguageChanged()
+        {
+            WeakEventManager<Loc, CurrentLanguageChangedEventArgs>.RemoveHandler(locInstance ?? Loc.Instance, nameof(Loc.CurrentLanguageChanged), CurrentLanguageChanged);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

@@ -31,7 +31,7 @@ namespace CodingSeb.Localization.Tests
         [OneTimeSetUp]
         public void LoadTranslations()
         {
-            loader = new LocalizationLoader(Loc.Instance);
+            loader = new LocalizationLoader();
             JsonFileLoader jsonFileLoader = new JsonFileLoader();
             loader.FileLanguageLoaders.Add(jsonFileLoader);
 
@@ -123,18 +123,18 @@ namespace CodingSeb.Localization.Tests
         {
             int eventFired = 0;
 
-            Loc.Instance.LogOutMissingTranslations = true;
+            Loc.LogOutMissingTranslations = true;
 
             void Instance_MissingTranslationFound(object sender, LocalizationMissingTranslationEventArgs e)
             {
                 eventFired++;
             }
 
-            Loc.Instance.MissingTranslationFound += Instance_MissingTranslationFound;
+            Loc.MissingTranslationFound += Instance_MissingTranslationFound;
 
             JsonMissingTranslationsLogger.MissingTranslationsFileName = missingFilesFileName;
 
-            JsonMissingTranslationsLogger.EnableLogFor(Loc.Instance);
+            JsonMissingTranslationsLogger.EnableLog();
 
             try
             {
@@ -142,17 +142,17 @@ namespace CodingSeb.Localization.Tests
 
                 Loc.Tr("LanguageName", "Test").ShouldBe("Test");
 
-                Loc.Instance.MissingTranslations.ShouldContainKey("LanguageName");
-                Loc.Instance.MissingTranslations["LanguageName"].ShouldContainKey("it");
-                Loc.Instance.MissingTranslations["LanguageName"]["it"].ShouldBe("default text : Test");
+                Loc.MissingTranslations.ShouldContainKey("LanguageName");
+                Loc.MissingTranslations["LanguageName"].ShouldContainKey("it");
+                Loc.MissingTranslations["LanguageName"]["it"].ShouldBe("default text : Test");
 
                 Loc.Instance.CurrentLanguage = "en";
 
                 Loc.Tr("NotExistingTextId", "Test2").ShouldBe("Test2");
 
-                Loc.Instance.MissingTranslations.ShouldContainKey("NotExistingTextId");
-                Loc.Instance.MissingTranslations["NotExistingTextId"].ShouldContainKey("en");
-                Loc.Instance.MissingTranslations["NotExistingTextId"]["en"].ShouldBe("default text : Test2");
+                Loc.MissingTranslations.ShouldContainKey("NotExistingTextId");
+                Loc.MissingTranslations["NotExistingTextId"].ShouldContainKey("en");
+                Loc.MissingTranslations["NotExistingTextId"]["en"].ShouldBe("default text : Test2");
 
                 eventFired.ShouldBe(2);
 
@@ -160,8 +160,8 @@ namespace CodingSeb.Localization.Tests
             }
             finally
             {
-                Loc.Instance.MissingTranslationFound -= Instance_MissingTranslationFound;
-                JsonMissingTranslationsLogger.DisableLogFor(Loc.Instance);
+                Loc.MissingTranslationFound -= Instance_MissingTranslationFound;
+                JsonMissingTranslationsLogger.DisableLog();
             }
         }
 
@@ -233,7 +233,7 @@ namespace CodingSeb.Localization.Tests
             yield return new TestCaseData("PluralizeTest2", 1, "Alarm", "en");
             yield return new TestCaseData("PluralizeTest2", 2, "Alarms", "en");
             yield return new TestCaseData("PluralizeTest2", 142, "Alarms", "en");
-                                                        
+
             yield return new TestCaseData("PluralizeTest2", 0, "Alarme", "fr");
             yield return new TestCaseData("PluralizeTest2", 1, "Alarme", "fr");
             yield return new TestCaseData("PluralizeTest2", 2, "Alarmes", "fr");
@@ -264,6 +264,21 @@ namespace CodingSeb.Localization.Tests
             Console.WriteLine(message);
             message.ShouldBe(result);
             Loc.Instance.UseFallbackLanguage = false;
+        }
+
+        [Test]
+        public void LocMultiInstance()
+        {
+            Loc loc1 = new Loc();
+            Loc loc2 = new Loc();
+            loc1.CurrentLanguage = "fr";
+            loc2.CurrentLanguage = "en";
+
+            loc1.CurrentLanguage.ShouldBe("fr");
+            loc2.CurrentLanguage.ShouldBe("en");
+
+            loc1.Translate("SayHello").ShouldBe("Bonjour");
+            loc2.Translate("SayHello").ShouldBe("Hello");
         }
     }
 }

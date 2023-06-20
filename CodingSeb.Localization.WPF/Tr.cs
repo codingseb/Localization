@@ -21,7 +21,7 @@ namespace CodingSeb.Localization.WPF
         /// The Default TextId is "CurrentNamespace.CurrentClass.CurrentProperty"
         /// </summary>
         public Tr()
-        {}
+        { }
 
         /// <summary>
         /// Translate the current Property in the current language
@@ -30,7 +30,7 @@ namespace CodingSeb.Localization.WPF
         /// <param name="textId">To force the use of a specific identifier</param>
         public Tr(object textId)
         {
-			if (textId is BindingBase textIdBinding)
+            if (textId is BindingBase textIdBinding)
                 TextIdBinding = textIdBinding;
             else
                 TextId = textId.ToString();
@@ -175,6 +175,13 @@ namespace CodingSeb.Localization.WPF
         public Collection<BindingBase> StringFormatArgsBindings { get; } = new Collection<BindingBase>();
 
         /// <summary>
+        /// To Bind the Loc instance to use to perform the translation.
+        /// if not set it will use Loc.Instance.
+        /// Work only if <see cref="IsDynamic"/> is <c>true</c>
+        /// </summary>
+        public BindingBase LocInstanceBinding { get; set; }
+
+        /// <summary>
         /// Translation In Xaml
         /// </summary>
         /// <param name="serviceProvider"></param>
@@ -241,7 +248,12 @@ namespace CodingSeb.Localization.WPF
 
                 SetDependenciesInTrConverterBase(Converter, dependencyObject, dependencyProperty);
 
-                if (StringFormatArgBinding == null && StringFormatArgsBindings.Count == 0 && TextIdBinding == null && ModelBinding == null && DefaultTextBinding == null)
+                if (StringFormatArgBinding == null
+                    && StringFormatArgsBindings.Count == 0
+                    && TextIdBinding == null
+                    && ModelBinding == null
+                    && DefaultTextBinding == null
+                    && LocInstanceBinding == null)
                 {
                     if (Converter != null)
                     {
@@ -272,7 +284,8 @@ namespace CodingSeb.Localization.WPF
                         TrConverter = Converter,
                         TrConverterParameter = ConverterParameter,
                         TrConverterCulture = ConverterCulture,
-                        StringFormatBindings = StringFormatArgsBindings ?? new Collection<BindingBase>()
+                        StringFormatBindings = StringFormatArgsBindings ?? new Collection<BindingBase>(),
+                        LocInstanceBinding = LocInstanceBinding
                     };
 
                     MultiBinding multiBinding = new()
@@ -322,12 +335,25 @@ namespace CodingSeb.Localization.WPF
                         }
                     }
 
+                    if (LocInstanceBinding != null)
+                    {
+                        SetDependenciesInTrConverterBase(LocInstanceBinding, dependencyObject, dependencyProperty);
+
+                        if (LocInstanceBinding is MultiBinding locInstanceMultiBinding)
+                        {
+                            locInstanceMultiBinding.Bindings.ToList().ForEach(multiBinding.Bindings.Add);
+                        }
+                        else
+                        {
+                            multiBinding.Bindings.Add(LocInstanceBinding);
+                        }
+                    }
+
                     multiBinding.Bindings.Add(binding);
 
                     if (StringFormatArgBinding != null)
                     {
                         internalConverter.StringFormatBindings.Insert(0, StringFormatArgBinding);
-                        ManageStringFormatArgs(multiBinding, StringFormatArgBinding, dependencyObject, dependencyProperty);
                     }
                     if (StringFormatArgsBindings.Count > 0)
                     {
@@ -350,7 +376,7 @@ namespace CodingSeb.Localization.WPF
             {
                 object result = trData.TranslatedText;
 
-                if(Converter != null)
+                if (Converter != null)
                 {
                     result = Converter.Convert(result, dependencyProperty?.PropertyType, ConverterParameter, ConverterCulture);
                 }
@@ -370,7 +396,7 @@ namespace CodingSeb.Localization.WPF
             {
                 multiBinding.Bindings.Add(stringFormatBinding);
             }
-            else if(stringFormatBinding is MultiBinding stringFormatMultiBinding)
+            else if (stringFormatBinding is MultiBinding stringFormatMultiBinding)
             {
                 stringFormatMultiBinding.Bindings.ToList().ForEach(multiBinding.Bindings.Add);
             }
@@ -381,16 +407,16 @@ namespace CodingSeb.Localization.WPF
             if (dependencyObject == null || dependencyProperty == null)
                 return;
 
-            if(converterContainer is Binding binding)
+            if (converterContainer is Binding binding)
             {
                 converterContainer = binding.Converter;
             }
-            else if(converterContainer is MultiBinding multiBinding)
+            else if (converterContainer is MultiBinding multiBinding)
             {
                 converterContainer = multiBinding.Converter;
             }
 
-            if(converterContainer is TrConverterBase trConverterBase)
+            if (converterContainer is TrConverterBase trConverterBase)
             {
                 trConverterBase.xamlTargetObject = dependencyObject;
                 trConverterBase.xamlDependencyProperty = dependencyProperty;
@@ -408,6 +434,7 @@ namespace CodingSeb.Localization.WPF
             internal Collection<BindingBase> StringFormatBindings { get; set; }
             internal BindingBase ModelBinding { get; set; }
             internal BindingBase DefaultTextBinding { get; set; }
+            internal BindingBase LocInstanceBinding { get; set; }
 
             /// <inheritdoc/>
             public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
@@ -458,9 +485,23 @@ namespace CodingSeb.Localization.WPF
                         offset++;
                     }
 
+                    if (LocInstanceBinding is MultiBinding locInstanceMultiBinding)
+                    {
+                        Data.LocInstance = (Loc)locInstanceMultiBinding.Converter.Convert(values.Skip(offset).Take(locInstanceMultiBinding.Bindings.Count).ToArray(), null, locInstanceMultiBinding.ConverterParameter, locInstanceMultiBinding.ConverterCulture);
+                        offset += locInstanceMultiBinding.Bindings.Count;
+                    }
+                    else if (LocInstanceBinding is Binding)
+                    {
+                        if (values.Length > offset)
+                            Data.LocInstance = (Loc)values[offset];
+                        else
+                            Data.LocInstance = null;
+                        offset++;
+                    }
+
                     offset++;
 
-                    List<object> stringFormatArgs = new List<object>();
+                    List<object> stringFormatArgs = new();
 
                     for (int i = 0; i < StringFormatBindings.Count; i++)
                     {

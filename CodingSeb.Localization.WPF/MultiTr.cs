@@ -106,9 +106,6 @@ namespace CodingSeb.Localization.WPF
             if (serviceProvider.GetService(typeof(IProvideValueTarget)) is not IProvideValueTarget service)
                 return this;
 
-            DependencyProperty dependencyProperty = service.TargetProperty as DependencyProperty;
-            DependencyObject dependencyObject = service.TargetObject as DependencyObject;
-
             IEnumerable<object> providedValues = Collection.Select(tr => tr.ProvideValue(serviceProvider, true) as BindingBase ?? (object)tr);
 
             if (providedValues.All(p => p is BindingBase))
@@ -121,7 +118,7 @@ namespace CodingSeb.Localization.WPF
                     MultiTrConverterCulture = ConverterCulture,
                 };
 
-                MultiBinding multiBinding = new MultiBinding()
+                MultiBinding multiBinding = new()
                 {
                     Converter = internalConverter
                 };
@@ -142,7 +139,7 @@ namespace CodingSeb.Localization.WPF
                     internalConverter.StringFormatBindings.Add(bindingBase);
                 });
 
-                if (dependencyObject == null || dependencyProperty == null)
+                if (service.TargetObject is not DependencyObject dependencyObject || service.TargetProperty is not DependencyProperty dependencyProperty)
                 {
                     return multiBinding;
                 }
@@ -169,7 +166,7 @@ namespace CodingSeb.Localization.WPF
 
             public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
             {
-                List<object> stringFormatValues = new List<object>();
+                List<object> stringFormatValues = new();
 
                 int offset = 0;
 

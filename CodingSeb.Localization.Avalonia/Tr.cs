@@ -180,6 +180,13 @@ namespace CodingSeb.Localization.Avalonia
         public IList<IBinding> StringFormatArgsBindings { get; set; } = new List<IBinding>();
 
         /// <summary>
+        /// To Bind the Loc instance to use to perform the translation.
+        /// if not set it will use Loc.Instance.
+        /// Work only if <see cref="IsDynamic"/> is <c>true</c>
+        /// </summary>
+        public IBinding LocInstanceBinding { get; set; }
+
+        /// <summary>
         /// Translation In Xaml
         /// </summary>
         /// <param name="serviceProvider"></param>
@@ -247,7 +254,12 @@ namespace CodingSeb.Localization.Avalonia
                     Source = trData
                 };
 
-                if (StringFormatArgBinding == null && StringFormatArgsBindings.Count == 0 && TextIdBinding == null)
+                if (StringFormatArgBinding == null
+                    && StringFormatArgsBindings.Count == 0
+                    && TextIdBinding == null
+                    && ModelBinding == null
+                    && DefaultTextBinding == null
+                    && LocInstanceBinding == null)
                 {
                     if (Converter != null)
                     {
@@ -279,7 +291,8 @@ namespace CodingSeb.Localization.Avalonia
                         TrConverter = Converter,
                         TrConverterParameter = ConverterParameter,
                         TrConverterCulture = ConverterCulture,
-                        StringFormatBindings = StringFormatArgsBindings ?? new List<IBinding>()
+                        StringFormatBindings = StringFormatArgsBindings ?? new List<IBinding>(),
+                        LocInstanceBinding = LocInstanceBinding
                     };
 
                     MultiBinding multiBinding = new()
@@ -323,12 +336,35 @@ namespace CodingSeb.Localization.Avalonia
                         }
                     }
 
+                    if (DefaultTextBinding != null)
+                    {
+                        if (DefaultTextBinding is MultiBinding defaultTextMultiBinding)
+                        {
+                            defaultTextMultiBinding.Bindings.ToList().ForEach(multiBinding.Bindings.Add);
+                        }
+                        else
+                        {
+                            multiBinding.Bindings.Add(DefaultTextBinding);
+                        }
+                    }
+
+                    if (LocInstanceBinding != null)
+                    {
+                        if (LocInstanceBinding is MultiBinding locInstanceMultiBinding)
+                        {
+                            locInstanceMultiBinding.Bindings.ToList().ForEach(multiBinding.Bindings.Add);
+                        }
+                        else
+                        {
+                            multiBinding.Bindings.Add(LocInstanceBinding);
+                        }
+                    }
+
                     multiBinding.Bindings.Add(binding);
 
                     if (StringFormatArgBinding != null)
                     {
                         internalConverter.StringFormatBindings.Insert(0, StringFormatArgBinding);
-                        ManageStringFormatArgs(multiBinding, StringFormatArgBinding);
                     }
                     if (StringFormatArgsBindings.Count > 0)
                     {
@@ -353,7 +389,7 @@ namespace CodingSeb.Localization.Avalonia
             {
                 object result = trData.TranslatedText;
 
-                if(Converter != null)
+                if (Converter != null)
                 {
                     result = Converter.Convert(result, dependencyProperty?.PropertyType, ConverterParameter, ConverterCulture);
                 }
@@ -397,10 +433,10 @@ namespace CodingSeb.Localization.Avalonia
             internal object TrConverterParameter { get; set; }
             internal CultureInfo TrConverterCulture { get; set; }
             internal IList<IBinding> StringFormatBindings { get; set; }
-			internal IBinding ModelBinding { get; set; }
+            internal IBinding ModelBinding { get; set; }
             internal IBinding DefaultTextBinding { get; set; }
-
-			/// <inheritdoc/>
+            internal IBinding LocInstanceBinding { get; set; }
+            /// <inheritdoc/>
             public object Convert(IList<object> values, Type targetType, object parameter, CultureInfo culture)
             {
                 try
@@ -449,9 +485,23 @@ namespace CodingSeb.Localization.Avalonia
                         offset++;
                     }
 
+                    if (LocInstanceBinding is MultiBinding locInstanceMultiBinding)
+                    {
+                        Data.LocInstance = (Loc)locInstanceMultiBinding.Converter.Convert(values.Skip(offset).Take(locInstanceMultiBinding.Bindings.Count).ToArray(), null, locInstanceMultiBinding.ConverterParameter, TrConverterCulture);
+                        offset += locInstanceMultiBinding.Bindings.Count;
+                    }
+                    else if (LocInstanceBinding is Binding)
+                    {
+                        if (values.Count > offset)
+                            Data.LocInstance = (Loc)values[offset];
+                        else
+                            Data.LocInstance = null;
+                        offset++;
+                    }
+
                     offset++;
 
-                    List<object> stringFormatArgs = new List<object>();
+                    List<object> stringFormatArgs = new();
 
                     for (int i = 0; i < StringFormatBindings.Count; i++)
                     {

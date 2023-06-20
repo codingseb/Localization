@@ -66,7 +66,7 @@ namespace CodingSeb.Localization.Loaders
 
         private void ParseSubElement(KeyValuePair<YamlNode, YamlNode> nodePair, Stack<string> textId, LocalizationLoader loader, string fileName)
         {
-            if(nodePair.Value is YamlMappingNode mappingNode)
+            if (nodePair.Value is YamlMappingNode mappingNode)
             {
                 textId.Push(nodePair.Key.ToString());
                 mappingNode.ToList()
@@ -75,7 +75,7 @@ namespace CodingSeb.Localization.Loaders
             }
             else
             {
-                if(LangIdDecoding == YamlFileLoaderLangIdDecoding.InFileNameBeforeExtension)
+                if (LangIdDecoding == YamlFileLoaderLangIdDecoding.InFileNameBeforeExtension)
                 {
                     textId.Push(nodePair.Key.ToString());
                     loader.AddTranslation(
@@ -85,7 +85,7 @@ namespace CodingSeb.Localization.Loaders
                         fileName);
                     textId.Pop();
                 }
-                else if(LangIdDecoding == YamlFileLoaderLangIdDecoding.DirectoryName)
+                else if (LangIdDecoding == YamlFileLoaderLangIdDecoding.DirectoryName)
                 {
                     textId.Push(nodePair.Key.ToString());
                     loader.AddTranslation(

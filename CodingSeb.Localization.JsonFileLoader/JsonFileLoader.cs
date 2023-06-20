@@ -54,7 +54,7 @@ namespace CodingSeb.Localization.Loaders
         /// <param name="loader">The loader to load each translation</param>
         public void LoadFile(string fileName, LocalizationLoader loader)
         {
-            using(StreamReader reader = File.OpenText(fileName))
+            using (StreamReader reader = File.OpenText(fileName))
             {
                 JObject root = (JObject)JToken.ReadFrom(new JsonTextReader(reader));
 
@@ -65,7 +65,7 @@ namespace CodingSeb.Localization.Loaders
 
         private void ParseSubElement(JProperty property, Stack<string> textId, LocalizationLoader loader, string fileName)
         {
-            switch(property.Value.Type)
+            switch (property.Value.Type)
             {
                 case JTokenType.Object:
                     textId.Push(property.Name);
@@ -74,8 +74,8 @@ namespace CodingSeb.Localization.Loaders
                     textId.Pop();
                     break;
                 case JTokenType.String:
-                    
-                    if(LangIdDecoding == JsonFileLoaderLangIdDecoding.InFileNameBeforeExtension)
+
+                    if (LangIdDecoding == JsonFileLoaderLangIdDecoding.InFileNameBeforeExtension)
                     {
                         textId.Push(property.Name);
                         loader.AddTranslation(
@@ -85,7 +85,7 @@ namespace CodingSeb.Localization.Loaders
                             fileName);
                         textId.Pop();
                     }
-                    else if(LangIdDecoding == JsonFileLoaderLangIdDecoding.DirectoryName)
+                    else if (LangIdDecoding == JsonFileLoaderLangIdDecoding.DirectoryName)
                     {
                         textId.Push(property.Name);
                         loader.AddTranslation(LabelPathRootPrefix + string.Join(LabelPathSeparator, textId.Reverse()) + LabelPathSuffix,

@@ -108,9 +108,6 @@ namespace CodingSeb.Localization.Avalonia
                 return this;
             }
 
-            AvaloniaObject dependencyObject = service.TargetObject as AvaloniaObject;
-            AvaloniaProperty dependencyProperty = service.TargetProperty as AvaloniaProperty;
-
             IEnumerable<object> providedValues = Collection.Select(tr => tr.ProvideValue(serviceProvider, true) as IBinding ?? (object)tr);
 
             if (providedValues.All(p => p is IBinding))
@@ -144,7 +141,7 @@ namespace CodingSeb.Localization.Avalonia
                     internalConverter.StringFormatBindings.Add(bindingBase);
                 });
 
-                if (dependencyObject == null || dependencyProperty == null)
+                if (service.TargetObject is not AvaloniaObject dependencyObject || service.TargetProperty is not AvaloniaProperty dependencyProperty)
                 {
                     return multiBinding;
                 }

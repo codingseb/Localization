@@ -6,21 +6,6 @@
     /// </summary>
     public class FilesDictionaryTranslator : ITranslator
     {
-        private Loc loc;
-
-        /// <summary>
-        /// The Loc to use to translate form it's dictionary
-        /// </summary>
-        public Loc Loc
-        {
-            get
-            {
-                return loc ?? (loc = Loc.Instance);
-            }
-
-            set { loc = value; }
-        }
-
         /// <summary>
         /// To ask if this translator can translate the given textId and languageId
         /// </summary>

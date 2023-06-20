@@ -125,6 +125,12 @@ namespace CodingSeb.Localization.FodyAddin.Fody
                         && methodReference.DeclaringType == typeDefinition);
             }).ToList();
 
+            string locPropertyName = typeDefinition.CustomAttributes.FirstOrDefault(attribute => attribute.AttributeType.Name.Equals("LocPropertyAttribute"))?.ConstructorArguments[0].Value?.ToString();
+            var locProperty = typeDefinition.Properties.FirstOrDefault(property => property.Name.Equals(locPropertyName) && property.PropertyType.FullName.Equals(locType.FullName));
+
+            string locFieldName = typeDefinition.CustomAttributes.FirstOrDefault(attribute => attribute.AttributeType.Name.Equals("LocFieldAttribute"))?.ConstructorArguments[0].Value?.ToString();
+            var locField = typeDefinition.Fields.FirstOrDefault(field => field.Name.Equals(locFieldName) && field.FieldType.FullName.Equals(locType.FullName));
+
             exclusiveAlwaysCalledConstructors.ForEach(constructor =>
             {
                 var instructions = constructor.Body.Instructions;
@@ -135,7 +141,22 @@ namespace CodingSeb.Localization.FodyAddin.Fody
                 }
 
                 instructions.Add(Instruction.Create(OpCodes.Nop));
-                instructions.Add(Instruction.Create(OpCodes.Call, locGetInstance));
+
+                if (locProperty  != null)
+                {
+                    instructions.Add(Instruction.Create(OpCodes.Ldarg_0));
+                    instructions.Add(Instruction.Create(OpCodes.Call, locProperty.GetMethod));
+                }
+                else if (locField != null)
+                {
+                    instructions.Add(Instruction.Create(OpCodes.Ldarg_0));
+                    instructions.Add(Instruction.Create(OpCodes.Ldfld, locField));
+                }
+                else
+                {
+                    instructions.Add(Instruction.Create(OpCodes.Call, locGetInstance));
+                }
+
                 instructions.Add(Instruction.Create(OpCodes.Ldstr, "CurrentLanguageChanged"));
                 instructions.Add(Instruction.Create(OpCodes.Ldarg_0));
                 instructions.Add(Instruction.Create(OpCodes.Ldftn, currentLanguageChangedMethod));

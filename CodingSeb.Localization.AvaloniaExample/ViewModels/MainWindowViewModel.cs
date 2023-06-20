@@ -10,8 +10,7 @@ namespace CodingSeb.Localization.AvaloniaExample.ViewModels
 
         public Loc LanguagesManager => Loc.Instance;
 
-        public List<string> Labels => Loc.Instance
-                    .TranslationsDictionary
+        public List<string> Labels => Loc.TranslationsDictionary
                     .Keys.ToList()
                     .FindAll(k => k.StartsWith("Text:"));
 

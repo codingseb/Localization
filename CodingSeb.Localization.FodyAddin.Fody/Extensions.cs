@@ -44,7 +44,7 @@ namespace CodingSeb.Localization.FodyAddin.Fody
 
             var attribute = typeDefinition.CustomAttributes.FirstOrDefault(a => a.AttributeType.Name.Equals("PropertyChangedTriggerMethodNameForLocalization"));
 
-            if(attribute != null)
+            if (attribute != null)
             {
                 propertyChangedTriggerMethodCommonNames.Insert(0, attribute.ConstructorArguments[0].Value.ToString());
 
@@ -64,7 +64,7 @@ namespace CodingSeb.Localization.FodyAddin.Fody
             }
             finally
             {
-                if(removeFirstEntry)
+                if (removeFirstEntry)
                 {
                     propertyChangedTriggerMethodCommonNames.RemoveAt(0);
                 }

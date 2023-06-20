@@ -19,7 +19,7 @@ namespace CodingSeb.Localization
         /// </summary>
         /// <param name="textId">The Text Id for the translation to inject in this property</param>
         public LocalizeAttribute(string textId)
-        {}
+        { }
 
         /// <summary>
         /// The default TextTo return if the translation does not exist.

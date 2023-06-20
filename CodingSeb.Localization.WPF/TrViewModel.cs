@@ -50,7 +50,7 @@ namespace CodingSeb.Localization.WPF
 
         public override bool TryGetMember(GetMemberBinder binder, out object result)
         {
-            if(!textIdsList.Contains(binder.Name))
+            if (!textIdsList.Contains(binder.Name))
                 textIdsList.Add(binder.Name);
 
             result = Loc.Tr(binder.Name);
