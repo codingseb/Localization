@@ -54,6 +54,11 @@ namespace CodingSeb.Localization.Loaders
         /// <param name="loader">The loader to load each translation</param>
         public void LoadFile(string fileName, LocalizationLoader loader)
         {
+            LoadStream(File.Open(fileName), loader);
+        }
+
+        public void LoadStream(Stream stream, LocalizationLoader loader)
+        {
             using (StreamReader reader = File.OpenText(fileName))
             {
                 JObject root = (JObject)JToken.ReadFrom(new JsonTextReader(reader));
