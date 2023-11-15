@@ -47,13 +47,24 @@ namespace CodingSeb.Localization.Loaders
         }
 
         /// <summary>
-        /// Load all translation defined in Json format in the specified file
+        /// Load all translation defined in Yaml format in the specified file
         /// </summary>
         /// <param name="fileName">The file we want to load</param>
         /// <param name="loader">The loader to load each translation</param>
         public void LoadFile(string fileName, LocalizationLoader loader)
         {
-            var input = new StringReader(File.ReadAllText(fileName));
+            LoadFromString(File.ReadAllText(fileName), loader, fileName);
+        }
+
+        /// <summary>
+        /// Load all translations defined in Yaml format from the specified <paramref name="yamlString"/>.
+        /// </summary>
+        /// <param name="yamlString">String to load serialized Yaml format translations from.</param>
+        /// <param name="loader">The loader to use for loading translations from the string.</param>
+        /// <param name="sourceFileName">Optional source file name.</param>
+        public void LoadFromString(string yamlString, LocalizationLoader loader, string sourceFileName = "")
+        {
+            var input = new StringReader(yamlString);
             var yaml = new YamlStream();
 
             yaml.Load(input);
@@ -61,16 +72,16 @@ namespace CodingSeb.Localization.Loaders
             var mapping = (YamlMappingNode)yaml.Documents[0].RootNode;
 
             mapping.ToList()
-                .ForEach(pair => ParseSubElement(pair, new Stack<string>(), loader, fileName));
+                .ForEach(pair => ParseSubElement(pair, new Stack<string>(), loader, sourceFileName));
         }
 
-        private void ParseSubElement(KeyValuePair<YamlNode, YamlNode> nodePair, Stack<string> textId, LocalizationLoader loader, string fileName)
+        private void ParseSubElement(KeyValuePair<YamlNode, YamlNode> nodePair, Stack<string> textId, LocalizationLoader loader, string source)
         {
             if (nodePair.Value is YamlMappingNode mappingNode)
             {
                 textId.Push(nodePair.Key.ToString());
                 mappingNode.ToList()
-                    .ForEach(pair => ParseSubElement(pair, textId, loader, fileName));
+                    .ForEach(pair => ParseSubElement(pair, textId, loader, source));
                 textId.Pop();
             }
             else
@@ -80,9 +91,9 @@ namespace CodingSeb.Localization.Loaders
                     textId.Push(nodePair.Key.ToString());
                     loader.AddTranslation(
                         LabelPathRootPrefix + string.Join(LabelPathSeparator, textId.Reverse()) + LabelPathSuffix,
-                        Path.GetExtension(Regex.Replace(fileName, @"\.loc\.yaml", "")).Replace(".", ""),
+                        Path.GetExtension(Regex.Replace(source, @"\.loc\.yaml", "")).Replace(".", ""),
                         nodePair.Value.ToString(),
-                        fileName);
+                        source);
                     textId.Pop();
                 }
                 else if (LangIdDecoding == YamlFileLoaderLangIdDecoding.DirectoryName)
@@ -90,14 +101,14 @@ namespace CodingSeb.Localization.Loaders
                     textId.Push(nodePair.Key.ToString());
                     loader.AddTranslation(
                         LabelPathRootPrefix + string.Join(LabelPathSeparator, textId.Reverse()) + LabelPathSuffix,
-                        Path.GetDirectoryName(fileName),
+                        Path.GetDirectoryName(source),
                         nodePair.Value.ToString(),
-                        fileName);
+                        source);
                     textId.Pop();
                 }
                 else
                 {
-                    loader.AddTranslation(LabelPathRootPrefix + string.Join(LabelPathSeparator, textId.Reverse()) + LabelPathSuffix, nodePair.Key.ToString(), nodePair.Value.ToString(), fileName);
+                    loader.AddTranslation(LabelPathRootPrefix + string.Join(LabelPathSeparator, textId.Reverse()) + LabelPathSuffix, nodePair.Key.ToString(), nodePair.Value.ToString(), source);
                 }
             }
         }
