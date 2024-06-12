@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CodingSeb.Localization.Examples"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:loc="clr-namespace:CodingSeb.Localization.WPF;assembly=CodingSeb.Localization.WPF"
         mc:Ignorable="d"
         d:DataContext="{d:DesignData Type=local:MainViewModel, IsDesignTimeCreatable=False}"
         DataContext="{x:Static local:MainViewModel.Instance}"
