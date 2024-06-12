@@ -114,6 +114,8 @@
                     </Style>
                 </StackPanel.Resources>
                 <TextBlock />
+                <TextBox x:Name="NumberTextBox" Text="0" />
+                <TextBlock Text="{Tr PluralizedText, ModelBinding={Binding Text, ElementName=NumberTextBox, Converter={local:StringToIntConverter}}}" />
             </StackPanel>
         </StackPanel>
     </DockPanel>

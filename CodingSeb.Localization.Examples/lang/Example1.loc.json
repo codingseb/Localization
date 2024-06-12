@@ -89,6 +89,11 @@
     "fr": "Un texte sympa",
     "es": "Un buen texto"
   },
+  "PluralizedText": {
+    "en": "{m} element | {m} elements",
+    "fr": "{m} element | {m} elements",
+    "es": "{m} element | {m} elements"
+  },
   "Enums": {
     "Visibility": {
       "Visible": {
