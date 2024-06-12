@@ -240,7 +240,7 @@ namespace CodingSeb.Localization.WPF
                 Model = Model,
             };
 
-            if (IsDynamic && !DesignerProperties.GetIsInDesignMode(dependencyObject))
+            if (IsDynamic && (dependencyObject is null || !DesignerProperties.GetIsInDesignMode(dependencyObject)))
             {
                 Binding binding = new(nameof(TrData.TranslatedText))
                 {
