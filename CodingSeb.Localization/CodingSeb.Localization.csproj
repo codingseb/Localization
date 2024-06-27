@@ -11,18 +11,26 @@
     <RepositoryUrl>https://github.com/codingseb/Localization</RepositoryUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+	  <PackageReadmeFile>README.md</PackageReadmeFile>
 	<AssemblyVersion>1.3.1.0</AssemblyVersion>
 	<FileVersion>1.3.1.0</FileVersion>
 	<PackageReleaseNotes>
 		* Update links for package
+		* Add Readme to package
 	</PackageReleaseNotes>
 	<Version>1.3.1</Version>
+	<IncludeSymbols>True</IncludeSymbols>
+	<SymbolPackageFormat>symbols.nupkg</SymbolPackageFormat>
   </PropertyGroup>
 
   <ItemGroup>
     <None Include="..\LICENSE.md">
       <Pack>True</Pack>
-      <PackagePath></PackagePath>
+      <PackagePath>\</PackagePath>
+    </None>
+		<None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
     </None>
     <None Include="FodyWeavers.xsd" />
   </ItemGroup>

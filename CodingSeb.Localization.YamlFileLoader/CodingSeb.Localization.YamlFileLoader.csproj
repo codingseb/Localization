@@ -5,7 +5,8 @@
     <Authors>CodingSeb</Authors>
     <Description>A suite to localize C# and (WPF/AvaloniaUI) project easily base on file format you choose.</Description>
     <Copyright>Copyright © Coding Seb 2019</Copyright>
-    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageProjectUrl>https://github.com/codingseb/Localization</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/codingseb/Localization</RepositoryUrl>
 	<AssemblyVersion>1.3.1.0</AssemblyVersion>
@@ -16,6 +17,7 @@
 	</PackageReleaseNotes>
 	<Version>1.3.1</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <IncludeSymbols>True</IncludeSymbols>
   </PropertyGroup>
 
   <ItemGroup>
@@ -27,10 +29,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\LICENSE.md">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
+		<None Include="..\LICENSE.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+		<None Include="..\README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
   </ItemGroup>
 
 </Project>
