@@ -9,23 +9,15 @@
     <Description>A suite to localize C# and (WPF/AvaloniaUI) project easily base on file format you choose.</Description>
     <Copyright>Copyright © Coding Seb 2019</Copyright>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
-    <RepositoryUrl>https://github.com/codingseb/Localization</RepositoryUrl>
+		<PackageProjectUrl>https://github.com/codingseb/Localization</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/codingseb/Localization</RepositoryUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-	<AssemblyVersion>1.3.0.0</AssemblyVersion>
-	<FileVersion>1.3.0.0</FileVersion>
+	<AssemblyVersion>1.3.1.0</AssemblyVersion>
+	<FileVersion>1.3.1.0</FileVersion>
 	<PackageReleaseNotes>
-		!!! Warning breaking changes !!!
-		* Allow multi users localization by using multiple instances of Loc
-		* Loc.AvailableLanguages is now static
-		* Loc.TranslationsDictionary is now static
-		* Loc.LogOutMissingTranslations is now static
-		* Loc.MissingTranslations is now static
-		* Add Loc.GetInstance Property of type Func&lt;Loc&gt; to redefine how to resolve the Loc.Instance for Loc.Tr
-		* JsonMissingTranslationsLogger and YamlMissingTranslationsLogger method EnableLogFor(Loc) and DisableLocFor(Loc) are now EnableLog() and DisableLog()
-		* Can now Binding a custom instance of Loc in Tr xaml markup With Property LocInstanceBinding
-		* Add LocFieldAttribute and LocPropertyAttribute to specify custom Loc Instance in Fody packages
+		* Update links for package
 	</PackageReleaseNotes>
-	<Version>1.3.0</Version>
+	<Version>1.3.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
