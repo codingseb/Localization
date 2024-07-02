@@ -291,7 +291,9 @@ namespace CodingSeb.Localization.WPF
 
                     MultiBinding multiBinding = new()
                     {
-                        Converter = internalConverter
+                        Converter = internalConverter,
+                        ConverterCulture = ConverterCulture,
+                        ConverterParameter = ConverterParameter,
                     };
 
                     if (TextIdBinding != null)
