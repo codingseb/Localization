@@ -120,7 +120,9 @@ namespace CodingSeb.Localization.WPF
 
                 MultiBinding multiBinding = new()
                 {
-                    Converter = internalConverter
+                    Converter = internalConverter,
+                    ConverterCulture = ConverterCulture,
+                    ConverterParameter = ConverterParameter,
                 };
 
                 Collection.ToList().ForEach(tr =>
