@@ -244,7 +244,9 @@ namespace CodingSeb.Localization.WPF
             {
                 Binding binding = new(nameof(TrData.TranslatedText))
                 {
-                    Source = trData
+                    Source = trData,
+                    ConverterParameter = ConverterParameter,
+                    ConverterCulture = ConverterCulture,
                 };
 
                 SetDependenciesInTrConverterBase(Converter, dependencyObject, dependencyProperty);
@@ -259,8 +261,6 @@ namespace CodingSeb.Localization.WPF
                     if (Converter != null)
                     {
                         binding.Converter = Converter;
-                        binding.ConverterParameter = ConverterParameter;
-                        binding.ConverterCulture = ConverterCulture;
                     }
 
                     if (InMultiTr || dependencyObject == null || dependencyProperty == null)
