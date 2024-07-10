@@ -1,8 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.1;net47</TargetFrameworks>
-
+    <TargetFrameworks>net8.0;net47</TargetFrameworks>
+		<RootNamespace>CodingSeb.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+		<AssemblyName>CodingSeb.Localization.YamlFileLoader.Tests</AssemblyName>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
@@ -14,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CodingSeb.Localization.YamlFileLoader\CodingSeb.Localization.YamlFileLoader.csproj" />
+    <ProjectReference Include="..\Localization.YamlFileLoader\Localization.YamlFileLoader.csproj" />
     <ProjectReference Include="..\CodingSeb.Localization\CodingSeb.Localization.csproj" />
   </ItemGroup>
 

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.1;net47</TargetFrameworks>
+    <TargetFrameworks>net8.0;net47</TargetFrameworks>
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>
@@ -26,7 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CodingSeb.Localization.JsonFileLoader\CodingSeb.Localization.JsonFileLoader.csproj" />
+    <ProjectReference Include="..\Localization.JsonFileLoader\Localization.JsonFileLoader.csproj" />
     <ProjectReference Include="..\CodingSeb.Localization\CodingSeb.Localization.csproj" />
   </ItemGroup>
 

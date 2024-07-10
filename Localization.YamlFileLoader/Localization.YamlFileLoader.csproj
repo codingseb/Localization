@@ -1,28 +1,29 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <Authors>CodingSeb</Authors>
-    <Company />
     <Description>A suite to localize C# and (WPF/AvaloniaUI) project easily base on file format you choose.</Description>
     <Copyright>Copyright © Coding Seb 2019</Copyright>
-    <PackageLicenseExpression></PackageLicenseExpression>
-		<PackageProjectUrl>https://github.com/codingseb/Localization</PackageProjectUrl>
-		<RepositoryUrl>https://github.com/codingseb/Localization</RepositoryUrl>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageProjectUrl>https://github.com/codingseb/Localization</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/codingseb/Localization</RepositoryUrl>
+		<RootNamespace>CodingSeb.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+		<AssemblyName>CodingSeb.Localization.YamlFileLoader</AssemblyName>
 	<AssemblyVersion>1.3.1.0</AssemblyVersion>
 	<FileVersion>1.3.1.0</FileVersion>
 	<PackageReleaseNotes>
 		* Update links for package
+		* Update YamlDotNet dependency
 	</PackageReleaseNotes>
 	<Version>1.3.1</Version>
-	<IncludeSymbols>True</IncludeSymbols>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <IncludeSymbols>True</IncludeSymbols>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="YamlDotNet" Version="15.3.0" />
   </ItemGroup>
 
   <ItemGroup>
