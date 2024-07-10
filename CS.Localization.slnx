@@ -1,0 +1,19 @@
+<Solution>
+  <Folder Name="/Fody/">
+    <Project Path="CodingSeb.Localization.AssemblyToProcess\CodingSeb.Localization.AssemblyToProcess.csproj" />
+    <Project Path="CodingSeb.Localization.FodyAddin.Fody\CodingSeb.Localization.FodyAddin.Fody.csproj" />
+    <Project Path="CodingSeb.Localization.FodyAddin.Tests\CodingSeb.Localization.FodyAddin.Tests.csproj" />
+    <Project Path="CodingSeb.Localization.FodyAddin\CodingSeb.Localization.FodyAddin.csproj" />
+    <Project Path="SmokeTest\SmokeTest.csproj" />
+  </Folder>
+  <Project Path="CodingSeb.Localization.AvaloniaExample\CodingSeb.Localization.AvaloniaExample.csproj" />
+  <Project Path="CodingSeb.Localization.Avalonia\CodingSeb.Localization.Avalonia.csproj" />
+  <Project Path="CodingSeb.Localization.Tests\CodingSeb.Localization.Tests.csproj" />
+  <Project Path="CodingSeb.Localization.WPF.Tests\CodingSeb.Localization.WPF.Tests.csproj" />
+  <Project Path="CodingSeb.Localization.WPF\CodingSeb.Localization.WPF.csproj" />
+  <Project Path="CodingSeb.Localization\CodingSeb.Localization.csproj" />
+  <Project Path="Localization.Examples\Localization.Examples.csproj" />
+  <Project Path="Localization.JsonFileLoader\Localization.JsonFileLoader.csproj" />
+  <Project Path="Localization.YamlFileLoader.Tests\Localization.YamlFileLoader.Tests.csproj" />
+  <Project Path="Localization.YamlFileLoader\Localization.YamlFileLoader.csproj" />
+</Solution>
