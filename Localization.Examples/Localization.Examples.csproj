@@ -2,8 +2,10 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFrameworks>net8.0-windows;net47</TargetFrameworks>
+    <TargetFrameworks>net8.0-windows</TargetFrameworks>
     <UseWPF>true</UseWPF>
+    <RootNamespace>CodingSeb.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+    <AssemblyName>CodingSeb.Localization.Example</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
