@@ -7,7 +7,7 @@ namespace CodingSeb.Localization.AvaloniaExample
 {
     public class ViewLocator : IDataTemplate
     {
-        public IControl Build(object data)
+        Control ITemplate<object, Control>.Build(object data)
         {
             var name = data.GetType().FullName!.Replace("ViewModel", "View");
             var type = Type.GetType(name);

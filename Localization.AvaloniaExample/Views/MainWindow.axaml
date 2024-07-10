@@ -3,14 +3,14 @@
         xmlns:vm="using:CodingSeb.Localization.AvaloniaExample.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-		xmlns:conv="using:CodingSeb.Localization.AvaloniaExample.Converters"
-		xmlns:local="using:CodingSeb.Localization.AvaloniaExample"
-		xmlns:sys="using:System"
+        xmlns:conv="using:CodingSeb.Localization.AvaloniaExample.Converters"
+        xmlns:local="using:CodingSeb.Localization.AvaloniaExample"
+        xmlns:sys="using:System"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="500"
         x:Class="CodingSeb.Localization.AvaloniaExample.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="Localization Examples"
-		Height="500" Width="700">
+    Height="500" Width="700">
 
     <Design.DataContext>
         <vm:MainWindowViewModel/>
@@ -20,15 +20,15 @@
         <DockPanel DockPanel.Dock="Top" VerticalAlignment="Top" LastChildFill="True">
             <Label x:Name="lblCurrentLanguage" 
                    DockPanel.Dock="Left"
-				   VerticalAlignment="Center"
+                   VerticalAlignment="Center"
                    Content="{Tr}" />
             <Button x:Name="LanguageChangedRefreshButton" 
                     DockPanel.Dock="Right"
                     Content="Refresh"
                     Click="LanguageChangedRefreshButton_Click" />
             <ComboBox x:Name="cbLanguageSelection"
-					  HorizontalAlignment="Stretch"
-                      Items="{Binding LanguagesManager.AvailableLanguages}" 
+                      HorizontalAlignment="Stretch"
+											ItemsSource="{Binding LanguagesManager.AvailableLanguages}"
                       SelectedItem="{Binding LanguagesManager.CurrentLanguage}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
@@ -40,7 +40,7 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
         </DockPanel>
-		 <StackPanel>
+     <StackPanel>
             <StackPanel Orientation="Horizontal" >
                 <StackPanel>
                     <Label x:Name="lblHelloInCurrentLanguageEn" 
@@ -57,12 +57,12 @@
                        ToolTip.Tip="{Tr}"
                        VerticalAlignment="Center" Margin="5,0"/>
             </StackPanel>
-			  <ComboBox x:Name="TextComboBox"
-						HorizontalAlignment="Stretch"
-                        Items="{Binding Labels}"
+        <ComboBox x:Name="TextComboBox"
+                        HorizontalAlignment="Stretch"
+                        ItemsSource="{Binding Labels}"
                         SelectedItem="{Binding Label}"/>
             <Label BorderBrush="Black" BorderThickness="1" 
-				   HorizontalAlignment="Stretch"
+           HorizontalAlignment="Stretch"
                    Content="{Binding Label, Converter={TrTextIdConverter DefaultText='DefaultText'}}"/>
             <Label Content="{Tr TypeSomething}" />
             <TextBox x:Name="InputTextBox" />
@@ -87,9 +87,9 @@
                 <CheckBox x:Name="DemoCheckBox" Content="{Tr {Binding IsChecked, RelativeSource={RelativeSource Mode=Self}, Converter={conv:BoolToStringConverter FalseValue=Activate, TrueValue=Deactivate}}}" />
                 <Border Margin="5,0" BorderThickness="0.5" BorderBrush="Gray" />
                 <TextBlock VerticalAlignment="Center"
-					Text="{MultiTr TheCheckBoxIs, {Binding IsChecked, ElementName=DemoCheckBox, Converter={conv:BoolToStringConverter FalseValue=Activated, TrueValue=Deactivated}}, Separator=': '}" />
+          Text="{MultiTr TheCheckBoxIs, {Binding IsChecked, ElementName=DemoCheckBox, Converter={conv:BoolToStringConverter FalseValue=Activated, TrueValue=Deactivated}}, Separator=': '}" />
             </WrapPanel>
-            <ListBox Items="{Binding Items}">
+            <ListBox ItemsSource="{Binding Items}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid>
@@ -102,16 +102,16 @@
             </ListBox>
             <TextBlock Text="{Binding AutoTranslation}" />
             <CheckBox IsChecked="{Binding VisibilityForText}" Content="{Tr {Binding VisibilityForText}, TextIdStringFormat='Enums.Visibility.{0}'}"/>
-			 <StackPanel Orientation="Vertical">
-				 <StackPanel.Styles>
-					 <Style Selector="TextBlock" >
-						 <Setter Property="Text" Value="{Tr ANiceText}" />
-					 </Style>
-				 </StackPanel.Styles>
-				 <TextBlock />
-			 </StackPanel>
-	    </StackPanel>
-	</DockPanel>
-	
-	
+       <StackPanel Orientation="Vertical">
+         <StackPanel.Styles>
+           <Style Selector="TextBlock" >
+             <Setter Property="Text" Value="{Tr ANiceText}" />
+           </Style>
+         </StackPanel.Styles>
+         <TextBlock />
+       </StackPanel>
+      </StackPanel>
+  </DockPanel>
+  
+  
 </Window>
