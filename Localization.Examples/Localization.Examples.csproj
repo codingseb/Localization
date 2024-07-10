@@ -16,7 +16,7 @@
     <ProjectReference Include="..\CodingSeb.Localization.FodyAddin\CodingSeb.Localization.FodyAddin.csproj" />
     <WeaverFiles Include="$(SolutionDir)\CodingSeb.Localization.FodyAddin.Fody\bin\$(Configuration)\netstandard2.0\CodingSebLocalization.Fody.dll" />
     <ProjectReference Include="..\Localization.JsonFileLoader\Localization.JsonFileLoader.csproj" />
-    <ProjectReference Include="..\CodingSeb.Localization.WPF\CodingSeb.Localization.WPF.csproj" />
+    <ProjectReference Include="..\Localization.WPF\Localization.WPF.csproj" />
   </ItemGroup>
 
   <Target Name="CopyLanguagesInOuput" AfterTargets="AfterBuild">

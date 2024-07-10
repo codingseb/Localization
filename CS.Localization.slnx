@@ -9,8 +9,8 @@
   <Project Path="CodingSeb.Localization.AvaloniaExample\CodingSeb.Localization.AvaloniaExample.csproj" />
   <Project Path="CodingSeb.Localization.Avalonia\CodingSeb.Localization.Avalonia.csproj" />
   <Project Path="CodingSeb.Localization.Tests\CodingSeb.Localization.Tests.csproj" />
-  <Project Path="CodingSeb.Localization.WPF.Tests\CodingSeb.Localization.WPF.Tests.csproj" />
-  <Project Path="CodingSeb.Localization.WPF\CodingSeb.Localization.WPF.csproj" />
+  <Project Path="Localization.WPF.Tests\Localization.WPF.Tests.csproj" />
+  <Project Path="Localization.WPF\Localization.WPF.csproj" />
   <Project Path="CodingSeb.Localization\CodingSeb.Localization.csproj" />
   <Project Path="Localization.Examples\Localization.Examples.csproj" />
   <Project Path="Localization.JsonFileLoader\Localization.JsonFileLoader.csproj" />
