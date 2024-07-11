@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CodingSeb.Localization.FodyAddin\CodingSeb.Localization.FodyAddin.csproj" />
-    <ProjectReference Include="..\CodingSeb.Localization\CodingSeb.Localization.csproj" />
+    <ProjectReference Include="..\Localization\Localization.csproj" />
   </ItemGroup>
 
 </Project>

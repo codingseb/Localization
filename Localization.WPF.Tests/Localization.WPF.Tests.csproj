@@ -16,7 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Localization.WPF\Localization.WPF.csproj" />
-    <ProjectReference Include="..\CodingSeb.Localization\CodingSeb.Localization.csproj" />
+    <ProjectReference Include="..\Localization\Localization.csproj" />
   </ItemGroup>
 
 </Project>

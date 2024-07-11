@@ -16,7 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Localization.YamlFileLoader\Localization.YamlFileLoader.csproj" />
-    <ProjectReference Include="..\CodingSeb.Localization\CodingSeb.Localization.csproj" />
+    <ProjectReference Include="..\Localization\Localization.csproj" />
   </ItemGroup>
 
   <Target Name="CopyLanguagesInOuput" AfterTargets="AfterBuild">

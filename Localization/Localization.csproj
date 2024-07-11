@@ -12,6 +12,8 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
 	  <PackageReadmeFile>README.md</PackageReadmeFile>
+		<RootNamespace>CodingSeb.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+		<AssemblyName>CodingSeb.Localization</AssemblyName>
 	<AssemblyVersion>1.3.1.0</AssemblyVersion>
 	<FileVersion>1.3.1.0</FileVersion>
 	<PackageReleaseNotes>

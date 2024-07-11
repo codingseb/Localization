@@ -32,7 +32,7 @@
     <PackageReference Include="FodyPackaging" Version="6.8.1" PrivateAssets="All" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CodingSeb.Localization\CodingSeb.Localization.csproj" />
+    <ProjectReference Include="..\Localization\Localization.csproj" />
   </ItemGroup>
   <ItemGroup>
 		<None Include="..\LICENSE.md">
@@ -43,7 +43,7 @@
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
 		</None>
-	<None Include="..\CodingSeb.Localization\bin\$(Configuration)\netstandard2.0\CodingSeb.Localization.dll">
+	<None Include="..\Localization\bin\$(Configuration)\netstandard2.0\CodingSeb.Localization.dll">
 	  <Pack>true</Pack>
 	  <PackagePath>weaver</PackagePath>
 	  <IncludeInPackage>true</IncludeInPackage>

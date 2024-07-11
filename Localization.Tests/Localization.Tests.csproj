@@ -2,7 +2,8 @@
 
   <PropertyGroup>
     <TargetFrameworks>net8.0;net47</TargetFrameworks>
-
+		<RootNamespace>CodingSeb.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+		<AssemblyName>CodingSeb.Localization.Tests</AssemblyName>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
@@ -27,7 +28,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Localization.JsonFileLoader\Localization.JsonFileLoader.csproj" />
-    <ProjectReference Include="..\CodingSeb.Localization\CodingSeb.Localization.csproj" />
+    <ProjectReference Include="..\Localization\Localization.csproj" />
   </ItemGroup>
 
 </Project>
