@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -285,7 +285,7 @@ namespace CodingSeb.Localization.WPF
                         TrConverter = Converter,
                         TrConverterParameter = ConverterParameter,
                         TrConverterCulture = ConverterCulture,
-                        StringFormatBindings = StringFormatArgsBindings ?? new Collection<BindingBase>(),
+                        StringFormatBindings = StringFormatArgsBindings.ToList() ?? new List<BindingBase>(),
                         LocInstanceBinding = LocInstanceBinding
                     };
 
@@ -434,7 +434,7 @@ namespace CodingSeb.Localization.WPF
             internal IValueConverter TrConverter { get; set; }
             internal object TrConverterParameter { get; set; }
             internal CultureInfo TrConverterCulture { get; set; }
-            internal Collection<BindingBase> StringFormatBindings { get; set; }
+            internal List<BindingBase> StringFormatBindings { get; set; }
             internal BindingBase ModelBinding { get; set; }
             internal BindingBase DefaultTextBinding { get; set; }
             internal BindingBase LocInstanceBinding { get; set; }
