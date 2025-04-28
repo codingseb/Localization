@@ -32,7 +32,7 @@ namespace CodingSeb.Localization.WPF
         /// <param name="arg2">a textId or a Tr</param>
         public MultiTr(object arg1, object arg2)
         {
-            ManageArg(new List<object> { arg1, arg2 });
+            ManageArg([arg1, arg2]);
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace CodingSeb.Localization.WPF
         /// <param name="arg3">a textId or a Tr</param>
         public MultiTr(object arg1, object arg2, object arg3)
         {
-            ManageArg(new List<object> { arg1, arg2, arg3 });
+            ManageArg([arg1, arg2, arg3]);
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace CodingSeb.Localization.WPF
         /// <param name="arg4">a textId or a Tr</param>
         public MultiTr(object arg1, object arg2, object arg3, object arg4)
         {
-            ManageArg(new List<object> { arg1, arg2, arg3, arg4 });
+            ManageArg([arg1, arg2, arg3, arg4]);
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace CodingSeb.Localization.WPF
         /// <param name="arg5">a textId or a Tr</param>
         public MultiTr(object arg1, object arg2, object arg3, object arg4, object arg5)
         {
-            ManageArg(new List<object> { arg1, arg2, arg3, arg4, arg5 });
+            ManageArg([arg1, arg2, arg3, arg4, arg5]);
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace CodingSeb.Localization.WPF
         /// <param name="arg6">a textId or a Tr</param>
         public MultiTr(object arg1, object arg2, object arg3, object arg4, object arg5, object arg6)
         {
-            ManageArg(new List<object> { arg1, arg2, arg3, arg4, arg5, arg6 });
+            ManageArg([arg1, arg2, arg3, arg4, arg5, arg6]);
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace CodingSeb.Localization.WPF
         /// <param name="arg7">a textId or a Tr</param>
         public MultiTr(object arg1, object arg2, object arg3, object arg4, object arg5, object arg6, object arg7)
         {
-            ManageArg(new List<object> { arg1, arg2, arg3, arg4, arg5, arg6, arg7 });
+            ManageArg([arg1, arg2, arg3, arg4, arg5, arg6, arg7]);
         }
 
         /// <summary>
@@ -113,7 +113,7 @@ namespace CodingSeb.Localization.WPF
         /// <param name="arg8">a textId or a Tr</param>
         public MultiTr(object arg1, object arg2, object arg3, object arg4, object arg5, object arg6, object arg7, object arg8)
         {
-            ManageArg(new List<object> { arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8 });
+            ManageArg([arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8]);
         }
 
         private void ManageArg(List<object> args)
@@ -143,7 +143,7 @@ namespace CodingSeb.Localization.WPF
         /// <summary>
         /// A collection of sub translations to concatenate
         /// </summary>
-        public Collection<Tr> Collection { get; } = new Collection<Tr>();
+        public Collection<Tr> Collection { get; } = [];
 
         /// <summary>
         /// Converter to apply on the result text
@@ -224,7 +224,7 @@ namespace CodingSeb.Localization.WPF
         protected class ForMultiTrMarkupInternalStringFormatMultiValuesConverter : IMultiValueConverter
         {
             internal string StringFormat { get; set; }
-            internal List<BindingBase> StringFormatBindings { get; } = new List<BindingBase>();
+            internal List<BindingBase> StringFormatBindings { get; } = [];
             internal IValueConverter MultiTrConverter { get; set; }
             internal object MultiTrConverterParameter { get; set; }
             internal CultureInfo MultiTrConverterCulture { get; set; }
@@ -232,7 +232,7 @@ namespace CodingSeb.Localization.WPF
             /// <inheritdoc/>
             public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
             {
-                List<object> stringFormatValues = new();
+                List<object> stringFormatValues = [];
 
                 int offset = 0;
 
@@ -240,7 +240,7 @@ namespace CodingSeb.Localization.WPF
                 {
                     if (bindingBase is MultiBinding multiBinding)
                     {
-                        stringFormatValues.Add(multiBinding.Converter.Convert(values.Skip(offset).Take(multiBinding.Bindings.Count).ToArray(), null, multiBinding.ConverterParameter, multiBinding.ConverterCulture));
+                        stringFormatValues.Add(multiBinding.Converter.Convert([.. values.Skip(offset).Take(multiBinding.Bindings.Count)], null, multiBinding.ConverterParameter, multiBinding.ConverterCulture));
                         offset += multiBinding.Bindings.Count;
                     }
                     else
@@ -250,7 +250,7 @@ namespace CodingSeb.Localization.WPF
                     }
                 });
 
-                var result = string.Format(StringFormat, stringFormatValues.ToArray());
+                var result = string.Format(StringFormat, [.. stringFormatValues]);
 
                 return MultiTrConverter == null ? result : MultiTrConverter.Convert(result, null, MultiTrConverterParameter, MultiTrConverterCulture);
             }

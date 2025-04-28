@@ -18,7 +18,7 @@ namespace CodingSeb.Localization.WPF
 
     public class TrViewModelData : DynamicObject, INotifyPropertyChanged
     {
-        private readonly List<string> textIdsList = new();
+        private readonly List<string> textIdsList = [];
 
         /// <summary>
         /// Constructor
