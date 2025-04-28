@@ -2,6 +2,10 @@
 
 namespace CodingSeb.Localization
 {
+    /// <summary>
+    /// The event arg to inform that the language is about to change
+    /// and offer to cancel the change
+    /// </summary>
     public class CurrentLanguageChangingEventArgs : CancelEventArgs
     {
         /// <summary>

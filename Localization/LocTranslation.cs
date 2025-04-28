@@ -28,8 +28,13 @@ namespace CodingSeb.Localization
         /// </summary>
         public string TranslatedText { get; set; }
 
+        /// <inheritdoc/>
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// To notify from outside of the translation that the language changed and so TranstatedText
+        /// </summary>
+        /// <param name="propertyName"></param>
         public virtual void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

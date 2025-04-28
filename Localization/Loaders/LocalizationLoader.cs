@@ -9,16 +9,33 @@ namespace CodingSeb.Localization.Loaders
     /// </summary>
     public class LocalizationLoader
     {
+        private readonly Loc localization;
+
+        /// <summary>
+        /// The constructor of the loader
+        /// </summary>
+        /// <param name="localization">the loc object to populate</param>
+        public LocalizationLoader(Loc localization)
+        {
+            this.localization = localization;
+        }
+
         private static LocalizationLoader instance;
 
+        /// <summary>
+        /// The default instance of the loader
+        /// </summary>
         public static LocalizationLoader Instance
         {
             get
             {
-                return instance ?? (instance = new LocalizationLoader());
+                return instance ?? (instance = new LocalizationLoader(Loc.Instance));
             }
         }
 
+        /// <summary>
+        /// The list of file loaders to use to parse files and dirs of translations
+        /// </summary>
         public List<ILocalizationFileLoader> FileLanguageLoaders { get; set; } = new List<ILocalizationFileLoader>();
 
         /// <summary>
@@ -27,15 +44,16 @@ namespace CodingSeb.Localization.Loaders
         /// <param name="textId">The text to translate identifier</param>
         /// <param name="languageId">The language identifier of the translation</param>
         /// <param name="value">The value of the translated text</param>
+        /// <param name="source">The source of the translated text</param>
         public void AddTranslation(string textId, string languageId, string value, string source = "")
         {
-            if (!Loc.TranslationsDictionary.ContainsKey(textId))
-                Loc.TranslationsDictionary[textId] = new SortedDictionary<string, LocTranslation>();
+            if (!localization.TranslationsDictionary.ContainsKey(textId))
+                localization.TranslationsDictionary[textId] = new SortedDictionary<string, LocTranslation>();
 
-            if (!Loc.AvailableLanguages.Contains(languageId))
-                Loc.AvailableLanguages.Add(languageId);
+            if (!localization.AvailableLanguages.Contains(languageId))
+                localization.AvailableLanguages.Add(languageId);
 
-            Loc.TranslationsDictionary[textId][languageId] = new LocTranslation()
+            localization.TranslationsDictionary[textId][languageId] = new LocTranslation()
             {
                 TextId = textId,
                 LanguageId = languageId,
@@ -78,19 +96,19 @@ namespace CodingSeb.Localization.Loaders
         /// <param name="source">The fileName or source of the translation</param>
         public void RemoveAllFromSource(string source)
         {
-            Loc.TranslationsDictionary.Keys.ToList().ForEach(textId =>
+            localization.TranslationsDictionary.Keys.ToList().ForEach(textId =>
             {
-                Loc.TranslationsDictionary[textId].Values.ToList().ForEach(translation =>
+                localization.TranslationsDictionary[textId].Values.ToList().ForEach(translation =>
                 {
                     if (translation.Source.Equals(source))
                     {
-                        Loc.TranslationsDictionary[textId].Remove(translation.LanguageId);
+                        localization.TranslationsDictionary[textId].Remove(translation.LanguageId);
                     }
                 });
 
-                if (Loc.TranslationsDictionary[textId].Count == 0)
+                if (localization.TranslationsDictionary[textId].Count == 0)
                 {
-                    Loc.TranslationsDictionary.Remove(textId);
+                    localization.TranslationsDictionary.Remove(textId);
                 }
             });
         }
@@ -100,10 +118,10 @@ namespace CodingSeb.Localization.Loaders
         /// </summary>
         public void ClearAllTranslations(bool clearAlsoAvailableLanguages = false)
         {
-            Loc.TranslationsDictionary.Clear();
-            if (clearAlsoAvailableLanguages)
-                Loc.AvailableLanguages.Clear();
-            Loc.MissingTranslations.Clear();
+            localization.TranslationsDictionary.Clear();
+            if(clearAlsoAvailableLanguages)
+                localization.AvailableLanguages.Clear();
+            localization.MissingTranslations.Clear();
         }
     }
 }

@@ -19,39 +19,98 @@ namespace CodingSeb.Localization.WPF
     {
         #region Constructors and args Management
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public MultiTr()
         { }
 
+        /// <summary>
+        /// Constructor with textIds or textIdbindings given directly
+        /// </summary>
+        /// <param name="arg1">a textId or a Tr</param>
+        /// <param name="arg2">a textId or a Tr</param>
         public MultiTr(object arg1, object arg2)
         {
             ManageArg(new List<object> { arg1, arg2 });
         }
 
+        /// <summary>
+        /// Constructor with textIds or textIdbindings given directly
+        /// </summary>
+        /// <param name="arg1">a textId or a Tr</param>
+        /// <param name="arg2">a textId or a Tr</param>
+        /// <param name="arg3">a textId or a Tr</param>
         public MultiTr(object arg1, object arg2, object arg3)
         {
             ManageArg(new List<object> { arg1, arg2, arg3 });
         }
 
+        /// <summary>
+        /// Constructor with textIds or textIdbindings given directly
+        /// </summary>
+        /// <param name="arg1">a textId or a Tr</param>
+        /// <param name="arg2">a textId or a Tr</param>
+        /// <param name="arg3">a textId or a Tr</param>
+        /// <param name="arg4">a textId or a Tr</param>
         public MultiTr(object arg1, object arg2, object arg3, object arg4)
         {
             ManageArg(new List<object> { arg1, arg2, arg3, arg4 });
         }
 
+        /// <summary>
+        /// Constructor with textIds or textIdbindings given directly
+        /// </summary>
+        /// <param name="arg1">a textId or a Tr</param>
+        /// <param name="arg2">a textId or a Tr</param>
+        /// <param name="arg3">a textId or a Tr</param>
+        /// <param name="arg4">a textId or a Tr</param>
+        /// <param name="arg5">a textId or a Tr</param>
         public MultiTr(object arg1, object arg2, object arg3, object arg4, object arg5)
         {
             ManageArg(new List<object> { arg1, arg2, arg3, arg4, arg5 });
         }
 
+        /// <summary>
+        /// Constructor with textIds or textIdbindings given directly
+        /// </summary>
+        /// <param name="arg1">a textId or a Tr</param>
+        /// <param name="arg2">a textId or a Tr</param>
+        /// <param name="arg3">a textId or a Tr</param>
+        /// <param name="arg4">a textId or a Tr</param>
+        /// <param name="arg5">a textId or a Tr</param>
+        /// <param name="arg6">a textId or a Tr</param>
         public MultiTr(object arg1, object arg2, object arg3, object arg4, object arg5, object arg6)
         {
             ManageArg(new List<object> { arg1, arg2, arg3, arg4, arg5, arg6 });
         }
 
+        /// <summary>
+        /// Constructor with textIds or textIdbindings given directly
+        /// </summary>
+        /// <param name="arg1">a textId or a Tr</param>
+        /// <param name="arg2">a textId or a Tr</param>
+        /// <param name="arg3">a textId or a Tr</param>
+        /// <param name="arg4">a textId or a Tr</param>
+        /// <param name="arg5">a textId or a Tr</param>
+        /// <param name="arg6">a textId or a Tr</param>
+        /// <param name="arg7">a textId or a Tr</param>
         public MultiTr(object arg1, object arg2, object arg3, object arg4, object arg5, object arg6, object arg7)
         {
             ManageArg(new List<object> { arg1, arg2, arg3, arg4, arg5, arg6, arg7 });
         }
 
+        /// <summary>
+        /// Constructor with textIds or textIdbindings given directly
+        /// </summary>
+        /// <param name="arg1">a textId or a Tr</param>
+        /// <param name="arg2">a textId or a Tr</param>
+        /// <param name="arg3">a textId or a Tr</param>
+        /// <param name="arg4">a textId or a Tr</param>
+        /// <param name="arg5">a textId or a Tr</param>
+        /// <param name="arg6">a textId or a Tr</param>
+        /// <param name="arg7">a textId or a Tr</param>
+        /// <param name="arg8">a textId or a Tr</param>
         public MultiTr(object arg1, object arg2, object arg3, object arg4, object arg5, object arg6, object arg7, object arg8)
         {
             ManageArg(new List<object> { arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8 });
@@ -101,6 +160,7 @@ namespace CodingSeb.Localization.WPF
         /// </summary>
         public CultureInfo ConverterCulture { get; set; }
 
+        /// <inheritdoc/>
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
             if (serviceProvider.GetService(typeof(IProvideValueTarget)) is not IProvideValueTarget service)
@@ -158,6 +218,9 @@ namespace CodingSeb.Localization.WPF
             }
         }
 
+        /// <summary>
+        /// internal converter to manage multibinding plumbery for MultiTr and String Format stuff
+        /// </summary>
         protected class ForMultiTrMarkupInternalStringFormatMultiValuesConverter : IMultiValueConverter
         {
             internal string StringFormat { get; set; }
@@ -166,6 +229,7 @@ namespace CodingSeb.Localization.WPF
             internal object MultiTrConverterParameter { get; set; }
             internal CultureInfo MultiTrConverterCulture { get; set; }
 
+            /// <inheritdoc/>
             public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
             {
                 List<object> stringFormatValues = new();
@@ -191,6 +255,7 @@ namespace CodingSeb.Localization.WPF
                 return MultiTrConverter == null ? result : MultiTrConverter.Convert(result, null, MultiTrConverterParameter, MultiTrConverterCulture);
             }
 
+            /// <inheritdoc/>
             public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture) => throw new NotImplementedException();
         }
     }

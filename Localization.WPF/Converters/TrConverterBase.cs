@@ -6,6 +6,10 @@ using System.Windows.Markup;
 
 namespace CodingSeb.Localization.WPF
 {
+    /// <summary>
+    /// A base object for all markup extension linked to localization
+    /// To manage memorization of xamlobject to refresh on language changes
+    /// </summary>
     public abstract class TrConverterBase : MarkupExtension
     {
         internal DependencyObject xamlTargetObject;
@@ -13,6 +17,10 @@ namespace CodingSeb.Localization.WPF
 
         internal bool IsInAMultiBinding;
 
+        /// <summary>
+        /// Memorize xaml objects
+        /// </summary>
+        /// <param name="serviceProvider"></param>
         protected void SetXamlObjects(IServiceProvider serviceProvider)
         {
             try

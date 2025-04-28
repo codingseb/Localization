@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace CodingSeb.Localization.Formatters
@@ -12,7 +8,7 @@ namespace CodingSeb.Localization.Formatters
     /// </summary>
     public class InjectionFormatter : IFormatter
     {
-        private Regex propertyMustachesRegex = new Regex(@"\{(?<object>[A-Za-z]+[A-Za-z0-9]*)(\.(?<property>[A-Za-z0-9]*)){0,}\}");
+        private readonly Regex propertyMustachesRegex = new Regex(@"\{(?<object>[A-Za-z]+[A-Za-z0-9]*)(\.(?<property>[A-Za-z0-9]*)){0,}\}");
 
         /// <summary>
         /// Format a string by injecting model property.

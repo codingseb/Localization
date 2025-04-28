@@ -30,6 +30,9 @@ namespace CodingSeb.Localization.WPF
             Path = path;
         }
 
+        /// <summary>
+        /// Destructor to unsubscribe from launguage changes
+        /// </summary>
         ~LocBinding()
         {
             WeakEventManager<Loc, CurrentLanguageChangedEventArgs>.RemoveHandler(Loc.Instance, nameof(Loc.Instance.CurrentLanguageChanged), CurrentLanguageChanged);
@@ -97,6 +100,7 @@ namespace CodingSeb.Localization.WPF
         /// </summary>
         public Binding Binding { get; set; }
 
+        /// <inheritdoc/>
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
             if (serviceProvider.GetService(typeof(IProvideValueTarget)) is not IProvideValueTarget service)

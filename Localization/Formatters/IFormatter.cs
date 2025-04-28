@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CodingSeb.Localization.Formatters
+﻿namespace CodingSeb.Localization.Formatters
 {
     /// <summary>
     /// Formatting interface

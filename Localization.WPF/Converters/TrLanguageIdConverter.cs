@@ -32,13 +32,16 @@ namespace CodingSeb.Localization.WPF
         /// </summary>
         public string Suffix { get; set; } = string.Empty;
 
+        /// <inheritdoc/>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return Prefix + Loc.Tr(TextId, DefaultText?.Replace("[apos]", "'"), value as string) + Suffix;
         }
 
+        /// <inheritdoc/>
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
 
+        /// <inheritdoc/>
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
             try

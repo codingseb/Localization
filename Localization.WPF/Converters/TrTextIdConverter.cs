@@ -12,11 +12,17 @@ namespace CodingSeb.Localization.WPF
     /// </summary>
     public class TrTextIdConverter : TrConverterBase, IValueConverter
     {
+        /// <summary>
+        /// Constructor to specify  textId
+        /// </summary>
         public TrTextIdConverter()
         {
             WeakEventManager<Loc, CurrentLanguageChangedEventArgs>.AddHandler(Loc.Instance, nameof(Loc.Instance.CurrentLanguageChanged), CurrentLanguageChanged);
         }
 
+        /// <summary>
+        /// Destructor to unsubscribe from launguage changes
+        /// </summary>
         ~TrTextIdConverter()
         {
             WeakEventManager<Loc, CurrentLanguageChangedEventArgs>.RemoveHandler(Loc.Instance, nameof(Loc.Instance.CurrentLanguageChanged), CurrentLanguageChanged);
@@ -53,14 +59,17 @@ namespace CodingSeb.Localization.WPF
         /// </summary>
         public string Suffix { get; set; } = string.Empty;
 
+        /// <inheritdoc/>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             string textId = PreConverter?.Convert(value, null, null, null)?.ToString() ?? value?.ToString();
             return Prefix + (string.IsNullOrEmpty(textId) ? "" : Loc.Tr(string.Format(TextIdStringFormat, textId), DefaultText?.Replace("[apos]", "'"), LanguageId)) + Suffix;
         }
 
+        /// <inheritdoc/>
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
 
+        /// <inheritdoc/>
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
             SetXamlObjects(serviceProvider);

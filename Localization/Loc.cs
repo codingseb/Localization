@@ -84,7 +84,7 @@ namespace CodingSeb.Localization
         /// <summary>
         /// The List of all availables languages where at least one translation is present.
         /// </summary>
-        public static ObservableCollection<string> AvailableLanguages { get; } = new ObservableCollection<string>();
+        public ObservableCollection<string> AvailableLanguages { get; } = new ObservableCollection<string>();
 
         /// <summary>
         /// The list of translators that try to translate each text.
@@ -92,6 +92,9 @@ namespace CodingSeb.Localization
         /// </summary>
         public List<ITranslator> Translators { get; } = new List<ITranslator>();
 
+        /// <summary>
+        /// The list of formatters to use on the translation
+        /// </summary>
         public List<IFormatter> Formatters { get; set; } = new List<IFormatter>
         {
             new PluralizationFormatter(),
@@ -103,7 +106,7 @@ namespace CodingSeb.Localization
         /// The dictionary that contains all available translations
         /// (TranslationsDictionary[TextId][LanguageId])
         /// </summary>
-        public static SortedDictionary<string, SortedDictionary<string, LocTranslation>> TranslationsDictionary { get; set; } = new SortedDictionary<string, SortedDictionary<string, LocTranslation>>();
+        public SortedDictionary<string, SortedDictionary<string, LocTranslation>> TranslationsDictionary { get; set; } = new SortedDictionary<string, SortedDictionary<string, LocTranslation>>();
 
         /// <summary>
         /// To redefine how to resolve the <see cref="Loc.Instance"/>
@@ -124,7 +127,7 @@ namespace CodingSeb.Localization
 
                 if (instance == null)
                 {
-                    lock (lockObject)
+                    lock (LockObject)
                     {
                         if (instance == null)
                         {
@@ -144,7 +147,10 @@ namespace CodingSeb.Localization
         public Loc()
         {
             Translators.Add(
-                new FilesDictionaryTranslator());
+                new FilesDictionaryTranslator()
+                {
+                    Loc = this
+                });
         }
 
         /// <summary>
@@ -272,10 +278,23 @@ namespace CodingSeb.Localization
         /// If set to <c>True</c> Log Out textId asked to be translate but missing in the specified languageId.
         /// Fill the <see cref="MissingTranslations"/> Dictionary
         /// </summary>
-        public static bool LogOutMissingTranslations { get; set; }
+        public bool LogOutMissingTranslations { get; set; }
 
-        public static SortedDictionary<string, SortedDictionary<string, string>> MissingTranslations { get; } = new SortedDictionary<string, SortedDictionary<string, string>>();
+        /// <summary>
+        /// The dictionnary of all found missing translations
+        /// </summary>
+        public SortedDictionary<string, SortedDictionary<string, string>> MissingTranslations { get; } = new SortedDictionary<string, SortedDictionary<string, string>>();
 
+        /// <summary>
+        /// The lock object to manage the singleton in multi threaded envs.
+        /// </summary>
+        public static object LockObject => lockObject;
+
+        /// <summary>
+        /// Check if the textId is missing for the current language
+        /// </summary>
+        /// <param name="textId">the textId to check</param>
+        /// <param name="defaultText">The default text for this translation as an information</param>
         protected virtual void CheckMissingTranslation(string textId, string defaultText)
         {
             if (LogOutMissingTranslations)
@@ -307,6 +326,6 @@ namespace CodingSeb.Localization
         /// Fired to inform some translation are missing.
         /// LogOutMissingTranslations must be set to true
         /// </summary>
-        public static event EventHandler<LocalizationMissingTranslationEventArgs> MissingTranslationFound;
+        public event EventHandler<LocalizationMissingTranslationEventArgs> MissingTranslationFound;
     }
 }

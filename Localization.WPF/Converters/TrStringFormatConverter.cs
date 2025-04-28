@@ -6,19 +6,32 @@ using System.Windows.Markup;
 
 namespace CodingSeb.Localization.WPF
 {
+    /// <summary>
+    /// A converter to inject the binding as StringFormat arg in a translation
+    /// </summary>
     public class TrStringFormatConverter : TrConverterBase, IValueConverter
     {
+        /// <summary>
+        /// default constructor
+        /// </summary>
         public TrStringFormatConverter()
         {
             WeakEventManager<Loc, CurrentLanguageChangedEventArgs>.AddHandler(Loc.Instance, nameof(Loc.Instance.CurrentLanguageChanged), CurrentLanguageChanged);
         }
 
+        /// <summary>
+        /// Constructor to specify  textId
+        /// </summary>
+        /// <param name="textId">The textId to use for the tranlsation</param>
         public TrStringFormatConverter(string textId)
         {
             TextId = textId;
             WeakEventManager<Loc, CurrentLanguageChangedEventArgs>.AddHandler(Loc.Instance, nameof(Loc.Instance.CurrentLanguageChanged), CurrentLanguageChanged);
         }
 
+        /// <summary>
+        /// Destructor to unsubscribe from launguage changes
+        /// </summary>
         ~TrStringFormatConverter()
         {
             WeakEventManager<Loc, CurrentLanguageChangedEventArgs>.RemoveHandler(Loc.Instance, nameof(Loc.Instance.CurrentLanguageChanged), CurrentLanguageChanged);
@@ -50,13 +63,16 @@ namespace CodingSeb.Localization.WPF
         [ConstructorArgument("textId")]
         public string TextId { get; set; }
 
+        /// <inheritdoc/>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return Prefix + string.Format(string.IsNullOrEmpty(TextId) ? "" : Loc.Tr(TextId, DefaultText?.Replace("[apos]", "'"), LanguageId), value) + Suffix;
         }
 
+        /// <inheritdoc/>
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
 
+        /// <inheritdoc/>
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
             try
