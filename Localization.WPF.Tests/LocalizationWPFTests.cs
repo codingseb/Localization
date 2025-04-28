@@ -20,7 +20,7 @@ namespace CodingSeb.Localization.WPF.Tests
         [OneTimeSetUp]
         public void LoadTranslations()
         {
-            loader = new LocalizationLoader();
+            loader = new LocalizationLoader(Loc.Instance);
 
             loader.AddTranslation("SayHello", "en", "Hello");
             loader.AddTranslation("SayHello", "fr", "Bonjour");

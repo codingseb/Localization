@@ -12,7 +12,7 @@ namespace CodingSeb.Localization.AvaloniaExamples
 
         public static void Init()
         {
-            Loc.LogOutMissingTranslations = true;
+            Loc.Instance.LogOutMissingTranslations = true;
 
             LocalizationLoader.Instance.FileLanguageLoaders.Add(new JsonFileLoader());
 

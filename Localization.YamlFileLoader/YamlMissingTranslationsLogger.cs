@@ -1,18 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Data;
-using System.Globalization;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
 using YamlDotNet.Serialization;
 
 namespace CodingSeb.Localization
@@ -22,15 +9,15 @@ namespace CodingSeb.Localization
     /// </summary>
     public static class YamlMissingTranslationsLogger
     {
-        public static void EnableLog()
+        public static void EnableLog(Loc loc)
         {
-            Loc.LogOutMissingTranslations = true;
-            Loc.MissingTranslationFound += Loc_MissingTranslationFound;
+            loc.LogOutMissingTranslations = true;
+            loc.MissingTranslationFound += Loc_MissingTranslationFound;
         }
 
-        public static void DisableLog()
+        public static void DisableLog(Loc loc)
         {
-            Loc.MissingTranslationFound -= Loc_MissingTranslationFound;
+            loc.MissingTranslationFound -= Loc_MissingTranslationFound;
         }
 
         public static string MissingTranslationsFileName { get; set; } = Path.Combine(

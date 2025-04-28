@@ -24,7 +24,7 @@ namespace CodingSeb.Localization.Tests
         {
             loc = new Loc();
 
-            loader = new LocalizationLoader();
+            loader = new LocalizationLoader(loc);
 
             loader.FileLanguageLoaders.Add(new YamlFileLoader());
 
@@ -60,7 +60,7 @@ namespace CodingSeb.Localization.Tests
         {
             YamlMissingTranslationsLogger.MissingTranslationsFileName = missingFilesFileName;
 
-            YamlMissingTranslationsLogger.EnableLog();
+            YamlMissingTranslationsLogger.EnableLog(loc);
 
             try
             {
@@ -68,23 +68,23 @@ namespace CodingSeb.Localization.Tests
 
                 loc.Translate("LanguageName", "Test").ShouldBe("Test");
 
-                Loc.MissingTranslations.ShouldContainKey("LanguageName");
-                Loc.MissingTranslations["LanguageName"].ShouldContainKey("it");
-                Loc.MissingTranslations["LanguageName"]["it"].ShouldBe("default text : Test");
+                loc.MissingTranslations.ShouldContainKey("LanguageName");
+                loc.MissingTranslations["LanguageName"].ShouldContainKey("it");
+                loc.MissingTranslations["LanguageName"]["it"].ShouldBe("default text : Test");
 
                 loc.CurrentLanguage = "en";
 
                 loc.Translate("NotExistingTextId", "Test2").ShouldBe("Test2");
 
-                Loc.MissingTranslations.ShouldContainKey("NotExistingTextId");
-                Loc.MissingTranslations["NotExistingTextId"].ShouldContainKey("en");
-                Loc.MissingTranslations["NotExistingTextId"]["en"].ShouldBe("default text : Test2");
+                loc.MissingTranslations.ShouldContainKey("NotExistingTextId");
+                loc.MissingTranslations["NotExistingTextId"].ShouldContainKey("en");
+                loc.MissingTranslations["NotExistingTextId"]["en"].ShouldBe("default text : Test2");
 
                 File.ReadAllText(missingFilesFileName).ShouldBe(File.ReadAllText(missingForComparaisonFileName));
             }
             finally
             {
-                YamlMissingTranslationsLogger.DisableLog();
+                YamlMissingTranslationsLogger.DisableLog(loc);
 
                 try
                 {
