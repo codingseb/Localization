@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <Authors>CodingSeb</Authors>
-    <Copyright>Copyright © Coding Seb 2020</Copyright>
-    <Description>Inject the code that generate PropertyChanged event on property that has the attribute 'Localize' when the Language of the Localization changed</Description>
-    <PackageLicenseExpression></PackageLicenseExpression>
-    <!-- PackageTags are optional. Defaults to 'ILWeaving, Fody, Cecil, AOP' -->
-    <PackageTags>Localization, Fody</PackageTags>
-    <PackageOutputPath>$(SolutionDir)/FodyNuget</PackageOutputPath>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<Authors>CodingSeb</Authors>
+		<Copyright>Copyright © Coding Seb 2020</Copyright>
+		<Description>Inject the code that generate PropertyChanged event on property that has the attribute 'Localize' when the Language of the Localization changed</Description>
+		<PackageLicenseExpression></PackageLicenseExpression>
+		<!-- PackageTags are optional. Defaults to 'ILWeaving, Fody, Cecil, AOP' -->
+		<PackageTags>Localization, Fody</PackageTags>
+		<PackageOutputPath>$(SolutionDir)/FodyNuget</PackageOutputPath>
 		<PackageProjectUrl>https://github.com/codingseb/Localization</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/codingseb/Localization</RepositoryUrl>
-    <PackageId>CodingSebLocalization.Fody</PackageId>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
-    <AssemblyName>CodingSeb.Localization.FodyAddin</AssemblyName>
-    <RootNamespace>CodingSeb.Localization</RootNamespace>
+		<PackageId>CodingSebLocalization.Fody</PackageId>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<SignAssembly>true</SignAssembly>
+		<AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
+		<AssemblyName>CodingSeb.Localization.FodyAddin</AssemblyName>
+		<RootNamespace>CodingSeb.Localization</RootNamespace>
 		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-	<AssemblyVersion>1.3.1.0</AssemblyVersion>
-	<FileVersion>1.3.1.0</FileVersion>
-	<PackageReleaseNotes>
-		* Update links for package
-	</PackageReleaseNotes>
-	<Version>1.3.1</Version>
-	<IncludeSymbols>True</IncludeSymbols>
+		<AssemblyVersion>1.4.0.0</AssemblyVersion>
+		<FileVersion>1.4.0.0</FileVersion>
+		<PackageReleaseNotes>
+			* Breaking change: To support custom Loc instance
+		</PackageReleaseNotes>
+		<Version>1.4.0</Version>
+		<IncludeSymbols>True</IncludeSymbols>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Fody" Version="6.8.1" PrivateAssets="none" />

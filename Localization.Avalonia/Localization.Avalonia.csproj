@@ -16,15 +16,15 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <AssemblyVersion>1.3.1.0</AssemblyVersion>
-    <FileVersion>1.3.1.0</FileVersion>
+    <AssemblyVersion>1.4.0.0</AssemblyVersion>
+    <FileVersion>1.4.0.0</FileVersion>
     <PackageReleaseNotes>
-      * Update links for package
+      * Breaking change: To support custom Loc instance
     </PackageReleaseNotes>
-    <Version>1.3.1</Version>
+    <Version>1.4.0</Version>
     <IncludeSymbols>True</IncludeSymbols>
-		<RootNamespace>CodingSeb.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
-		<AssemblyName>CodingSeb.Localization.Avalonia</AssemblyName>
+    <RootNamespace>CodingSeb.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+    <AssemblyName>CodingSeb.Localization.Avalonia</AssemblyName>
   </PropertyGroup>
   
   <ItemGroup>
