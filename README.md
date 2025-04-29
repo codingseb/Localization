@@ -77,7 +77,7 @@ Loc.Instance.CurrentLanguage = "fr";
 Loc.Instance.CurrentLanguage = "es";
 // ...
 // To get availables languages
-Collection<string> languages = Loc.AvailableLanguages;
+Collection<string> languages = Loc.Instance.AvailableLanguages;
 ```
 
 ### Use it In XAML (WPF) :
@@ -184,7 +184,7 @@ __To Change the current language from the xaml__
 ```xml
 <!-- to add in the root tag of the xaml file  : 
 xmlns:loc="clr-namespace:Localization;assembly=Localization" -->
-<ComboBox ItemsSource="{Binding Source={x:Static loc:Loc.AvailableLanguages}}"
+<ComboBox ItemsSource="{Binding AvailableLanguages, Source={x:Static loc:Loc.Instance}}"
           SelectedItem="{Binding CurrentLanguage, Source={x:Static loc:Loc.Instance}}"/>
 
 ```
@@ -336,6 +336,17 @@ LocalizationLoader.Instance.AddTranslation("SayHello", "es", "Hola" );
 LocalizationLoader.Instance.AddTranslation("SayHello", "fr", "Bonjour" );
 ```
 
+Or if you have a custom `Loc` instance
+
+```csharp
+var customLocInstance = new Loc();
+var loaderForCustomLoc = new LocalizationLoader(customLocInstance);
+loaderForCustomLoc.AddFile(@"path\to\your\file.loc.json");
+loaderForCustomLoc.AddFolder(@"path\to\your\folder");
+loaderForCustomLoc.AddTranslation("SayHello", "en", "Hello" );
+loaderForCustomLoc.AddTranslation("SayHello", "es", "Hola" );
+loaderForCustomLoc.AddTranslation("SayHello", "fr", "Bonjour" );
+
 ### YamlFileLoader
 For Yaml format of localization files "*.loc.yaml" it's working the same way as the Json
 
@@ -352,14 +363,16 @@ You can activate an option to be notify when a translation is missing.
 
 ```csharp
 // with all TextId and LanguageId that are missing when you trying to translate them.
-Loc.LogOutMissingTranslations = true;
-Loc.MissingTranslationFound += Loc_MissingTranslationFound;
+Loc.Instance.LogOutMissingTranslations = true;
+Loc.Instance.MissingTranslationFound += Loc_MissingTranslationFound;
 ```
 
 If you want to log it automatically in a json file you can also use the class `JsonMissingTranslationsLogger` in the "CodingSeb.Localization.JsonFileLoader" package.
 
 ```csharp
-JsonMissingTranslationsLogger.EnableLog();
+JsonMissingTranslationsLogger.EnableLogFor(Loc.Instance);
+// or
+JsonMissingTranslationsLogger.EnableLogFor(customLocInstance);
 ```
 
 ## Tr and WPF Styles
