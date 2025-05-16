@@ -14,7 +14,7 @@
     <PackageReleaseNotes>
       * StringFormatArgBinding Breaking things in Tr
     </PackageReleaseNotes>
-    <Version>1.4.0</Version>
+    <Version>1.4.1</Version>
     <IncludeSymbols>True</IncludeSymbols>
     <RootNamespace>CodingSeb.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
     <AssemblyName>CodingSeb.Localization.WPF</AssemblyName>
