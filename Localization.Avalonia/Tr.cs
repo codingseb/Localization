@@ -366,9 +366,9 @@ namespace CodingSeb.Localization.Avalonia
                     {
                         internalConverter.StringFormatBindings.Insert(0, StringFormatArgBinding);
                     }
-                    if (StringFormatArgsBindings.Count > 0)
+                    if (internalConverter.StringFormatBindings.Count > 0)
                     {
-                        StringFormatArgsBindings.ToList().ForEach(binding => ManageStringFormatArgs(multiBinding, binding));
+                        internalConverter.StringFormatBindings.ToList().ForEach(binding => ManageStringFormatArgs(multiBinding, binding));
                     }
 
                     if (InMultiTr || dependencyObject == null || dependencyProperty == null)
