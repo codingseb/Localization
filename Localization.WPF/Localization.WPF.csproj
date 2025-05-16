@@ -9,10 +9,10 @@
     <Description>A suite to localize C# and (WPF/AvaloniaUI) project easily base on file format you choose.</Description>
     <Copyright>Copyright © Coding Seb 2019</Copyright>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile> <PackageReadmeFile>README.md</PackageReadmeFile> <PackageProjectUrl>https://github.com/codingseb/Localization</PackageProjectUrl> <RepositoryUrl>https://github.com/codingseb/Localization</RepositoryUrl>     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <AssemblyVersion>1.4.0.0</AssemblyVersion>
-    <FileVersion>1.4.0.0</FileVersion>
+    <AssemblyVersion>1.4.1.0</AssemblyVersion>
+    <FileVersion>1.4.1.0</FileVersion>
     <PackageReleaseNotes>
-      * Breaking change: To support custom Loc instance
+      * StringFormatArgBinding Breaking things in Tr
     </PackageReleaseNotes>
     <Version>1.4.0</Version>
     <IncludeSymbols>True</IncludeSymbols>
